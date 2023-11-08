@@ -3,7 +3,8 @@
     android:id="@+id/tv_district_item"
     style="@style/body"
     android:textStyle="bold"
-    android:layout_width="wrap_content"
+    android:gravity="center"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp"
     android:text=""/>

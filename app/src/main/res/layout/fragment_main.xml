@@ -56,7 +56,7 @@
                 app:boxCornerRadiusTopEnd="16dp"
                 app:boxCornerRadiusBottomStart="16dp"
                 app:boxCornerRadiusBottomEnd="16dp"
-                style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:id="@+id/tl_city_dropdown"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -66,12 +66,13 @@
                 app:layout_constraintStart_toStartOf="@id/gl_main_start"
                 app:layout_constraintTop_toTopOf="parent">
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    app:dropDownBackgroundTint="@color/white"
+
                     android:id="@+id/tv_city_dropdown"
-                    android:gravity="center_vertical"
                     android:inputType="none"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="시"
+                    android:hint="(시)"
                     style="@style/dropdown" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -81,7 +82,7 @@
                 app:boxCornerRadiusTopEnd="16dp"
                 app:boxCornerRadiusBottomStart="16dp"
                 app:boxCornerRadiusBottomEnd="16dp"
-                style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:id="@+id/tl_district_dropdown"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -93,11 +94,13 @@
                 app:layout_constraintEnd_toStartOf="@+id/tl_neighborhood_dropdown"
                 app:layout_constraintTop_toTopOf="parent">
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    app:dropDownBackgroundTint="@color/white"
+                    android:dropDownHeight="200dp"
                     android:id="@+id/tv_district_dropdown"
                     android:inputType="none"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="구"
+                    android:hint="(구)"
                     style="@style/dropdown"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -107,7 +110,7 @@
                 app:boxCornerRadiusTopEnd="16dp"
                 app:boxCornerRadiusBottomStart="16dp"
                 app:boxCornerRadiusBottomEnd="16dp"
-                style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:id="@+id/tl_neighborhood_dropdown"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -121,24 +124,32 @@
 
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    app:dropDownBackgroundTint="@color/white"
                     android:id="@+id/tv_neighborhood_dropdown"
                     style="@style/dropdown"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="none"
-                    android:text="동" />
+                    android:hint="(동)" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <fragment
-                android:layout_marginTop="@dimen/medium_margin"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/main_card_map"
                 android:layout_width="0dp"
                 android:layout_height="200dp"
+                android:layout_marginTop="@dimen/medium_margin"
+                app:cardCornerRadius="16dp"
                 app:layout_constraintTop_toBottomOf="@id/tl_district_dropdown"
                 app:layout_constraintStart_toStartOf="@id/gl_main_start"
-                app:layout_constraintEnd_toStartOf="@id/gl_main_end"
-                android:id="@+id/main_map"
-                android:name="com.google.android.gms.maps.SupportMapFragment"/>
+                app:layout_constraintEnd_toStartOf="@id/gl_main_end">
 
+                <fragment
+                    android:id="@+id/main_map"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </androidx.cardview.widget.CardView>
             <com.google.android.material.button.MaterialButton
                 android:layout_marginTop="@dimen/medium_margin"
                 android:id="@+id/ib_main_filter"
@@ -149,7 +160,7 @@
                 android:layout_height="wrap_content"
                 app:icon="@drawable/baseline_filter_list_24"
                 app:layout_constraintEnd_toStartOf="@+id/gl_main_end"
-                app:layout_constraintTop_toBottomOf="@+id/main_map" />
+                app:layout_constraintTop_toBottomOf="@+id/main_card_map" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_main_space"
@@ -162,7 +173,7 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-        
+
     </androidx.core.widget.NestedScrollView>
 
 
