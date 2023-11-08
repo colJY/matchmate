@@ -1,5 +1,6 @@
 package com.lee.matchmate.main
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lee.matchmate.R
 import com.lee.matchmate.common.ViewBindingBaseFragment
 import com.lee.matchmate.databinding.FragmentMainBinding
+import com.lee.matchmate.main.decoration.MainDecoration
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class MainFragment : ViewBindingBaseFragment<FragmentMainBinding>(FragmentMainBinding::inflate) {
@@ -39,7 +41,9 @@ class MainFragment : ViewBindingBaseFragment<FragmentMainBinding>(FragmentMainBi
             binding.tvCityDropdown.setAdapter(cityArrayAdapter)
 
             rvMainSpace.layoutManager = LinearLayoutManager(context)
-            rvMainSpace.adapter=MainAdapter(spaceData)
+            rvMainSpace.addItemDecoration(MainDecoration(0, R.color.lightGrey,20))
+
+            rvMainSpace.adapter = MainAdapter(spaceData)
         }
 
         binding.tvCityDropdown.setOnItemClickListener { parent, view, position, id ->

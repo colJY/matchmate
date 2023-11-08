@@ -9,22 +9,24 @@
         android:id="@+id/iv_item_space"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/baseline_image_24"
+        android:src="@drawable/image_room"
         app:layout_constraintStart_toStartOf="parent"
-
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:paddingLeft="@dimen/medium_margin"
+        android:paddingBottom="@dimen/tiny_margin"
         android:layout_marginStart="@dimen/tiny_margin"
         android:id="@+id/tv_item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="라이언"
-        android:textAppearance="@style/body"
+        android:textAppearance="@style/title"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/iv_item_space" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:paddingLeft="@dimen/medium_margin"
         android:layout_marginStart="@dimen/tiny_margin"
         android:id="@+id/tv_item_location"
         android:layout_width="wrap_content"
@@ -35,6 +37,7 @@
         app:layout_constraintStart_toEndOf="@+id/iv_item_space" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:paddingLeft="@dimen/medium_margin"
         android:layout_marginStart="@dimen/tiny_margin"
         android:id="@+id/tv_item_value"
         android:layout_width="wrap_content"
