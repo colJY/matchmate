@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lee.matchmate.R
 import com.lee.matchmate.common.ViewBindingBaseFragment
@@ -44,6 +45,12 @@ class MainFragment : ViewBindingBaseFragment<FragmentMainBinding>(FragmentMainBi
             rvMainSpace.addItemDecoration(MainDecoration(0, R.color.lightGrey,20))
 
             rvMainSpace.adapter = MainAdapter(spaceData)
+
+            btnMainFilter.setOnClickListener {
+                val action = MainFragmentDirections.actionMainFragmentToFilterFragment()
+                findNavController().navigate(action)
+            }
+
         }
 
         binding.tvCityDropdown.setOnItemClickListener { parent, view, position, id ->

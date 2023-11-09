@@ -18,6 +18,8 @@
     <string name="back_arrow">뒤로가기</string>
     <string name="notification">알림</string>
     <string name="add_space">추가</string>
+    <string name="filter">필터</string>
+    <string name="filter_check">확인</string>
 
 
     <string-array name="arr_city">

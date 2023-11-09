@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/whiteSmoke"
+    tools:context=".main.filter.FilterFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/tb_filter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/menu_filter"
+        app:title="@string/filter"
+        app:titleCentered="true"
+        app:navigationIcon="@drawable/baseline_arrow_back_24"
+        app:titleTextAppearance="@style/title"
+        app:titleTextColor="?attr/colorOnSurface" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/tb_filter" >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_filter_start"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintGuide_begin="@dimen/guideline_margin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_filter_end"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintGuide_end="@dimen/guideline_margin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+            
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_filter_space_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/gl_filter_start"
+                app:layout_constraintTop_toTopOf="parent"
+                style="@style/subTitle"
+                android:text="방유형"/>
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/tg_filter"
+                android:layout_marginTop="@dimen/tiny_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@+id/gl_filter_end"
+                app:layout_constraintStart_toStartOf="@id/gl_filter_start"
+                app:layout_constraintTop_toBottomOf="@id/tv_filter_space_name">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_filter_space_left"
+                    style="?attr/materialButtonOutlinedStyle"
+                    app:icon="@drawable/baseline_check_24"
+                    app:iconPadding="@dimen/tiny_margin"
+                    android:text="아파트"
+                    android:textAppearance="@style/dropdown"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MatchMate.Button.Rounded"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <com.google.android.material.button.MaterialButton
+                    app:icon="@drawable/baseline_check_24"
+                    app:iconPadding="@dimen/tiny_margin"
+                    android:text="오피스텔"
+                    android:textAppearance="@style/dropdown"
+                    android:id="@+id/btn_filter_space_mid"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <com.google.android.material.button.MaterialButton
+                    app:icon="@drawable/baseline_check_24"
+                    app:iconPadding="@dimen/tiny_margin"
+                    android:text="빌라"
+                    android:textAppearance="@style/dropdown"
+                    android:id="@+id/btn_filter_space_right"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_marginTop="@dimen/medium_margin"
+                android:id="@+id/tv_filter_space_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/gl_filter_start"
+                app:layout_constraintTop_toBottomOf="@id/tg_filter"
+                style="@style/subTitle"
+                android:text="금액"/>
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_marginTop="@dimen/tiny_margin"
+                android:id="@+id/tv_filter_space_min_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/gl_filter_start"
+                app:layout_constraintTop_toBottomOf="@id/tv_filter_space_value"
+                style="@style/body"
+                android:text="최소금액"/>
+            <com.google.android.material.slider.Slider
+                android:id="@+id/sl_filter_space_min_value"
+                android:valueFrom="0"
+                android:valueTo="200"
+                android:stepSize="10"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/gl_filter_start"
+                app:layout_constraintEnd_toEndOf="@id/gl_filter_end"
+                app:layout_constraintTop_toBottomOf="@id/tv_filter_space_min_value"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_marginTop="@dimen/tiny_margin"
+                android:id="@+id/tv_filter_space_max_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/gl_filter_start"
+                app:layout_constraintTop_toBottomOf="@id/sl_filter_space_min_value"
+                style="@style/body"
+                android:text="최대금액"/>
+            <com.google.android.material.slider.Slider
+                android:id="@+id/sl_filter_space_max_value"
+                android:valueFrom="0"
+                android:valueTo="200"
+                android:stepSize="10"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/gl_filter_start"
+                app:layout_constraintEnd_toEndOf="@id/gl_filter_end"
+                app:layout_constraintTop_toBottomOf="@id/tv_filter_space_max_value"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_marginTop="@dimen/medium_margin"
+                android:id="@+id/tv_filter_space_conditions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/gl_filter_start"
+                app:layout_constraintTop_toBottomOf="@id/sl_filter_space_max_value"
+                style="@style/subTitle"
+                android:text="검색 조건"/>
+
+            <com.google.android.material.chip.ChipGroup
+                android:layout_marginTop="@dimen/tiny_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/gl_filter_start"
+                app:layout_constraintEnd_toEndOf="@id/gl_filter_end"
+                app:layout_constraintTop_toBottomOf="@id/tv_filter_space_conditions"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    </androidx.core.widget.NestedScrollView>
+    
+
+</androidx.constraintlayout.widget.ConstraintLayout>
