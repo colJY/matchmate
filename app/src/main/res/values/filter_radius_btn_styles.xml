@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ShapeAppearanceOverlay.MatchMate.Button.Rounded" parent="">
+        <item name="strokeWidth">@dimen/medium_margin</item>
+        <item name="strokeColor">@color/red</item>
+    </style>
+</resources>
