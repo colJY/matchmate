@@ -15,7 +15,7 @@ import com.lee.matchmate.main.MainViewModel
 
 class FilterFragment : ViewBindingBaseFragment<FragmentFilterBinding>(FragmentFilterBinding::inflate) {
 
-    private val viewModel : MainViewModel by viewModels()
+    private val viewModel : FilterViewModel by viewModels()
     companion object {
         fun newInstance() = FilterFragment()
     }

@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_filter_check"
-        android:icon="@drawable/baseline_check_24"
-        android:title="@string/filter_check"
+        android:id="@+id/menu_detail_chat"
+        android:icon="@drawable/baseline_chat_24"
+        android:title="@string/chat"
         app:showAsAction="always" />
 </menu>

@@ -20,6 +20,8 @@
     <string name="add_space">추가</string>
     <string name="filter">필터</string>
     <string name="filter_check">확인</string>
+    <string name="chat">채팅</string>
+    <string name="user">사용자</string>
 
 
     <string-array name="arr_city">
