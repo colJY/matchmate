@@ -15,9 +15,13 @@
         android:name="com.lee.matchmate.main.MainFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" >
+
         <action
             android:id="@+id/action_main_fragment_to_filterFragment"
             app:destination="@id/filterFragment" />
+        <action
+            android:id="@+id/action_main_fragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
     </fragment>
     <fragment
         android:id="@+id/chat_fragment"
@@ -39,4 +43,9 @@
         android:name="com.lee.matchmate.main.filter.FilterFragment"
         android:label="fragment_filter"
         tools:layout="@layout/fragment_filter" />
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.lee.matchmate.main.detail.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail" />
 </navigation>

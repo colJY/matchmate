@@ -3,6 +3,7 @@ package com.lee.matchmate.main
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.lee.matchmate.databinding.ItemMainSpaceBinding
 
@@ -12,6 +13,10 @@ class MainAdapter(private val itemList : ArrayList<Space>) : RecyclerView.Adapte
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainAdapter.ItemHolder {
         val binding = ItemMainSpaceBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+/*        binding.root.setOnClickListener {
+            val action = MainFragmentDirections.actionMainFragmentToDetailFragment()
+            it.findNavController().navigate(action)
+        }*/
         return ItemHolder(binding)
     }
 
@@ -20,6 +25,10 @@ class MainAdapter(private val itemList : ArrayList<Space>) : RecyclerView.Adapte
         holder.binding.tvItemName.text = space.name
         holder.binding.tvItemValue.text = space.value
         holder.binding.tvItemLocation.text = space.location
+        holder.binding.root.setOnClickListener {
+            val action = MainFragmentDirections.actionMainFragmentToDetailFragment()
+            it.findNavController().navigate(action)
+        }
     }
     override fun getItemCount() = itemList.size
 
@@ -28,4 +37,6 @@ class MainAdapter(private val itemList : ArrayList<Space>) : RecyclerView.Adapte
         itemList.add(space)
         notifyDataSetChanged()
     }
+
+
 }

@@ -1,6 +1,5 @@
 package com.lee.matchmate.main
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
@@ -39,12 +38,13 @@ class MainFragment : ViewBindingBaseFragment<FragmentMainBinding>(FragmentMainBi
 
 
         with(binding){
-            binding.tvCityDropdown.setAdapter(cityArrayAdapter)
+            tvCityDropdown.setAdapter(cityArrayAdapter)
 
             rvMainSpace.layoutManager = LinearLayoutManager(context)
             rvMainSpace.addItemDecoration(MainDecoration(0, R.color.lightGrey,20))
-
             rvMainSpace.adapter = MainAdapter(spaceData)
+
+
 
             btnMainFilter.setOnClickListener {
                 val action = MainFragmentDirections.actionMainFragmentToFilterFragment()
