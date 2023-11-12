@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_main_fragment_to_detailFragment"
             app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_main_fragment_to_addSpaceFragment"
+            app:destination="@id/addSpaceFragment" />
     </fragment>
     <fragment
         android:id="@+id/chat_fragment"
@@ -48,4 +51,9 @@
         android:name="com.lee.matchmate.main.detail.DetailFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail" />
+    <fragment
+        android:id="@+id/addSpaceFragment"
+        android:name="com.lee.matchmate.main.add.AddSpaceFragment"
+        android:label="fragment_add_space"
+        tools:layout="@layout/fragment_add_space" />
 </navigation>

@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".main.add.AddSpaceFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/tb_add"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/menu_add"
+        app:navigationIcon="@drawable/baseline_arrow_back_24"
+        app:title="추가"
+        app:titleCentered="true"
+        app:titleTextAppearance="@style/title"
+        app:titleTextColor="?attr/colorOnSurface" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tb_add">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_add_start"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintGuide_begin="@dimen/guideline_margin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_add_end"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintGuide_end="@dimen/guideline_margin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tl_add_city_dropdown"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:boxBackgroundColor="@color/white"
+                app:boxBackgroundMode="outline"
+                app:boxCornerRadiusBottomEnd="16dp"
+                app:boxCornerRadiusBottomStart="16dp"
+                app:boxCornerRadiusTopEnd="16dp"
+                app:boxCornerRadiusTopStart="16dp"
+                app:boxStrokeColor="@color/accentColor"
+                app:layout_constraintEnd_toStartOf="@+id/tl_add_district_dropdown"
+                app:layout_constraintStart_toStartOf="@id/gl_add_start"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/tv_add_city_dropdown"
+
+                    style="@style/dropdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="(시)"
+                    android:inputType="none"
+                    app:dropDownBackgroundTint="@color/white" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tl_add_district_dropdown"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/tiny_margin"
+                android:enabled="false"
+                app:boxBackgroundColor="@color/white"
+                app:boxBackgroundMode="outline"
+                app:boxCornerRadiusBottomEnd="16dp"
+                app:boxCornerRadiusBottomStart="16dp"
+                app:boxCornerRadiusTopEnd="16dp"
+                app:boxCornerRadiusTopStart="16dp"
+                app:boxStrokeColor="@color/accentColor"
+                app:layout_constraintEnd_toStartOf="@+id/tl_add_neighborhood_dropdown"
+                app:layout_constraintStart_toEndOf="@+id/tl_add_city_dropdown"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/tv_add_district_dropdown"
+                    style="@style/dropdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:dropDownHeight="200dp"
+                    android:hint="(구)"
+                    android:inputType="none"
+                    app:dropDownBackgroundTint="@color/white" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tl_add_neighborhood_dropdown"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/tiny_margin"
+                android:enabled="false"
+                app:boxBackgroundColor="@color/white"
+                app:boxBackgroundMode="outline"
+                app:boxCornerRadiusBottomEnd="16dp"
+                app:boxCornerRadiusBottomStart="16dp"
+                app:boxCornerRadiusTopEnd="16dp"
+                app:boxCornerRadiusTopStart="16dp"
+                app:boxStrokeColor="@color/accentColor"
+                app:layout_constraintEnd_toEndOf="@id/gl_add_end"
+                app:layout_constraintStart_toEndOf="@+id/tl_add_district_dropdown"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/tv_add_neighborhood_dropdown"
+                    style="@style/dropdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="(동)"
+                    android:inputType="none"
+                    app:dropDownBackgroundTint="@color/white" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_add_map"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="@dimen/medium_margin"
+                app:cardCornerRadius="16dp"
+                app:layout_constraintEnd_toStartOf="@id/gl_add_end"
+                app:layout_constraintStart_toStartOf="@id/gl_add_start"
+                app:layout_constraintTop_toBottomOf="@id/tl_add_district_dropdown">
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/add_map"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </androidx.cardview.widget.CardView>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_add_primary_image"
+                style="@style/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:text="대표이미지"
+                app:layout_constraintStart_toStartOf="@id/gl_add_start"
+                app:layout_constraintTop_toBottomOf="@id/cv_add_map" />
+
+            <ImageButton
+                android:id="@+id/iv_add_primary_image"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="@dimen/tiny_margin"
+                app:layout_constraintStart_toStartOf="@id/gl_add_start"
+                app:layout_constraintTop_toBottomOf="@id/tv_add_primary_image" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_add_additional_image"
+                style="@style/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:text="추가"
+                app:layout_constraintStart_toStartOf="@id/gl_add_start"
+                app:layout_constraintTop_toBottomOf="@id/iv_add_primary_image" />
+
+            <ImageButton
+                android:id="@+id/iv_add_additional_image"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="@dimen/tiny_margin"
+                app:layout_constraintStart_toStartOf="@id/gl_add_start"
+                app:layout_constraintTop_toBottomOf="@id/tv_add_additional_image" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_add_cond"
+                style="@style/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:text="조건 목록"
+                app:layout_constraintStart_toStartOf="@id/gl_add_start"
+                app:layout_constraintTop_toBottomOf="@id/iv_add_additional_image" />
+
+            <com.google.android.material.chip.ChipGroup
+
+                android:id="@+id/cg_add_cond"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toStartOf="@id/gl_add_start"
+                app:layout_constraintTop_toBottomOf="@id/iv_add_additional_image" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/ch_add"
+                style="@style/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="70dp"
+                android:text="+"
+                android:textAlignment="center"
+                app:layout_constraintStart_toStartOf="@id/gl_add_start"
+                app:layout_constraintTop_toBottomOf="@+id/tv_add_cond" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_add_value"
+                style="@style/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:text="금액"
+                app:layout_constraintStart_toStartOf="@id/gl_add_start"
+                app:layout_constraintTop_toBottomOf="@id/ch_add" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/sl_add_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:stepSize="10"
+                android:valueFrom="0"
+                android:valueTo="200"
+                app:layout_constraintEnd_toEndOf="@id/gl_add_end"
+                app:layout_constraintStart_toStartOf="@id/gl_add_start"
+                app:layout_constraintTop_toBottomOf="@id/tv_add_value" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

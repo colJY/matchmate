@@ -44,12 +44,20 @@ class MainFragment : ViewBindingBaseFragment<FragmentMainBinding>(FragmentMainBi
             rvMainSpace.addItemDecoration(MainDecoration(0, R.color.lightGrey,20))
             rvMainSpace.adapter = MainAdapter(spaceData)
 
-
+            tbMain.setOnMenuItemClickListener {item ->
+                if(item.itemId == R.id.menu_main_space){
+                    val action = MainFragmentDirections.actionMainFragmentToAddSpaceFragment()
+                    findNavController().navigate(action)
+                    return@setOnMenuItemClickListener true
+                }
+                false
+            }
 
             btnMainFilter.setOnClickListener {
                 val action = MainFragmentDirections.actionMainFragmentToFilterFragment()
                 findNavController().navigate(action)
             }
+
 
         }
 
