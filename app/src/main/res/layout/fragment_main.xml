@@ -20,7 +20,8 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tb_main">
 
@@ -37,7 +38,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintGuide_begin="@dimen/guideline_margin"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/gl_main_end"
@@ -48,89 +49,91 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintGuide_end="@dimen/guideline_margin"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textfield.TextInputLayout
-                app:boxBackgroundMode="outline"
-                app:boxCornerRadiusTopStart="16dp"
-                app:boxCornerRadiusTopEnd="16dp"
-                app:boxCornerRadiusBottomStart="16dp"
-                app:boxCornerRadiusBottomEnd="16dp"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:id="@+id/tl_city_dropdown"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:boxBackgroundColor="@color/white"
+                app:boxBackgroundMode="outline"
+                app:boxCornerRadiusBottomEnd="16dp"
+                app:boxCornerRadiusBottomStart="16dp"
+                app:boxCornerRadiusTopEnd="16dp"
+                app:boxCornerRadiusTopStart="16dp"
                 app:boxStrokeColor="@color/accentColor"
                 app:layout_constraintEnd_toStartOf="@+id/tl_district_dropdown"
                 app:layout_constraintStart_toStartOf="@id/gl_main_start"
                 app:layout_constraintTop_toTopOf="parent">
-                <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    app:dropDownBackgroundTint="@color/white"
 
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/tv_city_dropdown"
-                    android:inputType="none"
+
+                    style="@style/dropdown"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="(시)"
-                    style="@style/dropdown" />
+                    android:inputType="none"
+                    app:dropDownBackgroundTint="@color/white" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                app:boxBackgroundMode="outline"
-                app:boxCornerRadiusTopStart="16dp"
-                app:boxCornerRadiusTopEnd="16dp"
-                app:boxCornerRadiusBottomStart="16dp"
-                app:boxCornerRadiusBottomEnd="16dp"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:id="@+id/tl_district_dropdown"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/tiny_margin"
                 android:enabled="false"
                 app:boxBackgroundColor="@color/white"
+                app:boxBackgroundMode="outline"
+                app:boxCornerRadiusBottomEnd="16dp"
+                app:boxCornerRadiusBottomStart="16dp"
+                app:boxCornerRadiusTopEnd="16dp"
+                app:boxCornerRadiusTopStart="16dp"
                 app:boxStrokeColor="@color/accentColor"
-                android:layout_marginStart="@dimen/tiny_margin"
-                app:layout_constraintStart_toEndOf="@+id/tl_city_dropdown"
                 app:layout_constraintEnd_toStartOf="@+id/tl_neighborhood_dropdown"
+                app:layout_constraintStart_toEndOf="@+id/tl_city_dropdown"
                 app:layout_constraintTop_toTopOf="parent">
+
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    app:dropDownBackgroundTint="@color/white"
-                    android:dropDownHeight="200dp"
                     android:id="@+id/tv_district_dropdown"
-                    android:inputType="none"
+                    style="@style/dropdown"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:dropDownHeight="200dp"
                     android:hint="(구)"
-                    style="@style/dropdown"/>
+                    android:inputType="none"
+                    app:dropDownBackgroundTint="@color/white" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                app:boxBackgroundMode="outline"
-                app:boxCornerRadiusTopStart="16dp"
-                app:boxCornerRadiusTopEnd="16dp"
-                app:boxCornerRadiusBottomStart="16dp"
-                app:boxCornerRadiusBottomEnd="16dp"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:id="@+id/tl_neighborhood_dropdown"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:enabled="false"
                 android:layout_marginStart="@dimen/tiny_margin"
+                android:enabled="false"
                 app:boxBackgroundColor="@color/white"
+                app:boxBackgroundMode="outline"
+                app:boxCornerRadiusBottomEnd="16dp"
+                app:boxCornerRadiusBottomStart="16dp"
+                app:boxCornerRadiusTopEnd="16dp"
+                app:boxCornerRadiusTopStart="16dp"
                 app:boxStrokeColor="@color/accentColor"
-                app:layout_constraintStart_toEndOf="@+id/tl_district_dropdown"
                 app:layout_constraintEnd_toEndOf="@id/gl_main_end"
+                app:layout_constraintStart_toEndOf="@+id/tl_district_dropdown"
                 app:layout_constraintTop_toTopOf="parent">
 
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    app:dropDownBackgroundTint="@color/white"
                     android:id="@+id/tv_neighborhood_dropdown"
                     style="@style/dropdown"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:hint="(동)"
                     android:inputType="none"
-                    android:hint="(동)" />
+                    app:dropDownBackgroundTint="@color/white" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.cardview.widget.CardView
@@ -139,9 +142,9 @@
                 android:layout_height="200dp"
                 android:layout_marginTop="@dimen/medium_margin"
                 app:cardCornerRadius="16dp"
-                app:layout_constraintTop_toBottomOf="@id/tl_district_dropdown"
+                app:layout_constraintEnd_toStartOf="@id/gl_main_end"
                 app:layout_constraintStart_toStartOf="@id/gl_main_start"
-                app:layout_constraintEnd_toStartOf="@id/gl_main_end">
+                app:layout_constraintTop_toBottomOf="@id/tl_district_dropdown">
 
                 <fragment
                     android:id="@+id/main_map"
@@ -150,21 +153,22 @@
                     android:layout_height="match_parent" />
 
             </androidx.cardview.widget.CardView>
+
             <com.google.android.material.button.MaterialButton
-                android:layout_marginTop="@dimen/medium_margin"
                 android:id="@+id/btn_main_filter"
-                android:text="필터"
-                android:textColor="@color/primaryTextColor"
-                app:strokeColor="@color/white"
-                app:strokeWidth="2dp"
-                android:textAppearance="@style/dropdown"
-                android:backgroundTint="@color/lightPrimaryColor"
-                app:iconTint="@color/primaryTextColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:backgroundTint="@color/lightPrimaryColor"
+                android:text="필터"
+                android:textAppearance="@style/dropdown"
+                android:textColor="@color/primaryTextColor"
                 app:icon="@drawable/baseline_filter_list_24"
+                app:iconTint="@color/primaryTextColor"
                 app:layout_constraintEnd_toStartOf="@+id/gl_main_end"
-                app:layout_constraintTop_toBottomOf="@+id/main_card_map" />
+                app:layout_constraintTop_toBottomOf="@+id/main_card_map"
+                app:strokeColor="@color/white"
+                app:strokeWidth="2dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_main_space"
@@ -179,9 +183,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
-
-
-
 
 
 
