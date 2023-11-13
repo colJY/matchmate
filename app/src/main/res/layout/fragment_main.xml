@@ -1,189 +1,240 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/whiteSmoke"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".main.MainFragment">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/tb_main"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/menu_main"
-        app:titleTextAppearance="@style/title"
-        app:titleTextColor="?attr/colorOnSurface" />
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/crl_main"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tb_main">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/al_main"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="wrap_content"
+            android:elevation="0dp">
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/gl_main_start"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintGuide_begin="@dimen/guideline_margin"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/gl_main_end"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintGuide_end="@dimen/guideline_margin"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tl_city_dropdown"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="0dp"
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/ctl_main"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:boxBackgroundColor="@color/white"
-                app:boxBackgroundMode="outline"
-                app:boxCornerRadiusBottomEnd="16dp"
-                app:boxCornerRadiusBottomStart="16dp"
-                app:boxCornerRadiusTopEnd="16dp"
-                app:boxCornerRadiusTopStart="16dp"
-                app:boxStrokeColor="@color/accentColor"
-                app:layout_constraintEnd_toStartOf="@+id/tl_district_dropdown"
-                app:layout_constraintStart_toStartOf="@id/gl_main_start"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_scrollFlags="scroll|enterAlways">
 
-                <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/tv_city_dropdown"
-
-                    style="@style/dropdown"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_main"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="(시)"
-                    android:inputType="none"
-                    app:dropDownBackgroundTint="@color/white" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tl_district_dropdown"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/tiny_margin"
-                android:enabled="false"
-                app:boxBackgroundColor="@color/white"
-                app:boxBackgroundMode="outline"
-                app:boxCornerRadiusBottomEnd="16dp"
-                app:boxCornerRadiusBottomStart="16dp"
-                app:boxCornerRadiusTopEnd="16dp"
-                app:boxCornerRadiusTopStart="16dp"
-                app:boxStrokeColor="@color/accentColor"
-                app:layout_constraintEnd_toStartOf="@+id/tl_neighborhood_dropdown"
-                app:layout_constraintStart_toEndOf="@+id/tl_city_dropdown"
-                app:layout_constraintTop_toTopOf="parent">
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/gl_main_start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintGuide_begin="@dimen/guideline_margin"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/tv_district_dropdown"
-                    style="@style/dropdown"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:dropDownHeight="200dp"
-                    android:hint="(구)"
-                    android:inputType="none"
-                    app:dropDownBackgroundTint="@color/white" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/gl_main_end"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintGuide_end="@dimen/guideline_margin"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tl_neighborhood_dropdown"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/tiny_margin"
-                android:enabled="false"
-                app:boxBackgroundColor="@color/white"
-                app:boxBackgroundMode="outline"
-                app:boxCornerRadiusBottomEnd="16dp"
-                app:boxCornerRadiusBottomStart="16dp"
-                app:boxCornerRadiusTopEnd="16dp"
-                app:boxCornerRadiusTopStart="16dp"
-                app:boxStrokeColor="@color/accentColor"
-                app:layout_constraintEnd_toEndOf="@id/gl_main_end"
-                app:layout_constraintStart_toEndOf="@+id/tl_district_dropdown"
-                app:layout_constraintTop_toTopOf="parent">
+                    <com.google.android.material.appbar.MaterialToolbar
+                        android:id="@+id/tb_main"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:menu="@menu/menu_main"
+                        app:titleTextAppearance="@style/title"
+                        app:titleTextColor="?attr/colorOnSurface" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tl_city_dropdown"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:boxBackgroundColor="@color/white"
+                        app:boxBackgroundMode="outline"
+                        app:boxCornerRadiusBottomEnd="16dp"
+                        app:boxCornerRadiusBottomStart="16dp"
+                        app:boxCornerRadiusTopEnd="16dp"
+                        app:boxCornerRadiusTopStart="16dp"
+                        app:boxStrokeColor="@color/accentColor"
+                        app:layout_constraintEnd_toStartOf="@+id/tl_district_dropdown"
+                        app:layout_constraintStart_toStartOf="@id/gl_main_start"
+                        app:layout_constraintTop_toBottomOf="@id/tb_main">
+
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/tv_city_dropdown"
+                            style="@style/dropdown"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:hint="(시)"
+                            android:inputType="none"
+                            app:dropDownBackgroundTint="@color/white" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tl_district_dropdown"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/tiny_margin"
+                        android:enabled="false"
+                        app:boxBackgroundColor="@color/white"
+                        app:boxBackgroundMode="outline"
+                        app:boxCornerRadiusBottomEnd="16dp"
+                        app:boxCornerRadiusBottomStart="16dp"
+                        app:boxCornerRadiusTopEnd="16dp"
+                        app:boxCornerRadiusTopStart="16dp"
+                        app:boxStrokeColor="@color/accentColor"
+                        app:layout_constraintEnd_toStartOf="@+id/tl_neighborhood_dropdown"
+                        app:layout_constraintStart_toEndOf="@+id/tl_city_dropdown"
+                        app:layout_constraintTop_toBottomOf="@id/tb_main">
+
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/tv_district_dropdown"
+                            style="@style/dropdown"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:dropDownHeight="200dp"
+                            android:hint="(구)"
+                            android:inputType="none"
+                            app:dropDownBackgroundTint="@color/white" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tl_neighborhood_dropdown"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/tiny_margin"
+                        android:enabled="false"
+                        app:boxBackgroundColor="@color/white"
+                        app:boxBackgroundMode="outline"
+                        app:boxCornerRadiusBottomEnd="16dp"
+                        app:boxCornerRadiusBottomStart="16dp"
+                        app:boxCornerRadiusTopEnd="16dp"
+                        app:boxCornerRadiusTopStart="16dp"
+                        app:boxStrokeColor="@color/accentColor"
+                        app:layout_constraintEnd_toEndOf="@id/gl_main_end"
+                        app:layout_constraintStart_toEndOf="@+id/tl_district_dropdown"
+                        app:layout_constraintTop_toBottomOf="@id/tb_main">
 
 
-                <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/tv_neighborhood_dropdown"
-                    style="@style/dropdown"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="(동)"
-                    android:inputType="none"
-                    app:dropDownBackgroundTint="@color/white" />
-            </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/tv_neighborhood_dropdown"
+                            style="@style/dropdown"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:hint="(동)"
+                            android:inputType="none"
+                            app:dropDownBackgroundTint="@color/white" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/main_card_map"
-                android:layout_width="0dp"
-                android:layout_height="200dp"
-                android:layout_marginTop="@dimen/medium_margin"
-                app:cardCornerRadius="16dp"
-                app:layout_constraintEnd_toStartOf="@id/gl_main_end"
-                app:layout_constraintStart_toStartOf="@id/gl_main_start"
-                app:layout_constraintTop_toBottomOf="@id/tl_district_dropdown">
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/main_card_map"
+                        android:layout_width="0dp"
+                        android:layout_height="200dp"
+                        android:layout_marginTop="@dimen/medium_margin"
+                        app:cardCornerRadius="16dp"
+                        app:layout_constraintEnd_toStartOf="@id/gl_main_end"
+                        app:layout_constraintStart_toStartOf="@id/gl_main_start"
+                        app:layout_constraintTop_toBottomOf="@id/tl_district_dropdown">
 
-                <fragment
-                    android:id="@+id/main_map"
-                    android:name="com.google.android.gms.maps.SupportMapFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                        <fragment
+                            android:id="@+id/main_map"
+                            android:name="com.google.android.gms.maps.SupportMapFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
 
-            </androidx.cardview.widget.CardView>
+                    </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_main_filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/medium_margin"
-                android:backgroundTint="@color/lightPrimaryColor"
-                android:text="필터"
-                android:textAppearance="@style/dropdown"
-                android:textColor="@color/primaryTextColor"
-                app:icon="@drawable/baseline_filter_list_24"
-                app:iconTint="@color/primaryTextColor"
-                app:layout_constraintEnd_toStartOf="@+id/gl_main_end"
-                app:layout_constraintTop_toBottomOf="@+id/main_card_map"
-                app:strokeColor="@color/white"
-                app:strokeWidth="2dp" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_main_space"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/gl_main_end"
-                app:layout_constraintStart_toStartOf="@id/gl_main_start"
-                app:layout_constraintTop_toBottomOf="@id/btn_main_filter" />
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/gl_sub_main_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintGuide_begin="@dimen/guideline_margin"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.core.widget.NestedScrollView>
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/gl_sub_main_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintGuide_end="@dimen/guideline_margin"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_main_filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/medium_margin"
+                    android:backgroundTint="@color/lightPrimaryColor"
+                    android:text="필터"
+                    android:textAppearance="@style/dropdown"
+                    android:textColor="@color/primaryTextColor"
+                    app:icon="@drawable/baseline_filter_list_24"
+                    app:iconTint="@color/primaryTextColor"
+                    app:layout_constraintEnd_toStartOf="@id/gl_sub_main_end"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:strokeColor="@color/white"
+                    app:strokeWidth="2dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_main_space"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/gl_sub_main_end"
+                    app:layout_constraintStart_toStartOf="@id/gl_sub_main_start"
+                    app:layout_constraintTop_toBottomOf="@id/btn_main_filter" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
