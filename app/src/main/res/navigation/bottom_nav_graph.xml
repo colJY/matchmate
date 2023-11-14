@@ -55,5 +55,14 @@
         android:id="@+id/addSpaceFragment"
         android:name="com.lee.matchmate.main.add.AddSpaceFragment"
         android:label="fragment_add_space"
-        tools:layout="@layout/fragment_add_space" />
+        tools:layout="@layout/fragment_add_space" >
+        <action
+            android:id="@+id/action_addSpaceFragment_to_chipSelectFragment"
+            app:destination="@id/chipSelectFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chipSelectFragment"
+        android:name="com.lee.matchmate.main.selectchip.ChipSelectFragment"
+        android:label="fragment_chip_select"
+        tools:layout="@layout/fragment_chip_select" />
 </navigation>
