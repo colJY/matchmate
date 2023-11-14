@@ -1,7 +1,11 @@
 package com.lee.matchmate.main.selectchip
 
+
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 
-class ChipSelectViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+class ChipSelectViewModel() : ViewModel() {
+    private val repository: ChipSelectRepository = ChipSelectRepository()
+
+    val chipData: LiveData<List<String>> = repository.getChipData()
 }
