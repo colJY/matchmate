@@ -10,12 +10,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/image_room"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
         android:paddingLeft="@dimen/medium_margin"
-        android:paddingBottom="@dimen/tiny_margin"
         android:layout_marginStart="@dimen/tiny_margin"
         android:id="@+id/tv_item_name"
         android:layout_width="wrap_content"
@@ -47,14 +47,27 @@
         app:layout_constraintTop_toBottomOf="@id/tv_item_location"
         app:layout_constraintStart_toEndOf="@+id/iv_item_space" />
 
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/cg_item_cond"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/medium_margin"
+        app:chipSpacingVertical="@dimen/tiny_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_item_space"
+        app:layout_constraintTop_toBottomOf="@id/tv_item_value" />
+
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_item_favorite"
+        style="@style/Widget.Material3.Button.IconButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/Widget.Material3.Button.IconButton"
         app:icon="@drawable/baseline_favorite_24"
         app:iconTint="@color/red"
+
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/iv_item_space"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 

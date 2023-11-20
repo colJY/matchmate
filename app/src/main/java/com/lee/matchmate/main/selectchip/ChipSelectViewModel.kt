@@ -7,5 +7,9 @@ import androidx.lifecycle.ViewModel
 class ChipSelectViewModel() : ViewModel() {
     private val repository: ChipSelectRepository = ChipSelectRepository()
 
-    val chipData: LiveData<List<String>> = repository.getChipData()
+    val chipData: LiveData<String> = repository.chipData
+
+    init {
+        repository.getChipData()
+    }
 }
