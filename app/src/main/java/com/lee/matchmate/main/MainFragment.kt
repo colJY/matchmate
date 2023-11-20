@@ -30,12 +30,6 @@ class MainFragment : ViewBindingBaseFragment<FragmentMainBinding>(FragmentMainBi
 
     private val compositeDisposable = CompositeDisposable()
 
-    val space1 = Space("asd", "asd", "asd")
-    val space2 = Space("zxc", "zxc", "zxc")
-    val space3 = Space("qwe", "qwe", "Qwe")
-    val space4 = Space("aaa", "aaa", "aaa")
-    val space5 = Space("eee", "eee", "eee")
-    private val spaceData = arrayListOf<Space>(space1, space2, space3, space4, space5)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -57,10 +51,16 @@ class MainFragment : ViewBindingBaseFragment<FragmentMainBinding>(FragmentMainBi
 
         with(binding) {
             tvCityDropdown.setAdapter(cityArrayAdapter)
-
+            val adapter = MainAdapter(viewModel.spaceData.value)
+            rvMainSpace.adapter = adapter
             rvMainSpace.layoutManager = LinearLayoutManager(context)
             rvMainSpace.addItemDecoration(MainDecoration(0, R.color.lightGrey, 20))
-            rvMainSpace.adapter = MainAdapter(spaceData)
+
+            viewModel.spaceData.observe(viewLifecycleOwner) {
+                it.let {
+                    adapter.submitList(it)
+                }
+            }
 
             tbMain.setOnMenuItemClickListener { item ->
                 if (item.itemId == R.id.menu_main_space) {

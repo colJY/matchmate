@@ -3,13 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/main_fragment">
+    app:startDestination="@id/login_fragment">
 
-<!--    <fragment
+    <fragment
         android:id="@+id/login_fragment"
         android:name="com.lee.matchmate.login.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />-->
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_login_fragment_to_main_fragment"
+            app:destination="@id/main_fragment" />
+    </fragment>
     <fragment
         android:id="@+id/main_fragment"
         android:name="com.lee.matchmate.main.MainFragment"
@@ -56,13 +60,28 @@
         android:name="com.lee.matchmate.main.add.AddSpaceFragment"
         android:label="fragment_add_space"
         tools:layout="@layout/fragment_add_space" >
+
+        <argument
+            android:name="chipConditions"
+            android:defaultValue=""
+            app:argType="string" />
+
         <action
             android:id="@+id/action_addSpaceFragment_to_chipSelectFragment"
             app:destination="@id/chipSelectFragment" />
+        <action
+            android:id="@+id/action_addSpaceFragment_to_main_fragment"
+            app:destination="@id/main_fragment" />
     </fragment>
     <fragment
         android:id="@+id/chipSelectFragment"
         android:name="com.lee.matchmate.main.selectchip.ChipSelectFragment"
         android:label="fragment_chip_select"
-        tools:layout="@layout/fragment_chip_select" />
+        tools:layout="@layout/fragment_chip_select" >
+        <action
+            app:popUpTo="@id/chipSelectFragment"
+            app:popUpToInclusive="true"
+            android:id="@+id/action_chipSelectFragment_to_addSpaceFragment"
+            app:destination="@id/addSpaceFragment" />
+    </fragment>
 </navigation>

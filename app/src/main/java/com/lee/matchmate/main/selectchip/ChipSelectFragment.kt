@@ -3,13 +3,19 @@ package com.lee.matchmate.main.selectchip
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.jakewharton.rxbinding4.view.clicks
+import com.lee.matchmate.R
 import com.lee.matchmate.common.ViewBindingBaseFragment
 import com.lee.matchmate.common.toastMessage
 import com.lee.matchmate.databinding.FragmentChipSelectBinding
+import com.lee.matchmate.main.add.AddSpaceFragmentDirections
+import com.lee.matchmate.main.add.AddSpaceViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
@@ -20,13 +26,15 @@ class ChipSelectFragment :
     companion object {
         fun newInstance() = ChipSelectFragment()
     }
-
+    private var selectedCondList: MutableSet<String> = mutableSetOf()
     private val viewModel: ChipSelectViewModel by viewModels()
+    private val addSpaceViewModel : AddSpaceViewModel by activityViewModels()
 
     @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initChip()
+
         binding.btnSelectChipAdd
             .clicks()
             .observeOn(Schedulers.io())
@@ -36,17 +44,32 @@ class ChipSelectFragment :
                 addConditionChip(binding.edSelectChipAddCond.text.toString())
             }
 
+        binding.tbSelectChip.setOnMenuItemClickListener {item ->
+            if(item.itemId == R.id.menu_filter_check){
+                addSpaceViewModel.spaceSelectedCondList.postValue(selectedCondList)
+//                val action = ChipSelectFragmentDirections.actionChipSelectFragmentToAddSpaceFragment(selectedCondList.toString())
+//                findNavController().navigate(action)
+                findNavController().popBackStack()
+                return@setOnMenuItemClickListener true
+            }
+            false
+        }
+        addSpaceViewModel.spaceSelectedCondList.observe(viewLifecycleOwner) { selectedCondList ->
+            Log.e("ChipSelectFragment", "Selected conditions: $selectedCondList")
+        }
 
     }
 
     private fun addConditionChip(cond: String) {
         if (cond.isNotEmpty()) {
             binding.cgSelectChipAddCond.addView(Chip(context).apply {
+                selectedCondList.add(cond)
                 text = cond
                 isCloseIconVisible = true
                 //chip에 있는 close 버튼을 클릭할 때, 삭제한 id 값을 기반을 selectedArtistIdList 값을 삭제함
                 setOnCloseIconClickListener {
                     binding.cgSelectChipAddCond.removeView(it)
+                    selectedCondList.remove(text.toString())
                 }
             })
         }
@@ -54,7 +77,9 @@ class ChipSelectFragment :
 
     private fun initChip() {
         viewModel.chipData.observe(viewLifecycleOwner) { chipData ->
-            chipData.forEach { chipText ->
+            binding.cgSelectChipListCond.removeAllViews()
+            val chipDataList = chipData.split(",")
+            chipDataList.forEach { chipText ->
                 val chip = Chip(context).apply {
                     text = chipText
                     isCheckable = true
@@ -62,9 +87,10 @@ class ChipSelectFragment :
 
                 chip.setOnCheckedChangeListener { buttonView, isChecked ->
                     if (isChecked) {
-
+                        selectedCondList.add(chipText)
                         toastMessage("체크 되었습니다.", activity as Activity)
                     } else {
+                        selectedCondList.remove(chipText)
                         toastMessage("해제되었습니다.", activity as Activity)
                     }
                 }
@@ -72,6 +98,7 @@ class ChipSelectFragment :
             }
         }
     }
+
 
 }
 

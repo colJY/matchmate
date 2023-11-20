@@ -1,7 +1,8 @@
 package com.lee.matchmate.main.selectchip
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -9,13 +10,28 @@ import kotlinx.coroutines.launch
 
 class ChipSelectRepository() {
 
-    private val job = CoroutineScope(Dispatchers.Main)
 
-    fun getChipData(): LiveData<List<String>> {
-        val liveChipData = MutableLiveData<List<String>>()
-        job.launch {
-            liveChipData.value = listOf("infp", "estj", "enfp", "운동", "요리", "자전거", "테니스")
+    private val fireStoreDB = Firebase.firestore
+    private val fireStoreCollectionName = "cond"
+    private val fireStoreDocumentName = "condition"
+    private val fireStoreFieldName = "condList"
+
+    val chipData = MutableLiveData<String>()
+    fun getChipData() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val documentRef = fireStoreDB.collection(fireStoreCollectionName).document(fireStoreDocumentName)
+            documentRef.addSnapshotListener { snapshot, e ->
+                if (e != null) {
+                    return@addSnapshotListener
+                }
+
+                if (snapshot != null && snapshot.exists()) {
+                    chipData.postValue(snapshot.getString(fireStoreFieldName))
+                } else {
+
+                }
+            }
         }
-        return liveChipData
+
     }
 }
