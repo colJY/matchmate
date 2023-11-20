@@ -41,8 +41,8 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
                     android:host="oauth"
-                    android:scheme="kakao{KAKAO_API_KEY}"
-                    tools:ignore="AppLinkUrlError" />
+                    android:scheme="kakaoa{KAKAO_API_KEY}"
+                     />
             </intent-filter>
         </activity>
     </application>
