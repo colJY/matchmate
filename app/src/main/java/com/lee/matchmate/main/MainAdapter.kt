@@ -3,8 +3,6 @@ package com.lee.matchmate.main
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.net.toUri
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -14,8 +12,9 @@ import com.google.android.material.chip.Chip
 import com.google.firebase.storage.FirebaseStorage
 import com.lee.matchmate.databinding.ItemMainSpaceBinding
 
-class MainAdapter(private val itemList: List<NewSpace>?): ListAdapter<NewSpace, MainAdapter.ViewHolder>(DiffCallback){
-    object DiffCallback  : DiffUtil.ItemCallback<NewSpace>(){
+class MainAdapter(private val itemList: List<NewSpace>?) :
+    ListAdapter<NewSpace, MainAdapter.ViewHolder>(DiffCallback) {
+    object DiffCallback : DiffUtil.ItemCallback<NewSpace>() {
         override fun areItemsTheSame(oldItem: NewSpace, newItem: NewSpace): Boolean {
             return oldItem === newItem
         }
@@ -24,7 +23,9 @@ class MainAdapter(private val itemList: List<NewSpace>?): ListAdapter<NewSpace, 
             return oldItem == newItem
         }
     }
-    inner class ViewHolder(val binding : ItemMainSpaceBinding) : RecyclerView.ViewHolder(binding.root)
+
+    inner class ViewHolder(val binding: ItemMainSpaceBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
@@ -40,9 +41,7 @@ class MainAdapter(private val itemList: List<NewSpace>?): ListAdapter<NewSpace, 
                 it
             )
         }
-        glideImage?.downloadUrl?.addOnSuccessListener {
-            Glide.with(holder.itemView.context).load(it).into(holder.binding.ivItemSpace)
-        }
+
 
         if (newSpace != null) {
             holder.binding.tvItemName.text = "이름"
@@ -55,10 +54,16 @@ class MainAdapter(private val itemList: List<NewSpace>?): ListAdapter<NewSpace, 
                 })
             }
 
+            glideImage?.downloadUrl?.addOnSuccessListener {
+                Glide.with(holder.itemView.context).load(it).into(holder.binding.ivItemSpace)
+            }
+
+
             holder.binding.root.setOnClickListener {
                 val action = MainFragmentDirections.actionMainFragmentToDetailFragment()
                 it.findNavController().navigate(action)
             }
+
         }
     }
 }

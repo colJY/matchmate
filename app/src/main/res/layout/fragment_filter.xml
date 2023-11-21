@@ -62,9 +62,10 @@
                 android:text="방유형"/>
 
             <com.google.android.material.button.MaterialButtonToggleGroup
+                app:singleSelection="true"
                 android:id="@+id/tg_filter"
                 android:layout_marginTop="@dimen/tiny_margin"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toStartOf="@+id/gl_filter_end"
                 app:layout_constraintStart_toStartOf="@id/gl_filter_start"
@@ -76,7 +77,7 @@
                     app:icon="@drawable/baseline_check_24"
                     app:iconPadding="@dimen/tiny_margin"
                     android:text="아파트"
-                    android:textAppearance="@style/dropdown"
+                    android:textAppearance="@style/filter"
                     app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MatchMate.Button.Rounded"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -85,7 +86,7 @@
                     app:icon="@drawable/baseline_check_24"
                     app:iconPadding="@dimen/tiny_margin"
                     android:text="오피스텔"
-                    android:textAppearance="@style/dropdown"
+                    android:textAppearance="@style/filter"
                     android:id="@+id/btn_filter_space_mid"
                     style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="wrap_content"
@@ -95,11 +96,22 @@
                     app:icon="@drawable/baseline_check_24"
                     app:iconPadding="@dimen/tiny_margin"
                     android:text="빌라"
-                    android:textAppearance="@style/dropdown"
+                    android:textAppearance="@style/filter"
                     android:id="@+id/btn_filter_space_right"
                     style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
+
+                <com.google.android.material.button.MaterialButton
+                    app:icon="@drawable/baseline_check_24"
+                    app:iconPadding="@dimen/tiny_margin"
+                    android:text="기타"
+                    android:textAppearance="@style/filter"
+                    android:id="@+id/btn_filter_space_etc"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
             </com.google.android.material.button.MaterialButtonToggleGroup>
 
             <com.google.android.material.textview.MaterialTextView

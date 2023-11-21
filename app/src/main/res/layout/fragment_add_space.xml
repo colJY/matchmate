@@ -171,6 +171,68 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_add_value" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_filter_space_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sl_add_value"
+                style="@style/subTitle"
+                android:text="방유형"/>
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                app:singleSelection="true"
+                android:id="@+id/tg_add_filter"
+                android:layout_marginTop="@dimen/tiny_margin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_filter_space_name">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_add_filter_space_left"
+                    style="?attr/materialButtonOutlinedStyle"
+                    app:icon="@drawable/baseline_check_24"
+                    app:iconPadding="@dimen/tiny_margin"
+                    android:text="아파트"
+                    android:textAppearance="@style/filter"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MatchMate.Button.Rounded"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <com.google.android.material.button.MaterialButton
+                    app:icon="@drawable/baseline_check_24"
+                    app:iconPadding="@dimen/tiny_margin"
+                    android:text="오피스텔"
+                    android:textAppearance="@style/filter"
+                    android:id="@+id/btn_add_filter_space_mid"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <com.google.android.material.button.MaterialButton
+                    app:icon="@drawable/baseline_check_24"
+                    app:iconPadding="@dimen/tiny_margin"
+                    android:text="빌라"
+                    android:textAppearance="@style/filter"
+                    android:id="@+id/btn_add_filter_space_right"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <com.google.android.material.button.MaterialButton
+                    app:icon="@drawable/baseline_check_24"
+                    app:iconPadding="@dimen/tiny_margin"
+                    android:text="기타"
+                    android:textAppearance="@style/filter"
+                    android:id="@+id/btn_add_filter_space_etc"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.button.MaterialButtonToggleGroup>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
