@@ -10,7 +10,8 @@ data class FireSpace(
     var primaryImage: String = "",
     var additionalImage: String = "",
     var cond: String = "",
-    var value: String = ""
+    var value: String = "",
+    var type : String = "",
 ) {
     @Exclude
     fun toMap(): Map<String, Any> {
@@ -20,6 +21,7 @@ data class FireSpace(
             "additionalImage" to additionalImage,
             "cond" to cond,
             "value" to value,
+            "type" to type,
         )
     }
 }

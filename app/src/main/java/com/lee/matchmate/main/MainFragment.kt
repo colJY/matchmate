@@ -1,6 +1,8 @@
 package com.lee.matchmate.main
 
+import android.location.Geocoder
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
@@ -41,6 +43,8 @@ class MainFragment : ViewBindingBaseFragment<FragmentMainBinding>(FragmentMainBi
         val districtArrayAdapter =
             ArrayAdapter(requireContext(), R.layout.dropdown_district_item, districtArray)
 
+        val geocoder = Geocoder(requireContext())
+
         /**
          * Map fragment
          *
@@ -79,6 +83,8 @@ class MainFragment : ViewBindingBaseFragment<FragmentMainBinding>(FragmentMainBi
         }
 
         binding.tvCityDropdown.setOnItemClickListener { parent, view, position, id ->
+            val selectedCity = parent.getItemAtPosition(position).toString()
+
             when (position) {
                 0 -> {
                     binding.tlDistrictDropdown.isEnabled = true
@@ -90,6 +96,18 @@ class MainFragment : ViewBindingBaseFragment<FragmentMainBinding>(FragmentMainBi
                 else -> binding.tlDistrictDropdown.isEnabled = false
             }
         }
+
+        binding.tvDistrictDropdown.setOnItemClickListener { parent, view, position, id ->
+            val selectedDistrict = parent.getItemAtPosition(position).toString()
+            val selectedCity = binding.tvCityDropdown.text.toString()
+            val address = "$selectedCity, $selectedDistrict"
+
+/*            val locationList = geocoder.getFromLocation(address, 1)
+            val latitude = locationList[0].latitude
+            val longitude = locationList[0].longitude
+            setLocation(latitude, longitude)*/
+        }
+
 
     }
 

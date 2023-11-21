@@ -106,7 +106,6 @@ class AddSpaceFragment :
                     uploadFireStorage(viewModel.pImageData.value.toString())
 
 
-
                     val action = AddSpaceFragmentDirections.actionAddSpaceFragmentToMainFragment()
                     findNavController().navigate(action)
                     return@setOnMenuItemClickListener true
@@ -176,6 +175,30 @@ class AddSpaceFragment :
                     })
                 }
                 cgAddCond.addView(chAdd)
+            }
+
+            tgAddFilter.addOnButtonCheckedListener { group, checkedId, isChecked ->
+                when (checkedId) {
+                    R.id.btn_add_filter_space_left -> {
+                        fireSpace.type = btnAddFilterSpaceLeft.text.toString()
+                    }
+
+                    R.id.btn_add_filter_space_mid -> {
+                        fireSpace.type = btnAddFilterSpaceMid.text.toString()
+                    }
+
+                    R.id.btn_add_filter_space_right -> {
+                        fireSpace.type = btnAddFilterSpaceRight.text.toString()
+                    }
+
+                    R.id.btn_add_filter_space_etc -> {
+                        fireSpace.type = btnAddFilterSpaceEtc.text.toString()
+                    }
+
+                    else -> {
+                        fireSpace.type = ""
+                    }
+                }
             }
 
         }
