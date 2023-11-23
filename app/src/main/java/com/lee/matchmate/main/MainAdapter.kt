@@ -48,11 +48,14 @@ class MainAdapter(private val itemList: List<NewSpace>?) :
             holder.binding.tvItemValue.text = newSpace.space.value
             holder.binding.tvItemLocation.text = newSpace.space.location
 
-            newSpace.space.cond.trim().split(",").forEach {
-                holder.binding.cgItemCond.addView(Chip(holder.itemView.context).apply {
-                    text = it
-                })
+            if(newSpace.space.cond.isNotEmpty()){
+                newSpace.space.cond.trim().split(",").forEach {
+                    holder.binding.cgItemCond.addView(Chip(holder.itemView.context).apply {
+                        text = it
+                    })
+                }
             }
+
 
             glideImage?.downloadUrl?.addOnSuccessListener {
                 Glide.with(holder.itemView.context).load(it).into(holder.binding.ivItemSpace)

@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -14,17 +15,23 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.lee.matchmate.BuildConfig
 import com.lee.matchmate.R
 import com.lee.matchmate.common.ViewBindingBaseFragment
 import com.lee.matchmate.databinding.FragmentMainBinding
 import com.lee.matchmate.main.decoration.MainDecoration
+import com.lee.matchmate.main.geocoder.GeocoderViewModel
+import com.lee.matchmate.main.geocoder.ReverseGeoEntity
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class MainFragment : ViewBindingBaseFragment<FragmentMainBinding>(FragmentMainBinding::inflate),
     OnMapReadyCallback {
 
     private val viewModel: MainViewModel by viewModels()
+    private val geoViewModel : GeocoderViewModel by viewModels()
     private lateinit var mMap: GoogleMap
+    private var isMapReady = false
+
 
     companion object {
         fun newInstance() = MainFragment()
@@ -44,6 +51,12 @@ class MainFragment : ViewBindingBaseFragment<FragmentMainBinding>(FragmentMainBi
             ArrayAdapter(requireContext(), R.layout.dropdown_district_item, districtArray)
 
         val geocoder = Geocoder(requireContext())
+
+
+
+
+
+
 
         /**
          * Map fragment
@@ -84,6 +97,7 @@ class MainFragment : ViewBindingBaseFragment<FragmentMainBinding>(FragmentMainBi
 
         binding.tvCityDropdown.setOnItemClickListener { parent, view, position, id ->
             val selectedCity = parent.getItemAtPosition(position).toString()
+            viewModel.selectedCity.postValue(selectedCity)
 
             when (position) {
                 0 -> {
@@ -100,12 +114,17 @@ class MainFragment : ViewBindingBaseFragment<FragmentMainBinding>(FragmentMainBi
         binding.tvDistrictDropdown.setOnItemClickListener { parent, view, position, id ->
             val selectedDistrict = parent.getItemAtPosition(position).toString()
             val selectedCity = binding.tvCityDropdown.text.toString()
-            val address = "$selectedCity, $selectedDistrict"
+            viewModel.selectedDistrict.postValue(selectedCity)
+            val address = "locality:$selectedCity $selectedDistrict|country:KR"
 
-/*            val locationList = geocoder.getFromLocation(address, 1)
-            val latitude = locationList[0].latitude
-            val longitude = locationList[0].longitude
-            setLocation(latitude, longitude)*/
+            geoViewModel.getGeoCode(address, BuildConfig.MAPS_API_KEY)
+        }
+
+        geoViewModel.getGeoEntityResponseLiveData().observe(viewLifecycleOwner){
+            if (it != null && it.results.isNotEmpty()) {
+                val location = it.results[0].geometry.location
+                setLocation(location.lat, location.lng)
+            }
         }
 
 
@@ -117,13 +136,17 @@ class MainFragment : ViewBindingBaseFragment<FragmentMainBinding>(FragmentMainBi
     }
 
     private fun setLocation(latitude: Double, longitude: Double) {
-        val latlng = LatLng(latitude, longitude)
-        val cameraPosition = CameraPosition.Builder().target(latlng).zoom(15.0f).build()
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+        if(isMapReady){
+            val latlng = LatLng(latitude, longitude)
+            val cameraPosition = CameraPosition.Builder().target(latlng).zoom(15.0f).build()
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+        }
+
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        isMapReady = true
         val latLng = LatLng(37.566168, 126.901609)
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10.0f))
     }
