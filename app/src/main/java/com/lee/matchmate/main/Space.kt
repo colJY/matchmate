@@ -12,6 +12,7 @@ data class FireSpace(
     var cond: String = "",
     var value: String = "",
     var type : String = "",
+    var userId : String = "",
 ) {
     @Exclude
     fun toMap(): Map<String, Any> {
@@ -22,6 +23,7 @@ data class FireSpace(
             "cond" to cond,
             "value" to value,
             "type" to type,
+            "userId" to userId,
         )
     }
 }

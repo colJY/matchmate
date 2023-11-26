@@ -11,6 +11,7 @@ import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.user.UserApiClient
+import com.lee.matchmate.common.AppGlobalContext
 import com.lee.matchmate.common.ViewBindingBaseFragment
 import com.lee.matchmate.common.toastMessage
 import com.lee.matchmate.databinding.FragmentLoginBinding
@@ -36,9 +37,9 @@ class LoginFragment : ViewBindingBaseFragment<FragmentLoginBinding>(FragmentLogi
 
         UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
             if (error != null) {
-                toastMessage("토큰 정보 보기 실패", activity as Activity)
+
             } else if (tokenInfo != null) {
-                toastMessage("토큰 정보 보기 성공", activity as Activity)
+
                 val action = LoginFragmentDirections.actionLoginFragmentToMainFragment()
                 findNavController().navigate(action)
             }
@@ -86,13 +87,20 @@ class LoginFragment : ViewBindingBaseFragment<FragmentLoginBinding>(FragmentLogi
                 }
                 toastMessage(errorMessage, activity as Activity)
             } else if (token != null) {
-                toastMessage("로그인 성공", activity as Activity)
+
                 UserApiClient.instance.me { userInfo, error ->
-                    if (error != null) {
+                    if (error == null) {
                         if (userInfo != null) {
                             user.userName = userInfo.kakaoAccount?.profile?.nickname.toString()
                             user.profileImage =
                                 userInfo.kakaoAccount?.profile?.profileImageUrl.toString()
+                            insertFireStore(user, userInfo.id.toString())
+                            AppGlobalContext.prefs.edit()
+                                .putString("userId", userInfo.id.toString()).apply()
+                            toastMessage(
+                                "환영합니다 ${userInfo.kakaoAccount?.profile?.nickname} 님",
+                                activity as Activity
+                            )
                         }
                     }
                 }
@@ -114,6 +122,22 @@ class LoginFragment : ViewBindingBaseFragment<FragmentLoginBinding>(FragmentLogi
             }
         }
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun insertFireStore(user: User, userId: String) {
+        val documentRef = fireStoreDB.collection(fireStoreCollectionName).document(userId)
+
+        documentRef.get().addOnSuccessListener {
+            if (it.exists()) {
+                documentRef.set(user.toMap())
+            } else {
+                documentRef.set(user.toMap()).addOnSuccessListener {
+
+                }.addOnFailureListener {
+                    toastMessage("실패", activity as Activity)
+                }
+            }
+        }
     }
 
 

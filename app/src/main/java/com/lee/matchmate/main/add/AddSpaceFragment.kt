@@ -27,12 +27,16 @@ import com.google.firebase.storage.FirebaseStorage
 import com.jakewharton.rxbinding4.view.clicks
 import com.lee.matchmate.BuildConfig
 import com.lee.matchmate.R
+import com.lee.matchmate.common.AppGlobalContext
 import com.lee.matchmate.common.ViewBindingBaseFragment
 import com.lee.matchmate.common.toastMessage
 import com.lee.matchmate.databinding.FragmentAddSpaceBinding
 import com.lee.matchmate.main.FireSpace
+import com.lee.matchmate.main.MainViewModel
+import com.lee.matchmate.main.User
 import com.lee.matchmate.main.geocoder.GeocoderViewModel
 import com.lee.matchmate.main.geocoder.ReverseGeoEntity
+import com.lee.matchmate.main.geocoder.SpaceMarker
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineScope
@@ -46,10 +50,13 @@ class AddSpaceFragment :
     OnMapReadyCallback {
     private val viewModel: AddSpaceViewModel by activityViewModels()
     private val geoViewModel: GeocoderViewModel by viewModels()
+    private val mainViewModel: MainViewModel by viewModels()
 
     private val job = CoroutineScope(Dispatchers.IO)
     private val fireStoreDB = Firebase.firestore
     private val fireStoreCollectionName = "Space"
+    private val fireStoreLatLngCollectionName = "latlng"
+    private val fireStoreUserCollectionName = "user"
     private lateinit var mMap: GoogleMap
     private val spaceImageAdapter = AddSpaceImageAdapter()
 
@@ -93,7 +100,14 @@ class AddSpaceFragment :
             tbAdd.setOnMenuItemClickListener { item ->
                 if (item.itemId == R.id.menu_filter_check) {
                     fireSpace.value = slAddValue.value.toString()
+                    fireSpace.userId = AppGlobalContext.prefs.getString("userId", "").toString()
+
                     val latLng = mMap.cameraPosition.target
+                    val spaceMarker =
+                        SpaceMarker(latLng.latitude.toString(), latLng.longitude.toString())
+
+                    insertLatLngFireStore(spaceMarker)
+
                     val address = "${latLng.latitude},${latLng.longitude}"
 
                     geoViewModel.getReverseGeoCode(
@@ -107,12 +121,11 @@ class AddSpaceFragment :
                         geoViewModel.getReverseGeoEntityResponseLiveData().value
                     val action =
                         AddSpaceFragmentDirections.actionAddSpaceFragmentToMainFragment()
-                    geoViewModel.getReverseGeoEntityResponseLiveData()
-                        .observe(viewLifecycleOwner) { reverseGeoEntity ->
-                            fireSpace.location = reverseGeoEntity.results[0].formattedAddress
-                            insertFireStore(fireSpace)
-                            if (reverseGeoEntity != null) {
 
+                    geoViewModel.getReverseGeoEntityResponseLiveData().observe(viewLifecycleOwner) {
+                            fireSpace.location = it.results[0].formattedAddress
+                            insertFireStore(fireSpace)
+                            if (it != null) {
                                 findNavController().navigate(action)
                             } else {
                                 findNavController().navigate(action)
@@ -222,24 +235,36 @@ class AddSpaceFragment :
     private fun insertFireStore(fireSpace: FireSpace) {
         val documentRef = fireStoreDB.collection(fireStoreCollectionName)
         documentRef.add(fireSpace.toMap()).addOnSuccessListener {
+            val generatedId = it.id
+            insertUserIDFireStore(generatedId)
             toastMessage("값을 추가했습니다", activity as Activity)
         }.addOnFailureListener {
             toastMessage("실패", activity as Activity)
         }
     }
-    /*
-        suspend fun insertFireStore(fireSpace: FireSpace) {
-            withContext(Dispatchers.IO) {
-                val documentRef = fireStoreDB.collection(fireStoreCollectionName)
-                try {
-                    documentRef.add(fireSpace.toMap()).await()
-                    toastMessage("값을 추가했습니다", activity as Activity)
-                } catch (e: Exception) {
-                    toastMessage("실패", activity as Activity)
+
+    private fun insertLatLngFireStore(spaceMarker: SpaceMarker) {
+        val documentRef = fireStoreDB.collection(fireStoreLatLngCollectionName)
+        documentRef.add(spaceMarker.toMap()).addOnSuccessListener {
+            toastMessage("값을 추가했습니다", activity as Activity)
+        }.addOnFailureListener {
+            toastMessage("실패", activity as Activity)
+        }
+    }
+
+    private fun insertUserIDFireStore(spaceId : String) {
+        val documentRef = fireStoreDB.collection(fireStoreUserCollectionName).document(AppGlobalContext.prefs.getString("userId", "").toString())
+        documentRef.get().addOnSuccessListener {
+            val user = it.toObject(User::class.java)
+            if (it.exists()){
+                if (user != null) {
+                    user.spaceId.add(spaceId)
+                    documentRef.update(user.toMap())
                 }
+
             }
         }
-    */
+    }
 
 
     private fun uploadFireStorage(fromPath: String) {
@@ -254,23 +279,6 @@ class AddSpaceFragment :
             toastMessage("업로드 되었습니다", activity as Activity)
         }
     }
-
-    /*    suspend fun uploadFireStorage(fromPath: String) {
-            withContext(Dispatchers.IO) {
-                val fromUri = Uri.parse(fromPath)
-                val storageRef = FirebaseStorage.getInstance().reference
-                val uploadTask = storageRef.child("uploadImages/" + fromUri.lastPathSegment)
-                    .putStream(requireContext().contentResolver.openInputStream(fromUri)!!).await()
-
-                try {
-                    uploadTask.metadata?.reference?.downloadUrl?.addOnSuccessListener {
-                        toastMessage("업로드 되었습니다", activity as Activity)
-                    }
-                } catch (e: Exception) {
-                    // 실패 시 처리
-                }
-            }
-        }*/
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap

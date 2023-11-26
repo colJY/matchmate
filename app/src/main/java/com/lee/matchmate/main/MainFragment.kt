@@ -2,12 +2,10 @@ package com.lee.matchmate.main
 
 import android.location.Geocoder
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -15,20 +13,20 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.lee.matchmate.BuildConfig
 import com.lee.matchmate.R
 import com.lee.matchmate.common.ViewBindingBaseFragment
 import com.lee.matchmate.databinding.FragmentMainBinding
 import com.lee.matchmate.main.decoration.MainDecoration
 import com.lee.matchmate.main.geocoder.GeocoderViewModel
-import com.lee.matchmate.main.geocoder.ReverseGeoEntity
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class MainFragment : ViewBindingBaseFragment<FragmentMainBinding>(FragmentMainBinding::inflate),
     OnMapReadyCallback {
 
     private val viewModel: MainViewModel by viewModels()
-    private val geoViewModel : GeocoderViewModel by viewModels()
+    private val geoViewModel: GeocoderViewModel by viewModels()
     private lateinit var mMap: GoogleMap
     private var isMapReady = false
 
@@ -53,17 +51,30 @@ class MainFragment : ViewBindingBaseFragment<FragmentMainBinding>(FragmentMainBi
         val geocoder = Geocoder(requireContext())
 
 
-
-
-
-
-
         /**
          * Map fragment
          *
          */
         val mapFragment = childFragmentManager.findFragmentById(R.id.main_map) as SupportMapFragment
         mapFragment.getMapAsync(this@MainFragment)
+
+        viewModel.spaceMarker.observe(viewLifecycleOwner) {
+            if (isMapReady) {
+                mMap.clear()
+
+                it.forEach { spaceMarker ->
+                    if (spaceMarker != null) {
+                        if (spaceMarker.lat.isNotBlank() && spaceMarker.lng.isNotBlank()) {
+                            val latlng =
+                                LatLng(spaceMarker.lat.toDouble(), spaceMarker.lng.toDouble())
+                            mMap.addMarker(MarkerOptions().position(latlng))
+                        }
+                    }
+
+                }
+            }
+
+        }
 
 
         with(binding) {
@@ -120,7 +131,7 @@ class MainFragment : ViewBindingBaseFragment<FragmentMainBinding>(FragmentMainBi
             geoViewModel.getGeoCode(address, BuildConfig.MAPS_API_KEY)
         }
 
-        geoViewModel.getGeoEntityResponseLiveData().observe(viewLifecycleOwner){
+        geoViewModel.getGeoEntityResponseLiveData().observe(viewLifecycleOwner) {
             if (it != null && it.results.isNotEmpty()) {
                 val location = it.results[0].geometry.location
                 setLocation(location.lat, location.lng)
@@ -136,9 +147,9 @@ class MainFragment : ViewBindingBaseFragment<FragmentMainBinding>(FragmentMainBi
     }
 
     private fun setLocation(latitude: Double, longitude: Double) {
-        if(isMapReady){
+        if (isMapReady) {
             val latlng = LatLng(latitude, longitude)
-            val cameraPosition = CameraPosition.Builder().target(latlng).zoom(15.0f).build()
+            val cameraPosition = CameraPosition.Builder().target(latlng).zoom(13.0f).build()
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
         }
 
