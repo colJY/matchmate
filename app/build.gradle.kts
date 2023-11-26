@@ -6,8 +6,11 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     id("com.google.gms.google-services")
+
     id("kotlin-kapt")
 }
+
+
 
 android {
     namespace = "com.lee.matchmate"
@@ -18,7 +21,6 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 

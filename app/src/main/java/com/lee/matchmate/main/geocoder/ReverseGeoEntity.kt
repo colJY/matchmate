@@ -12,17 +12,3 @@ data class ReverseResult(
     val formattedAddress : String
 )
 
-/*
-data class ReverseResult(
-    @SerializedName("address_components")
-    val addressComponents : List<AddressComponents>
-)
-
-data class AddressComponents (
-    @SerializedName("long_name")
-    val longName : String,
-
-    @SerializedName("short_name")
-    val shortName : String,
-    )
-*/

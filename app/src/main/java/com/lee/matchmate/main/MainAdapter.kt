@@ -59,11 +59,12 @@ class MainAdapter(private val itemList: List<NewSpace>?) :
 
             glideImage?.downloadUrl?.addOnSuccessListener {
                 Glide.with(holder.itemView.context).load(it).into(holder.binding.ivItemSpace)
+
             }
 
 
             holder.binding.root.setOnClickListener {
-                val action = MainFragmentDirections.actionMainFragmentToDetailFragment()
+                val action = MainFragmentDirections.actionMainFragmentToDetailFragment(newSpace.id)
                 it.findNavController().navigate(action)
             }
 
