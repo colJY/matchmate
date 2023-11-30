@@ -44,7 +44,11 @@
         android:id="@+id/favorite_fragment"
         android:name="com.lee.matchmate.favorite.FavoriteFragment"
         android:label="fragment_favorite"
-        tools:layout="@layout/fragment_favorite" />
+        tools:layout="@layout/fragment_favorite" >
+        <action
+            android:id="@+id/action_favorite_fragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/setting_fragment"
         android:name="com.lee.matchmate.setting.SettingFragment"
