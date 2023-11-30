@@ -10,9 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.google.firebase.storage.FirebaseStorage
+import com.lee.matchmate.R
 import com.lee.matchmate.databinding.ItemMainSpaceBinding
 
-class MainAdapter(private val itemList: List<NewSpace>?) :
+class MainAdapter(private val itemList: List<NewSpace>?, private val viewModel: MainViewModel) :
     ListAdapter<NewSpace, MainAdapter.ViewHolder>(DiffCallback) {
     object DiffCallback : DiffUtil.ItemCallback<NewSpace>() {
         override fun areItemsTheSame(oldItem: NewSpace, newItem: NewSpace): Boolean {
@@ -42,13 +43,18 @@ class MainAdapter(private val itemList: List<NewSpace>?) :
             )
         }
 
-
         if (newSpace != null) {
-            holder.binding.tvItemName.text = "이름"
+            holder.binding.tvItemName.text = newSpace.space.title
             holder.binding.tvItemValue.text = newSpace.space.value
             holder.binding.tvItemLocation.text = newSpace.space.location
 
+            holder.binding.btnItemFavorite.setIconResource(
+                if (newSpace.space.fav) R.drawable.baseline_favorite_24
+                else R.drawable.baseline_favorite_border_24
+            )
+
             if(newSpace.space.cond.isNotEmpty()){
+                holder.binding.cgItemCond.removeAllViews()
                 newSpace.space.cond.trim().split(",").forEach {
                     holder.binding.cgItemCond.addView(Chip(holder.itemView.context).apply {
                         text = it
@@ -56,6 +62,16 @@ class MainAdapter(private val itemList: List<NewSpace>?) :
                 }
             }
 
+            holder.binding.btnItemFavorite.setOnClickListener {
+                viewModel.toggleFavState(newSpace) { isSuccess ->
+                    if (isSuccess) {
+                        holder.binding.btnItemFavorite.setIconResource(
+                            if (newSpace.space.fav) R.drawable.baseline_favorite_24
+                            else R.drawable.baseline_favorite_border_24
+                        )
+                    }
+                }
+            }
 
             glideImage?.downloadUrl?.addOnSuccessListener {
                 Glide.with(holder.itemView.context).load(it).into(holder.binding.ivItemSpace)

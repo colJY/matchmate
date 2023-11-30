@@ -48,8 +48,8 @@ class MainRepository {
 
     }
 
-    fun getMarkerData(){
-        CoroutineScope(Dispatchers.IO).launch{
+    fun getMarkerData() {
+        CoroutineScope(Dispatchers.IO).launch {
             documentMarkerRef.addSnapshotListener { snapshot, e ->
                 if (e != null) {
                     return@addSnapshotListener
@@ -70,7 +70,17 @@ class MainRepository {
     }
 
 
-
+    fun toggleFavState(newSpace: NewSpace, onComplete: (Boolean) -> Unit) {
+        newSpace.space.fav = !newSpace.space.fav
+        val docRef = fireStoreDB.collection(fireStoreCollectionName).document(newSpace.id)
+        docRef.update("fav", newSpace.space.fav)
+            .addOnSuccessListener {
+                onComplete(true)
+            }
+            .addOnFailureListener { e ->
+                onComplete(false)
+            }
+    }
 
 
 }

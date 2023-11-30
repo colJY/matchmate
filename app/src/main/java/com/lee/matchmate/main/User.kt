@@ -7,6 +7,7 @@ data class User(
     var profileImage : String = "",
     var spaceId : MutableList<String> = mutableListOf(),
     var userId : String = "",
+    var chatId : MutableList<String> = mutableListOf(),
 ) {
     @Exclude
     fun toMap() : Map<String, Any>{
@@ -15,6 +16,7 @@ data class User(
             "profileImage" to profileImage,
             "spaceId" to spaceId,
             "userId" to userId,
+            "chatId" to chatId,
         )
     }
 }

@@ -11,7 +11,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.lee.matchmate.databinding.ItemDetailImageBinding
 
 class DetailViewPagerAdapter() :
-    ListAdapter<String, DetailViewPagerAdapter.ViewHolder>(DetailViewPagerAdapter.DiffCallback) {
+    ListAdapter<String, DetailViewPagerAdapter.ViewHolder>(DiffCallback) {
     object DiffCallback : DiffUtil.ItemCallback<String>() {
         override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
             return oldItem === newItem
@@ -44,8 +44,7 @@ class DetailViewPagerAdapter() :
                 .load(uri)
                 .into(holder.binding.ivItemDetailImage)
         }.addOnFailureListener {
-            // 실패한 경우에 대한 처리를 추가합니다.
-            Log.e("DetailViewPagerAdapter", it.toString())
+
         }
     }
 }

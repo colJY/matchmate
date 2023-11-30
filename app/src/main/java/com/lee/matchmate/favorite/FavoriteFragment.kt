@@ -1,32 +1,31 @@
 package com.lee.matchmate.favorite
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import com.lee.matchmate.R
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.lee.matchmate.common.AppGlobalContext
+import com.lee.matchmate.common.ViewBindingBaseFragment
+import com.lee.matchmate.databinding.FragmentFavoriteBinding
+import com.lee.matchmate.main.MainViewModel
 
-class FavoriteFragment : Fragment() {
+class FavoriteFragment : ViewBindingBaseFragment<FragmentFavoriteBinding>(FragmentFavoriteBinding::inflate) {
 
     companion object {
         fun newInstance() = FavoriteFragment()
     }
 
-    private lateinit var viewModel: FavoriteViewModel
+    private val viewModel: MainViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_favorite, container, false)
-    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val currentId = AppGlobalContext.prefs.getString("userId", "").toString()
+        /*val favoriteAdapter = FavoriteAdapter(viewModel)
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
-        // TODO: Use the ViewModel
+        binding.rvChat.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = favoriteAdapter
+        }*/
     }
 
 }

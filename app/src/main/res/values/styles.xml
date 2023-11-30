@@ -31,4 +31,20 @@
         <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
+    <style name="chatNickName" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">11sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
+    </style>
+
+    <style name="chatMessage" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
+    </style>
+
+    <style name="chatTimestamp" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">8sp</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
+    </style>
+
 </resources>

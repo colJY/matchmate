@@ -14,6 +14,9 @@ class MainViewModel : ViewModel() {
     val selectedCity = MutableLiveData<String>()
     val selectedDistrict = MutableLiveData<String>()
 
+    fun toggleFavState(newSpace: NewSpace, onComplete: (Boolean) -> Unit) {
+        repository.toggleFavState(newSpace, onComplete)
+    }
 
 
     init {

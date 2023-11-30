@@ -13,4 +13,9 @@ class DetailViewModel : ViewModel() {
     fun setDetail(documentId: String) {
         repository.getSpaceDetail(documentId)
     }
+
+
+    fun addChatIdToUser(chatRoomId: String, userId: String) {
+        repository.addChatIdToUser(chatRoomId, userId)
+    }
 }
