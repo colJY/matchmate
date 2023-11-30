@@ -86,7 +86,9 @@ class DetailFragment :
                 vpDetail.setPageTransformer(ZoomOutPageTransformer())
                 vpDetail.offscreenPageLimit = 1
 
+
                 if (it != null) {
+                    tbDetail.title = it.title
                     tvDetailLocationUser.text = it.location
                     tvDetailValueUser.text = it.value
                     cgDetailCond.removeAllViews()
