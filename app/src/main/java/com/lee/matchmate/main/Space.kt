@@ -13,6 +13,8 @@ data class FireSpace(
     var value: String = "",
     var type : String = "",
     var userId : String = "",
+    var title : String = "제목 없음",
+    var fav : Boolean = false,
 ) {
     @Exclude
     fun toMap(): Map<String, Any> {
@@ -24,9 +26,9 @@ data class FireSpace(
             "value" to value,
             "type" to type,
             "userId" to userId,
+            "title" to title,
+            "fav" to fav,
         )
     }
 }
-
-data class Space(val name: String, val value: String, val location: String)
 

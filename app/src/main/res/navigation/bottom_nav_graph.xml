@@ -35,7 +35,11 @@
         android:id="@+id/chat_fragment"
         android:name="com.lee.matchmate.chat.ChatFragment"
         android:label="fragment_chat"
-        tools:layout="@layout/fragment_chat" />
+        tools:layout="@layout/fragment_chat" >
+        <action
+            android:id="@+id/action_chat_fragment_to_chatDetailFragment"
+            app:destination="@id/chatDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favorite_fragment"
         android:name="com.lee.matchmate.favorite.FavoriteFragment"
@@ -59,6 +63,9 @@
         <argument
             android:name="documentID"
             app:argType="string"/>
+        <action
+            android:id="@+id/action_detailFragment_to_chatDetailFragment"
+            app:destination="@id/chatDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/addSpaceFragment"
@@ -85,5 +92,14 @@
             app:popUpToInclusive="true"
             android:id="@+id/action_chipSelectFragment_to_addSpaceFragment"
             app:destination="@id/addSpaceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatDetailFragment"
+        android:name="com.lee.matchmate.chat.detail.ChatDetailFragment"
+        android:label="fragment_chat_detail"
+        tools:layout="@layout/fragment_chat_detail" >
+        <argument
+            android:name="documentID"
+            app:argType="string"/>
     </fragment>
 </navigation>

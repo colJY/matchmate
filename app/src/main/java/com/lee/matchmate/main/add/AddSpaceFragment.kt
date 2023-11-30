@@ -100,7 +100,9 @@ class AddSpaceFragment :
             tbAdd.setOnMenuItemClickListener { item ->
                 if (item.itemId == R.id.menu_filter_check) {
                     fireSpace.value = slAddValue.value.toString()
+                    fireSpace.title = edAdd.text.toString()
                     fireSpace.userId = AppGlobalContext.prefs.getString("userId", "").toString()
+
 
                     val latLng = mMap.cameraPosition.target
                     val spaceMarker =
@@ -116,6 +118,9 @@ class AddSpaceFragment :
                     )
 
                     uploadFireStorage(viewModel.pImageData.value.toString())
+                    viewModel.aImageData.value?.forEach { uri ->
+                        uploadFireStorage(uri.toString())
+                    }
 
                     val reverseGeoEntity: ReverseGeoEntity? =
                         geoViewModel.getReverseGeoEntityResponseLiveData().value
@@ -275,6 +280,7 @@ class AddSpaceFragment :
 
         uploadTask.addOnFailureListener {
             // 실패 시 처리
+            it.printStackTrace()
         }.addOnSuccessListener {
             toastMessage("업로드 되었습니다", activity as Activity)
         }

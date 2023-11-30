@@ -2,8 +2,10 @@ package com.lee.matchmate.main.detail
 
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.Firebase
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.firestore
 import com.lee.matchmate.main.FireSpace
+import com.lee.matchmate.main.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -12,6 +14,9 @@ class DetailRepository {
     private val fireStoreDB = Firebase.firestore
     private val fireStoreCollectionName = "Space"
     private val documentRef = fireStoreDB.collection(fireStoreCollectionName)
+
+    private val fireStoreCollectionChat = "user"
+    private val documentChatRef = fireStoreDB.collection(fireStoreCollectionChat)
 
     val detailSpaceData = MutableLiveData<FireSpace?>()
 
@@ -31,5 +36,11 @@ class DetailRepository {
 
             }
         }
+    }
+
+    fun addChatIdToUser(chatRoomId: String, userId: String) {
+        val userRef = documentChatRef.document(userId)
+        userRef.update("chatId", FieldValue.arrayUnion(chatRoomId))
+
     }
 }

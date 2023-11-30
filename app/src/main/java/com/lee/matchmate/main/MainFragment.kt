@@ -58,6 +58,7 @@ class MainFragment : ViewBindingBaseFragment<FragmentMainBinding>(FragmentMainBi
         val mapFragment = childFragmentManager.findFragmentById(R.id.main_map) as SupportMapFragment
         mapFragment.getMapAsync(this@MainFragment)
 
+
         viewModel.spaceMarker.observe(viewLifecycleOwner) {
             if (isMapReady) {
                 mMap.clear()
@@ -79,7 +80,7 @@ class MainFragment : ViewBindingBaseFragment<FragmentMainBinding>(FragmentMainBi
 
         with(binding) {
             tvCityDropdown.setAdapter(cityArrayAdapter)
-            val adapter = MainAdapter(viewModel.spaceData.value)
+            val adapter = MainAdapter(viewModel.spaceData.value,viewModel)
             rvMainSpace.adapter = adapter
             rvMainSpace.layoutManager = LinearLayoutManager(context)
             rvMainSpace.addItemDecoration(MainDecoration(0, R.color.lightGrey, 20))
