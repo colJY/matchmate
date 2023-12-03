@@ -2,9 +2,12 @@ package com.lee.matchmate.main
 
 import android.location.Geocoder
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -14,18 +17,23 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.tasks.Task
+import com.google.android.material.chip.Chip
+import com.google.firebase.messaging.FirebaseMessaging
 import com.lee.matchmate.BuildConfig
 import com.lee.matchmate.R
+import com.lee.matchmate.chat.fcm.TAG
 import com.lee.matchmate.common.ViewBindingBaseFragment
 import com.lee.matchmate.databinding.FragmentMainBinding
 import com.lee.matchmate.main.decoration.MainDecoration
 import com.lee.matchmate.main.geocoder.GeocoderViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.launch
 
 class MainFragment : ViewBindingBaseFragment<FragmentMainBinding>(FragmentMainBinding::inflate),
     OnMapReadyCallback {
 
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by activityViewModels()
     private val geoViewModel: GeocoderViewModel by viewModels()
     private lateinit var mMap: GoogleMap
     private var isMapReady = false
@@ -48,7 +56,19 @@ class MainFragment : ViewBindingBaseFragment<FragmentMainBinding>(FragmentMainBi
         val districtArrayAdapter =
             ArrayAdapter(requireContext(), R.layout.dropdown_district_item, districtArray)
 
-        val geocoder = Geocoder(requireContext())
+
+        //val geocoder = Geocoder(requireContext())
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task: Task<String> ->
+            if (!task.isSuccessful) {
+                Log.e(TAG, "Fetching FCM registration token failed", task.exception)
+
+            }
+            val fcmToken = task.result
+            Log.e(TAG, fcmToken)
+
+
+        }
 
 
         /**
@@ -77,19 +97,54 @@ class MainFragment : ViewBindingBaseFragment<FragmentMainBinding>(FragmentMainBi
 
         }
 
+        viewModel.selectedMaxValue.observe(viewLifecycleOwner){
+            Log.e("asd1111",it)
+        }
+
 
         with(binding) {
             tvCityDropdown.setAdapter(cityArrayAdapter)
-            val adapter = MainAdapter(viewModel.spaceData.value,viewModel)
+            val adapter = MainAdapter(viewModel)
+//            val adapter = MainAdapter(viewModel.spaceData.value,viewModel)
             rvMainSpace.adapter = adapter
             rvMainSpace.layoutManager = LinearLayoutManager(context)
             rvMainSpace.addItemDecoration(MainDecoration(0, R.color.lightGrey, 20))
 
+
+            viewModel.filteredData.observe(viewLifecycleOwner) { filteredList ->
+                adapter.submitList(filteredList)
+                Log.d("MainFragment", "FilteredData observed: $filteredList")
+                binding.cgMain.removeAllViews()
+                viewModel.selectedCondList.value?.forEach { condText ->
+
+                    val chip = Chip(context).apply {
+                        text = condText
+                        isCloseIconVisible = true
+                    }
+                    chip.setOnCloseIconClickListener {
+
+                        val chipText = chip.text.toString()
+
+                        val newList = viewModel.selectedCondList.value?.toMutableList()
+                        newList?.remove(chipText)
+
+                        viewModel.selectedCondList.postValue(newList)
+                        viewModel.filterData()
+                    }
+                    binding.cgMain.addView(chip)
+                }
+
+            }
+
+
+
             viewModel.spaceData.observe(viewLifecycleOwner) {
                 it.let {
-                    adapter.submitList(it)
+                    viewModel.filterData()
                 }
             }
+
+
 
             tbMain.setOnMenuItemClickListener { item ->
                 if (item.itemId == R.id.menu_main_space) {

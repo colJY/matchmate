@@ -8,6 +8,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
+import com.lee.matchmate.chat.fcm.FCMViewModel
+import com.lee.matchmate.chat.fcm.NotificationBody
+import com.lee.matchmate.chat.fcm.NotificationData
 import com.lee.matchmate.common.AppGlobalContext
 import com.lee.matchmate.common.ViewBindingBaseFragment
 import com.lee.matchmate.common.toastMessage
@@ -20,11 +23,14 @@ class ChatDetailFragment : ViewBindingBaseFragment<FragmentChatDetailBinding>(Fr
     }
 
     private val viewModel: ChatDetailViewModel by viewModels()
+    private val fcmViewModel: FCMViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val currentId  = AppGlobalContext.prefs.getString("userId", "").toString()
         val roomId = args.documentID
+        val otherUserId = roomId.replace(currentId, "").replace("_", "")
+
 
 
         val adapter = ChatDetailAdapter(viewModel)
@@ -62,7 +68,23 @@ class ChatDetailFragment : ViewBindingBaseFragment<FragmentChatDetailBinding>(Fr
                     viewModel.insertChatToFireStore(Chat(roomId, roomData.selectedCondList, updatedChatMessageList), roomId)
                 }
                 binding.edChatDetail.text?.clear()
+
+                viewModel.getUserInfo(otherUserId) { user ->
+
+                    if (user != null) {
+                        val notificationBody = NotificationBody(
+                            to = user.fcmToken,
+                            data = NotificationData(
+                                title = "New message",
+                                message = messageText
+                            )
+                        )
+                        fcmViewModel.sendPushNotification(notificationBody)
+                    }
+                }
             }
+
+
         }
 
     }

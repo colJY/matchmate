@@ -1,16 +1,27 @@
 package com.lee.matchmate.login
 
+import android.Manifest
 import android.app.Activity
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.ktx.messaging
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.normal.TedPermission
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.user.UserApiClient
+import com.lee.matchmate.chat.fcm.TAG
 import com.lee.matchmate.common.AppGlobalContext
 import com.lee.matchmate.common.ViewBindingBaseFragment
 import com.lee.matchmate.common.toastMessage
@@ -31,19 +42,10 @@ class LoginFragment : ViewBindingBaseFragment<FragmentLoginBinding>(FragmentLogi
 
         /*        val keyHash = Utility.getKeyHash(requireContext())
                 Log.e("Hash",keyHash)*/
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) alertNotificationPermission()
 
         val user = User()
 
-        UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
-            if (error != null) {
-
-            } else if (tokenInfo != null) {
-
-                val action = LoginFragmentDirections.actionLoginFragmentToMainFragment()
-                findNavController().navigate(action)
-            }
-        }
 
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
             //token 값 받아서 preference에 저장
@@ -94,9 +96,16 @@ class LoginFragment : ViewBindingBaseFragment<FragmentLoginBinding>(FragmentLogi
                             user.userName = userInfo.kakaoAccount?.profile?.nickname.toString()
                             user.profileImage =
                                 userInfo.kakaoAccount?.profile?.profileImageUrl.toString()
+
+                            Firebase.messaging.token.addOnSuccessListener {
+                                user.fcmToken = it
+                            }
+
                             insertFireStore(user, userInfo.id.toString())
                             AppGlobalContext.prefs.edit()
                                 .putString("userId", userInfo.id.toString()).apply()
+                            AppGlobalContext.prefs.edit()
+                                .putBoolean("IS_LOGGED_IN", true).apply()
                             toastMessage(
                                 "환영합니다 ${userInfo.kakaoAccount?.profile?.nickname} 님",
                                 activity as Activity
@@ -129,7 +138,7 @@ class LoginFragment : ViewBindingBaseFragment<FragmentLoginBinding>(FragmentLogi
 
         documentRef.get().addOnSuccessListener {
             if (it.exists()) {
-                documentRef.set(user.toMap())
+                documentRef.update(user.toMap())
             } else {
                 documentRef.set(user.toMap()).addOnSuccessListener {
 
@@ -140,6 +149,34 @@ class LoginFragment : ViewBindingBaseFragment<FragmentLoginBinding>(FragmentLogi
         }
     }
 
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            toastMessage("권한이 허용되었습니다.", activity as Activity)
+        } else {
+
+
+        }
+    }
+    private fun alertNotificationPermission() {
+        // API level >= 33 (TIRAMISU)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                toastMessage("권한이 허용되었습니다.", activity as Activity)
+                //퍼미션 허락시 진행할 코드
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                toastMessage("권한이 허용되었습니다.", activity as Activity)
+            } else {
+                // 직접 퍼미션 요청
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
 
 }
 

@@ -13,7 +13,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.lee.matchmate.R
 import com.lee.matchmate.databinding.ItemMainSpaceBinding
 
-class MainAdapter(private val itemList: List<NewSpace>?, private val viewModel: MainViewModel) :
+class MainAdapter(private val viewModel: MainViewModel) :
     ListAdapter<NewSpace, MainAdapter.ViewHolder>(DiffCallback) {
     object DiffCallback : DiffUtil.ItemCallback<NewSpace>() {
         override fun areItemsTheSame(oldItem: NewSpace, newItem: NewSpace): Boolean {

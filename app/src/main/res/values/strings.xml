@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MatchMate</string>
+    <string name="app_name">매치메이트</string>
 
     <string name="bottom_nav_main">Main</string>
     <string name="bottom_nav_login">Login</string>

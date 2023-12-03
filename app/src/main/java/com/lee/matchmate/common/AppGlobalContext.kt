@@ -18,6 +18,8 @@ class AppGlobalContext : Application() {
     companion object {
         private  var appContext: AppGlobalContext? = null
         lateinit var prefs : SharedPreferences
+
+
         fun getAppContext() : AppGlobalContext{
             return  appContext  ?: run { return AppGlobalContext() }
         }

@@ -220,12 +220,27 @@
                     app:strokeColor="@color/white"
                     app:strokeWidth="2dp" />
 
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/cg_main"
-                    android:layout_width="wrap_content"
+
+                <HorizontalScrollView
+                    android:id="@+id/sv_main"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/btn_main_filter"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                    app:layout_constraintStart_toStartOf="@id/gl_sub_main_start"
+                    app:layout_constraintEnd_toStartOf="@id/btn_main_filter"
+                    app:layout_constraintTop_toTopOf="@id/btn_main_filter"
+                    app:layout_constraintBottom_toBottomOf="@id/btn_main_filter">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/cg_main"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:chipSpacing="8dp">
+
+
+                    </com.google.android.material.chip.ChipGroup>
+
+                </HorizontalScrollView>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_main_space"
@@ -234,7 +249,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/gl_sub_main_end"
                     app:layout_constraintStart_toStartOf="@id/gl_sub_main_start"
-                    app:layout_constraintTop_toBottomOf="@id/cg_main" />
+                    app:layout_constraintTop_toBottomOf="@id/btn_main_filter" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
