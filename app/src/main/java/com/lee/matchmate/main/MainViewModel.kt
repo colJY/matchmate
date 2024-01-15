@@ -1,20 +1,16 @@
 package com.lee.matchmate.main
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.lee.matchmate.main.geocoder.SpaceMarker
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
-    private val repository : MainRepository = MainRepository()
+    private val repository: MainRepository = MainRepository()
 
-    val spaceData : LiveData<List<NewSpace>> = repository.spaceData
-    val spaceMarker : LiveData<List<SpaceMarker>> = repository.spaceMarker
+    val spaceData: LiveData<List<NewSpace>> = repository.spaceData
+    val spaceMarker: LiveData<List<SpaceMarker>> = repository.spaceMarker
 
     val selectedCity = MutableLiveData<String>()
     val selectedDistrict = MutableLiveData<String>()
@@ -26,7 +22,7 @@ class MainViewModel : ViewModel() {
 
     val filteredData = MutableLiveData<List<NewSpace>?>()
 
-
+    var isSuccess: MutableStateFlow<Boolean> = MutableStateFlow(true)
 
     fun filterData() {
         val minValue = selectedMinValue.value?.toFloatOrNull() ?: 0f
@@ -36,13 +32,15 @@ class MainViewModel : ViewModel() {
         } ?: 200f
 
         val type = selectedType.value
-
         val cond = selectedCondList.value
+        val district = selectedDistrict.value
 
         val filteredList = spaceData.value?.filter {
             (type.isNullOrEmpty() || it.space.type == type) &&
                     it.space.value.toFloat() in minValue..maxValue &&
-                    (cond.isNullOrEmpty() || cond.any { condItem -> it.space.cond.contains(condItem) })
+                    (cond.isNullOrEmpty() || cond.any { condItem -> it.space.cond.contains(condItem) }) &&
+                    (district.isNullOrEmpty() || it.space.location.contains(district))
+
         }
 
         if (filteredList != null) {
@@ -54,15 +52,14 @@ class MainViewModel : ViewModel() {
     }
 
 
-
-    fun toggleFavState(newSpace: NewSpace, onComplete: (Boolean) -> Unit) {
-        repository.toggleFavState(newSpace, onComplete)
+    fun toggleFavState(currentId: String, newSpace: NewSpace, onComplete: (Boolean) -> Unit) {
+        repository.toggleFavState(currentId, newSpace, onComplete)
     }
 
 
     init {
         repository.getSpaceData()
         repository.getMarkerData()
-//        filteredData.postValue(spaceData.value)
     }
 }
+

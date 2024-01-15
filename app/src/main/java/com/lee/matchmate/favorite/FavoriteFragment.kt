@@ -1,15 +1,16 @@
 package com.lee.matchmate.favorite
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lee.matchmate.common.AppGlobalContext
+import com.lee.matchmate.common.Constants
 import com.lee.matchmate.common.ViewBindingBaseFragment
 import com.lee.matchmate.databinding.FragmentFavoriteBinding
 
-class FavoriteFragment : ViewBindingBaseFragment<FragmentFavoriteBinding>(FragmentFavoriteBinding::inflate) {
+class FavoriteFragment :
+    ViewBindingBaseFragment<FragmentFavoriteBinding>(FragmentFavoriteBinding::inflate) {
 
     companion object {
         fun newInstance() = FavoriteFragment()
@@ -19,7 +20,8 @@ class FavoriteFragment : ViewBindingBaseFragment<FragmentFavoriteBinding>(Fragme
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val currentId = AppGlobalContext.prefs.getString("userId", "").toString()
+        val currentId =
+            AppGlobalContext.prefs.getString(Constants.USER_ID, Constants.BLANK).toString()
         val favoriteAdapter = FavoriteAdapter(viewModel)
 
         binding.rvFav.apply {
@@ -27,11 +29,9 @@ class FavoriteFragment : ViewBindingBaseFragment<FragmentFavoriteBinding>(Fragme
             adapter = favoriteAdapter
         }
 
-        viewModel.getFavoriteSpace(currentId){
-            Log.e("favFragment",currentId)
+        viewModel.getFavoriteSpace(currentId) {
             favoriteAdapter.submitList(it)
         }
-
 
     }
 

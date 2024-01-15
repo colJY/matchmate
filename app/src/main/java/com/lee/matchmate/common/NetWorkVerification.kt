@@ -1,12 +1,14 @@
 package com.lee.matchmate.common
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 
 class NetWorkVerification {
-    companion object  {
+    companion object {
+        @SuppressLint("ObsoleteSdkInt")
         fun isNetworkAvailable(context: Context): Boolean { // singleTon으로 구현
             val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

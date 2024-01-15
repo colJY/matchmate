@@ -8,6 +8,7 @@ plugins {
     id("com.google.gms.google-services")
 
     id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 
@@ -53,6 +54,9 @@ fun getApiKey(propertyKey : String) : String {
 }
 
 dependencies {
+
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
 
     implementation ("androidx.navigation:navigation-fragment-ktx:2.7.4")
     implementation ("androidx.navigation:navigation-ui-ktx:2.7.4")
@@ -103,3 +107,8 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
+
+kapt {
+    correctErrorTypes = true
+}
+

@@ -9,7 +9,7 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tb_filter"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/zero_dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +33,7 @@
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/gl_filter_start"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="@dimen/zero_dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +44,7 @@
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/gl_filter_end"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="@dimen/zero_dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -59,7 +59,7 @@
                 app:layout_constraintStart_toStartOf="@id/gl_filter_start"
                 app:layout_constraintTop_toTopOf="parent"
                 style="@style/subTitle"
-                android:text="방유형"/>
+                android:text="@string/filter_space"/>
 
             <com.google.android.material.button.MaterialButtonToggleGroup
                 app:singleSelection="true"
@@ -76,7 +76,7 @@
                     style="?attr/materialButtonOutlinedStyle"
                     app:icon="@drawable/baseline_check_24"
                     app:iconPadding="@dimen/tiny_margin"
-                    android:text="아파트"
+                    android:text="@string/apartment"
                     android:textAppearance="@style/filter"
                     app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MatchMate.Button.Rounded"
                     android:layout_width="wrap_content"
@@ -85,7 +85,7 @@
                 <com.google.android.material.button.MaterialButton
                     app:icon="@drawable/baseline_check_24"
                     app:iconPadding="@dimen/tiny_margin"
-                    android:text="오피스텔"
+                    android:text="@string/office"
                     android:textAppearance="@style/filter"
                     android:id="@+id/btn_filter_space_mid"
                     style="?attr/materialButtonOutlinedStyle"
@@ -95,7 +95,7 @@
                 <com.google.android.material.button.MaterialButton
                     app:icon="@drawable/baseline_check_24"
                     app:iconPadding="@dimen/tiny_margin"
-                    android:text="빌라"
+                    android:text="@string/villa"
                     android:textAppearance="@style/filter"
                     android:id="@+id/btn_filter_space_right"
                     style="?attr/materialButtonOutlinedStyle"
@@ -111,7 +111,7 @@
                 style="@style/filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="선택하지 않으면 기타로 설정 됩니다"
+                android:text="@string/none_select"
                 app:layout_constraintTop_toBottomOf="@id/tg_filter"
                 app:layout_constraintEnd_toEndOf="@id/gl_filter_end"/>
 
@@ -123,7 +123,7 @@
                 app:layout_constraintStart_toStartOf="@id/gl_filter_start"
                 app:layout_constraintTop_toBottomOf="@id/rb_filter_etc"
                 style="@style/subTitle"
-                android:text="금액"/>
+                android:text="@string/value"/>
             <com.google.android.material.textview.MaterialTextView
                 android:layout_marginTop="@dimen/tiny_margin"
                 android:id="@+id/tv_filter_space_min_value"
@@ -132,7 +132,7 @@
                 app:layout_constraintStart_toStartOf="@id/gl_filter_start"
                 app:layout_constraintTop_toBottomOf="@id/tv_filter_space_value"
                 style="@style/body"
-                android:text="최소금액"/>
+                android:text="@string/min_value"/>
             <com.google.android.material.slider.Slider
                 android:id="@+id/sl_filter_space_min_value"
                 android:valueFrom="0"
@@ -152,7 +152,7 @@
                 app:layout_constraintStart_toStartOf="@id/gl_filter_start"
                 app:layout_constraintTop_toBottomOf="@id/sl_filter_space_min_value"
                 style="@style/body"
-                android:text="최대금액"/>
+                android:text="@string/max_value"/>
             <com.google.android.material.slider.Slider
                 android:id="@+id/sl_filter_space_max_value"
                 android:valueFrom="0"
@@ -166,13 +166,78 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_marginTop="@dimen/medium_margin"
-                android:id="@+id/tv_filter_space_conditions"
+                android:id="@+id/tv_filter_space_select"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="@id/gl_filter_start"
                 app:layout_constraintTop_toBottomOf="@id/sl_filter_space_max_value"
                 style="@style/subTitle"
-                android:text="검색 조건"/>
+                android:text="@string/space_select"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tl_filter_city_dropdown"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:boxBackgroundColor="@color/white"
+                app:boxBackgroundMode="outline"
+                app:boxCornerRadiusBottomEnd="16dp"
+                app:boxCornerRadiusBottomStart="16dp"
+                app:boxCornerRadiusTopEnd="16dp"
+                app:boxCornerRadiusTopStart="16dp"
+                app:boxStrokeColor="@color/accentColor"
+                app:layout_constraintEnd_toStartOf="@+id/tl_filter_district_dropdown"
+                app:layout_constraintStart_toStartOf="@id/gl_filter_start"
+                app:layout_constraintTop_toBottomOf="@id/tv_filter_space_select">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/tv_city_dropdown"
+                    style="@style/dropdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/dropdown_city"
+                    android:inputType="none"
+                    app:dropDownBackgroundTint="@color/white" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tl_filter_district_dropdown"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/tiny_margin"
+                android:enabled="false"
+                app:boxBackgroundColor="@color/white"
+                app:boxBackgroundMode="outline"
+                app:boxCornerRadiusBottomEnd="16dp"
+                app:boxCornerRadiusBottomStart="16dp"
+                app:boxCornerRadiusTopEnd="16dp"
+                app:boxCornerRadiusTopStart="16dp"
+                app:boxStrokeColor="@color/accentColor"
+                app:layout_constraintEnd_toStartOf="@+id/gl_filter_end"
+                app:layout_constraintStart_toEndOf="@+id/tl_filter_city_dropdown"
+                app:layout_constraintTop_toBottomOf="@id/tv_filter_space_select">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/tv_filter_district_dropdown"
+                    style="@style/dropdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:dropDownHeight="200dp"
+                    android:hint="@string/dropdown_district"
+                    android:inputType="none"
+                    app:dropDownBackgroundTint="@color/white" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_marginTop="@dimen/medium_margin"
+                android:id="@+id/tv_filter_space_conditions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/gl_filter_start"
+                app:layout_constraintTop_toBottomOf="@id/tl_filter_city_dropdown"
+                style="@style/subTitle"
+                android:text="@string/search_list"/>
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/cg_filter"

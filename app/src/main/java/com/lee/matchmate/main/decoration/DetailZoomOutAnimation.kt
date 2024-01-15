@@ -3,11 +3,8 @@ package com.lee.matchmate.main.decoration
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2
 import com.lee.matchmate.R
+import com.lee.matchmate.common.Constants
 import kotlin.math.abs
-
-private const val  MIN_SCALE = 0.85f
-private const val MIN_ALPHA = 0.5f
-
 
 class ZoomOutPageTransformer : ViewPager2.PageTransformer {
     override fun transformPage(view: View, position: Float) {
@@ -26,7 +23,7 @@ class ZoomOutPageTransformer : ViewPager2.PageTransformer {
                 }
 
                 position <= 1 -> {
-                    val scaleFactor = Math.max(MIN_SCALE, 1 - abs(position))
+                    val scaleFactor = Math.max(Constants.MIN_SCALE, 1 - abs(position))
                     val vertMargin = pageHeight * (1 - scaleFactor) / 2
                     val horzMargin = pageWidth * (1 - scaleFactor) / 2
                     val translationXValue = if (position < 0) {
@@ -40,8 +37,8 @@ class ZoomOutPageTransformer : ViewPager2.PageTransformer {
                     scaleX = scaleFactor
                     scaleY = scaleFactor
 
-                    alpha = (MIN_ALPHA +
-                            (((scaleFactor - MIN_SCALE) / (1 - MIN_SCALE)) * (1 - MIN_ALPHA)))
+                    alpha = (Constants.MIN_ALPHA +
+                            (((scaleFactor - Constants.MIN_SCALE) / (1 - Constants.MIN_SCALE)) * (1 - Constants.MIN_ALPHA)))
                 }
 
                 else -> {

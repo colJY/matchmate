@@ -3,6 +3,7 @@ package com.lee.matchmate.main
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
+import com.lee.matchmate.common.Constants
 import com.lee.matchmate.main.geocoder.SpaceMarker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -11,10 +12,10 @@ import kotlinx.coroutines.launch
 class MainRepository {
 
     private val fireStoreDB = Firebase.firestore
-    private val fireStoreCollectionName = "Space"
+    private val fireStoreCollectionName = Constants.FIRESTORE_COLLECTION_NAME
     private val documentRef = fireStoreDB.collection(fireStoreCollectionName)
 
-    private val fireStoreMarkerCollectionName = "latlng"
+    private val fireStoreMarkerCollectionName = Constants.LATLNG_COLLECTION_NAME
     private val documentMarkerRef = fireStoreDB.collection(fireStoreMarkerCollectionName)
 
     val spaceData = MutableLiveData<List<NewSpace>>()
@@ -40,8 +41,6 @@ class MainRepository {
                     }
                     spaceData.postValue(newSpaceList.toList())
 
-                } else {
-
                 }
             }
         }
@@ -62,18 +61,20 @@ class MainRepository {
                     }
                     spaceMarker.postValue(mySpaceMarker.toList())
 
-                } else {
-
                 }
             }
         }
     }
 
 
-    fun toggleFavState(newSpace: NewSpace, onComplete: (Boolean) -> Unit) {
-        newSpace.space.fav = !newSpace.space.fav
+    fun toggleFavState(currentId: String, newSpace: NewSpace, onComplete: (Boolean) -> Unit) {
+        if (newSpace.space.fav.contains(currentId)) {
+            newSpace.space.fav = newSpace.space.fav - currentId
+        } else {
+            newSpace.space.fav = newSpace.space.fav + currentId
+        }
         val docRef = fireStoreDB.collection(fireStoreCollectionName).document(newSpace.id)
-        docRef.update("fav", newSpace.space.fav)
+        docRef.update(Constants.FAVORITE, newSpace.space.fav)
             .addOnSuccessListener {
                 onComplete(true)
             }

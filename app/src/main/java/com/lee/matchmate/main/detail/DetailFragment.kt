@@ -11,19 +11,18 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.chip.Chip
 import com.lee.matchmate.chat.detail.Chat
 import com.lee.matchmate.chat.detail.ChatDetailViewModel
-import com.lee.matchmate.chat.detail.ChatMessage
 import com.lee.matchmate.common.AppGlobalContext
+import com.lee.matchmate.common.Constants
 import com.lee.matchmate.common.ViewBindingBaseFragment
 import com.lee.matchmate.common.toastMessage
 import com.lee.matchmate.databinding.FragmentDetailBinding
-import com.lee.matchmate.main.User
 import com.lee.matchmate.main.decoration.ZoomOutPageTransformer
 
 class DetailFragment :
     ViewBindingBaseFragment<FragmentDetailBinding>(FragmentDetailBinding::inflate) {
     private val args: DetailFragmentArgs by navArgs()
     private val viewModel: DetailViewModel by viewModels()
-    private val chatDetailViewModel : ChatDetailViewModel by viewModels()
+    private val chatDetailViewModel: ChatDetailViewModel by viewModels()
     private var selectedCondList: MutableSet<String> = mutableSetOf()
 
     companion object {
@@ -35,11 +34,13 @@ class DetailFragment :
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             tbDetail.setOnMenuItemClickListener {
-                val currentUserId = AppGlobalContext.prefs.getString("userId", "").toString()
+                val currentUserId =
+                    AppGlobalContext.prefs.getString(Constants.USER_ID, Constants.BLANK).toString()
                 val otherUserId = viewModel.detailSpaceData.value?.userId
 
                 if (otherUserId != null) {
-                    val chatRoomId = listOf(currentUserId, otherUserId).sorted().joinToString(separator = "_")
+                    val chatRoomId = listOf(currentUserId, otherUserId).sorted()
+                        .joinToString(separator = Constants.UNDERSCORE)
 
                     chatDetailViewModel.getChatData(chatRoomId)  // 채팅방 데이터를 가져옵니다.
 
@@ -52,18 +53,22 @@ class DetailFragment :
                         } else {
                             // 채팅방이 이미 존재하면 기존 메시지를 유지합니다.
                             val updatedChatMessageList = roomData.chatMessage
-                            val chat = Chat(chatRoomId, selectedCondList.toList(), updatedChatMessageList)
+                            val chat =
+                                Chat(chatRoomId, selectedCondList.toList(), updatedChatMessageList)
                             chatDetailViewModel.insertChatToFireStore(chat, chatRoomId)
                         }
 
                         viewModel.addChatIdToUser(chatRoomId, currentUserId)
                         viewModel.addChatIdToUser(chatRoomId, otherUserId)
 
-                        val action = DetailFragmentDirections.actionDetailFragmentToChatDetailFragment(chatRoomId)
+                        val action =
+                            DetailFragmentDirections.actionDetailFragmentToChatDetailFragment(
+                                chatRoomId
+                            )
                         findNavController().navigate(action)
                     }
                 } else {
-                    toastMessage("알 수 없는 오류", activity as Activity)
+                    toastMessage(Constants.UNKNOWN_ERROR, activity as Activity)
                 }
 
                 return@setOnMenuItemClickListener true
@@ -79,8 +84,11 @@ class DetailFragment :
             with(binding) {
                 val adapter = DetailViewPagerAdapter()
                 vpDetail.adapter = adapter
-                val imageNames = it?.additionalImage?.replace("[", "")?.replace("]", "")?.split(",")
-                    ?.map { it.trim().toUri().lastPathSegment ?: "" }
+                val imageNames =
+                    it?.additionalImage?.replace(Constants.SQUARE_BRACKET_LEFT, Constants.BLANK)
+                        ?.replace(Constants.SQUARE_BRACKET_RIGHT, Constants.BLANK)
+                        ?.split(Constants.COMMAS)
+                        ?.map { it.trim().toUri().lastPathSegment ?: Constants.BLANK }
                 adapter.submitList(imageNames)
                 vpDetail.orientation = ViewPager2.ORIENTATION_HORIZONTAL
                 vpDetail.setPageTransformer(ZoomOutPageTransformer())
@@ -92,7 +100,7 @@ class DetailFragment :
                     tvDetailLocationUser.text = it.location
                     tvDetailValueUser.text = it.value
                     cgDetailCond.removeAllViews()
-                    it.cond.split(",").forEach { condText ->
+                    it.cond.split(Constants.SPLIT).forEach { condText ->
                         val chip = Chip(context).apply {
                             text = condText
                             isCheckable = true
@@ -101,10 +109,8 @@ class DetailFragment :
                         chip.setOnCheckedChangeListener { buttonView, isChecked ->
                             if (isChecked) {
                                 selectedCondList.add(condText)
-                                toastMessage("체크 되었습니다.", activity as Activity)
                             } else {
                                 selectedCondList.remove(condText)
-                                toastMessage("해제되었습니다.", activity as Activity)
                             }
                         }
                         cgDetailCond.addView(chip)
@@ -115,8 +121,6 @@ class DetailFragment :
 
 
     }
-
-
 
 
 }

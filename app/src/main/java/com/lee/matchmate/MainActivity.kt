@@ -1,18 +1,17 @@
 package com.lee.matchmate
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.kakao.sdk.user.UserApiClient
+import com.lee.matchmate.chat.detail.ChatDetailFragmentDirections
 import com.lee.matchmate.common.AppGlobalContext
+import com.lee.matchmate.common.Constants
 import com.lee.matchmate.databinding.ActivityMainBinding
-import com.lee.matchmate.login.LoginFragment
-import com.lee.matchmate.main.MainFragmentDirections
 
 class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy {
@@ -20,6 +19,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private lateinit var navController: NavController
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        navigateToChatFragmentIfNeeded(intent)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,12 +34,18 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.findNavController()
 
         binding.bottomNavigationView.setupWithNavController(navController)
-        val isLoggedIn = AppGlobalContext.prefs.getBoolean("IS_LOGGED_IN", false)
-        Log.e("login",isLoggedIn.toString())
+        val isLoggedIn = AppGlobalContext.prefs.getBoolean(Constants.IS_LOGGED_IN, false)
 
         setupJetpackNavigation(isLoggedIn)
+        navigateToChatFragmentIfNeeded(intent)
+    }
 
+    private fun navigateToChatFragmentIfNeeded(intent: Intent?) {
+        intent?.getStringExtra(Constants.ROOM_ID)?.let { roomId ->
+            val action = ChatDetailFragmentDirections.actionGlobalChatDetailFragment(roomId)
+            navController.navigate(action)
 
+        }
     }
 
     private fun setupJetpackNavigation(autoLogin: Boolean) {
@@ -50,9 +60,9 @@ class MainActivity : AppCompatActivity() {
         //네비게이션 바가 보이는 곳과 보이지 않을 곳 설정
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (
-                destination == navController.findDestination(R.id.main_fragment)||
-                destination == navController.findDestination(R.id.chat_fragment)||
-                destination == navController.findDestination(R.id.favorite_fragment)||
+                destination == navController.findDestination(R.id.main_fragment) ||
+                destination == navController.findDestination(R.id.chat_fragment) ||
+                destination == navController.findDestination(R.id.favorite_fragment) ||
                 destination == navController.findDestination(R.id.setting_fragment)
             ) {
                 binding.bottomNavigationView.visibility = View.VISIBLE

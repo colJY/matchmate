@@ -8,8 +8,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/iv_add_additional_image"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="@dimen/item_image_btn"
+        android:layout_height="@dimen/item_image_btn"
         android:layout_marginTop="@dimen/tiny_margin"
         android:scaleType="centerCrop"
         android:src="@drawable/baseline_image_search_24"/>

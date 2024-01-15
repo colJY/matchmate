@@ -1,7 +1,4 @@
 package com.lee.matchmate.main.geocoder
-
-import com.google.android.gms.maps.model.LatLng
-
 data class GeoEntity(
     val results: List<Result>,
     val status : String

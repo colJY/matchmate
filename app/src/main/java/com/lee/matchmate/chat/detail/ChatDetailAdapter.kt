@@ -1,12 +1,16 @@
 package com.lee.matchmate.chat.detail
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.lee.matchmate.common.AppGlobalContext
+import com.lee.matchmate.common.Constants
 import com.lee.matchmate.databinding.ItemChatAnotherBinding
 import com.lee.matchmate.databinding.ItemChatDetailBinding
 import java.text.SimpleDateFormat
@@ -45,6 +49,7 @@ class ChatDetailAdapter(private val viewModel: ChatDetailViewModel) :
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val chatMessage = getItem(position)
 
@@ -54,7 +59,7 @@ class ChatDetailAdapter(private val viewModel: ChatDetailViewModel) :
             val timestampLong = chatMessage.timestamp
             val formattedTimestamp = run {
                 val date = Date(timestampLong)
-                val format = SimpleDateFormat("MM-dd HH:mm")
+                val format = SimpleDateFormat(Constants.DATE_FORMAT)
                 format.format(date)
             }
 
@@ -66,18 +71,17 @@ class ChatDetailAdapter(private val viewModel: ChatDetailViewModel) :
 
                 is OtherMessageViewHolder -> {
                     holder.binding.tvItemChatAnotherDetailMessage.text = chatMessage.message
-                    holder.binding.tvItemChatAnotherDetailTimestamp.text =
-                        formattedTimestamp
+                    holder.binding.tvItemChatAnotherDetailTimestamp.text = formattedTimestamp
 
                     if (user != null) {
                         holder.binding.tvItemChatAnotherDetailNickname.text = user.userName
                         Glide.with(holder.itemView).load(user.profileImage)
+                            .apply(RequestOptions.bitmapTransform(RoundedCorners(Constants.ROUNDED_CORNER_RADIUS)))
                             .into(holder.binding.ivItemChatAnotherDetailProfile)
                     }
                 }
             }
         }
-
 
 
     }

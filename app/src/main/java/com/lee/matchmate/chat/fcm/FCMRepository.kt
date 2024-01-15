@@ -3,18 +3,14 @@ package com.lee.matchmate.chat.fcm
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.lee.matchmate.BuildConfig
+import com.lee.matchmate.common.Constants
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 
 class FCMRepository {
-
-    companion object {
-        private const val BASE_URL = "https://fcm.googleapis.com/"
-    }
 
     private lateinit var retrofit: FCMApi
 
@@ -25,8 +21,11 @@ class FCMRepository {
             .addInterceptor { chain ->
                 val request = chain.request()
                 val newRequest: Request = request.newBuilder()
-                    .addHeader("Authorization", "key=${BuildConfig.FCM_SERVER_KEY}")
-                    .addHeader("Content-Type", "application/json")
+                    .addHeader(
+                        Constants.HEADER_AUTHORIZATION,
+                        Constants.AUTHORIZATION_KEY_PREFIX + BuildConfig.FCM_SERVER_KEY
+                    )
+                    .addHeader(Constants.HEADER_CONTENT_TYPE, Constants.CONTENT_TYPE)
                     .build()
                 chain.proceed(newRequest)
 
@@ -37,7 +36,7 @@ class FCMRepository {
         val gson: Gson = GsonBuilder().setLenient().create()
 
         retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(Constants.BASE_URL)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
