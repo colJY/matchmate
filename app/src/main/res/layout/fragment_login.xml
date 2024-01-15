@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_login_start"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/zero_dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,7 +21,7 @@
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_login_end"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/zero_dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,18 +32,19 @@
 
     <ImageView
         android:id="@+id/iv_login"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="@dimen/image_size"
+        android:layout_height="@dimen/image_size"
         android:layout_marginTop="@dimen/large_margin"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher_foreground"
         app:layout_constraintEnd_toEndOf="@id/gl_login_end"
         app:layout_constraintStart_toStartOf="@id/gl_login_start"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/description_login_btn" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tl_login_id"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/zero_dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/large_margin"
         android:hint="@string/hint_id"
@@ -64,7 +65,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tl_login_password"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/zero_dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/medium_margin"
         android:hint="@string/hint_password"
@@ -106,9 +107,11 @@
         app:cornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="@id/gl_login_end"
         app:layout_constraintStart_toStartOf="@id/gl_login_start"
-        app:layout_constraintTop_toBottomOf="@id/checkBox_auto_login" />
+        app:layout_constraintTop_toBottomOf="@id/checkBox_auto_login"
+        tools:ignore="VisualLintButtonSize" />
 
     <ImageButton
+        android:padding="12dp"
         android:layout_marginTop="@dimen/medium_margin"
         android:id="@+id/btn_kakao_login"
         android:layout_width="wrap_content"
@@ -117,8 +120,7 @@
         android:background="@android:color/transparent"
         app:layout_constraintEnd_toStartOf="@+id/gl_login_end"
         app:layout_constraintStart_toStartOf="@+id/gl_login_start"
-        app:layout_constraintTop_toBottomOf="@+id/btn_login" />
-
-
+        app:layout_constraintTop_toBottomOf="@+id/btn_login"
+        android:contentDescription="@string/description_kakao_login" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_add_start"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/zero_dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,7 +21,7 @@
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_add_end"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/zero_dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,21 +31,20 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tb_add"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/zero_dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/menu_add"
         app:navigationIcon="@drawable/baseline_arrow_back_24"
-        app:title="추가"
+        app:title="@string/toolbar_title_add"
         app:titleCentered="true"
-        app:titleTextAppearance="@style/title"
-        app:titleTextColor="?attr/colorOnSurface" />
+        app:titleTextAppearance="@style/title" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_add_map"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/zero_dp"
         android:layout_height="150dp"
         android:layout_marginTop="@dimen/medium_margin"
         app:cardCornerRadius="16dp"
@@ -62,8 +61,8 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.core.widget.NestedScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="@dimen/zero_dp"
+        android:layout_height="@dimen/zero_dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/gl_add_end"
         app:layout_constraintStart_toStartOf="@id/gl_add_start"
@@ -71,12 +70,13 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="@dimen/zero_dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_marginTop="@dimen/medium_margin"
-                android:hint = "방 이름"
+                android:hint = "@string/room_name"
                 android:id="@+id/ed_add"
+                android:focusable="auto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
@@ -88,19 +88,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/medium_margin"
-                android:text="대표이미지"
+                android:text="@string/primary_image"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ed_add" />
 
             <ImageButton
+                android:background="@android:color/transparent"
                 android:id="@+id/iv_add_primary_image"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="@dimen/tiny_margin"
                 android:scaleType="centerCrop"
-                android:src="@drawable/baseline_image_search_24"
+                android:src="@drawable/ic_add_image"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_add_primary_image" />
+                app:layout_constraintTop_toBottomOf="@id/tv_add_primary_image"
+                android:contentDescription="@string/description_primary_image" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_add_additional_image"
@@ -108,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/medium_margin"
-                android:text="추가"
+                android:text="@string/additional_image"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/iv_add_primary_image" />
 
@@ -120,14 +122,16 @@
                 app:layout_constraintStart_toEndOf="@+id/iv_add_additional_image"
                 app:layout_constraintTop_toBottomOf="@id/tv_add_additional_image" />
             <ImageButton
+                android:background="@android:color/transparent"
                 android:id="@+id/iv_add_additional_image"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="@dimen/tiny_margin"
                 android:scaleType="centerCrop"
-                android:src="@drawable/baseline_image_search_24"
+                android:src="@drawable/ic_add_image"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_add_additional_image" />
+                app:layout_constraintTop_toBottomOf="@id/tv_add_additional_image"
+                android:contentDescription="@string/description_additional_image" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_add_cond"
@@ -135,7 +139,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/medium_margin"
-                android:text="조건 목록"
+                android:text="@string/cond_list"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/iv_add_additional_image" />
 
@@ -152,7 +156,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:minWidth="70dp"
-                    android:text="+"
+                    android:text="@string/add_chip"
                     android:textAlignment="center"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_add_cond" />
@@ -166,13 +170,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/medium_margin"
-                android:text="금액"
+                android:text="@string/month_value"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cg_add_cond" />
 
             <com.google.android.material.slider.Slider
                 android:id="@+id/sl_add_value"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/zero_dp"
                 android:layout_height="wrap_content"
                 android:stepSize="10"
                 android:valueFrom="0"
@@ -188,13 +192,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/sl_add_value"
                 style="@style/subTitle"
-                android:text="방유형"/>
+                android:text="@string/filter_space"/>
 
             <com.google.android.material.button.MaterialButtonToggleGroup
                 app:singleSelection="true"
                 android:id="@+id/tg_add_filter"
                 android:layout_marginTop="@dimen/tiny_margin"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -205,7 +209,7 @@
                     style="?attr/materialButtonOutlinedStyle"
                     app:icon="@drawable/baseline_check_24"
                     app:iconPadding="@dimen/tiny_margin"
-                    android:text="아파트"
+                    android:text="@string/apartment"
                     android:textAppearance="@style/filter"
                     app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MatchMate.Button.Rounded"
                     android:layout_width="wrap_content"
@@ -214,7 +218,7 @@
                 <com.google.android.material.button.MaterialButton
                     app:icon="@drawable/baseline_check_24"
                     app:iconPadding="@dimen/tiny_margin"
-                    android:text="오피스텔"
+                    android:text="@string/office"
                     android:textAppearance="@style/filter"
                     android:id="@+id/btn_add_filter_space_mid"
                     style="?attr/materialButtonOutlinedStyle"
@@ -224,22 +228,14 @@
                 <com.google.android.material.button.MaterialButton
                     app:icon="@drawable/baseline_check_24"
                     app:iconPadding="@dimen/tiny_margin"
-                    android:text="빌라"
+                    android:text="@string/villa"
                     android:textAppearance="@style/filter"
                     android:id="@+id/btn_add_filter_space_right"
                     style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <com.google.android.material.button.MaterialButton
-                    app:icon="@drawable/baseline_check_24"
-                    app:iconPadding="@dimen/tiny_margin"
-                    android:text="기타"
-                    android:textAppearance="@style/filter"
-                    android:id="@+id/btn_add_filter_space_etc"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+
 
             </com.google.android.material.button.MaterialButtonToggleGroup>
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">MatchMate</string>
+    <string name="app_name">매치메이트</string>
+    <string name="title_app_name">\t매치메이트</string>
 
     <string name="bottom_nav_main">Main</string>
     <string name="bottom_nav_login">Login</string>
@@ -22,6 +23,95 @@
     <string name="filter_check">확인</string>
     <string name="chat">채팅</string>
     <string name="user">사용자</string>
+    <string name="user_id">userId</string>
+
+    <string name="notification_channel_name">채팅 알림</string>
+    <string name="notification_channel_description">채팅 알림입니다.</string>
+
+    <string name="access_denied">접근이 거부 됨(동의 취소)</string>
+    <string name="invalid_app">유효하지 않은 앱</string>
+    <string name="invalid_grant">인증 수단이 유효하지 않아 인증할 수 없는 상태</string>
+    <string name="invalid_request">요청 파라미터 오류</string>
+    <string name="invalid_scope">유효하지 않은 scope ID</string>
+    <string name="misconfigured">설정이 올바르지 않음(android key hash)</string>
+    <string name="server_error">카카오 서버 에러</string>
+    <string name="unauthorized">현재 앱은 요청권한이 없음</string>
+    <string name="unknown">알려지지 않은 에러</string>
+    <string name="fail">실패</string>
+    <string name="granted">권한이 허용되었습니다.</string>
+
+<!--fragment_add_space-->
+    <string name="toolbar_title_add">추가</string>
+    <string name="room_name">방 이름</string>
+    <string name="primary_image">대표이미지</string>
+    <string name="description_primary_image">이미지를 선택하여 대표 이미지를 선택합니다</string>
+    <string name="additional_image">추가이미지</string>
+    <string name="description_additional_image">이미지를 선택하여 방의 상세 이미지들을 추가합니다.</string>
+    <string name="apartment">아파트</string>
+    <string name="office">오피스텔</string>
+    <string name="villa">빌라</string>
+    <string name="cond_list">조건 목록</string>
+    <string name="add_chip">+</string>
+    <string name="month_value">금액(월)</string>
+    <string name="filter_space">방 유형</string>
+
+<!--fragment_chat-->
+    <string name="message_list">메시지 목록</string>
+
+<!--fragment_chip_select-->
+    <string name="select_cond_list">조건 선택</string>
+
+<!--fragment_detail-->
+    <string name="address">주소</string>
+    <string name="example_address">서울특별시 금천구 시흥동</string>
+    <string name="value">금액</string>
+    <string name="example_value">20만원</string>
+    <string name="detail_cond">조건</string>
+
+<!--fragment_favorite-->
+    <string name="fav_list">관심 목록</string>
+
+<!--fragment_filter-->
+    <string name="none_select">선택하지 않으면 기타로 설정 됩니다</string>
+    <string name="min_value">최소 금액</string>
+    <string name="max_value">최대 금액</string>
+    <string name="space_select">지역 선택</string>
+    <string name="dropdown_city">(시)</string>
+    <string name="dropdown_district">(구)</string>
+    <string name="search_list">검색 조건</string>
+
+<!--fragment_login-->
+    <string name="description_kakao_login">카카오 로그인 버튼</string>
+    <string name="description_login_btn">로그인 버튼</string>
+
+<!--fragment_setting-->
+    <string name="setting">설정</string>
+    <string name="open_source">오픈소스 라이선스</string>
+
+<!--item_chat_another-->
+    <string name="chat_user_name">유저이름</string>
+    <string name="chat_message">메시지</string>
+    <string name="chat_timestamp">시간</string>
+
+<!--item_main_space-->
+    <string name="item_name">라이언</string>
+
+
+<!--fragment_main-->
+    <string name="main_filter_btn">필터</string>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     <string-array name="arr_city">

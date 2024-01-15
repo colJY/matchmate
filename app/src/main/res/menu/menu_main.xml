@@ -7,10 +7,4 @@
         android:icon="@drawable/baseline_add_home_24"
         android:title="@string/add_space"
         app:showAsAction="always" />
-    <item
-        android:id="@+id/menu_main_notification"
-        android:icon="@drawable/baseline_notifications_24"
-        android:title="@string/notification"
-        app:showAsAction="always" />
-
 </menu>

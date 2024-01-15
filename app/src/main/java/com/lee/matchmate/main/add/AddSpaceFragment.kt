@@ -1,11 +1,9 @@
 package com.lee.matchmate.main.add
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -18,7 +16,6 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.chip.Chip
 import com.google.firebase.firestore.ktx.firestore
@@ -28,8 +25,8 @@ import com.jakewharton.rxbinding4.view.clicks
 import com.lee.matchmate.BuildConfig
 import com.lee.matchmate.R
 import com.lee.matchmate.common.AppGlobalContext
+import com.lee.matchmate.common.Constants
 import com.lee.matchmate.common.ViewBindingBaseFragment
-import com.lee.matchmate.common.toastMessage
 import com.lee.matchmate.databinding.FragmentAddSpaceBinding
 import com.lee.matchmate.main.FireSpace
 import com.lee.matchmate.main.MainViewModel
@@ -50,15 +47,16 @@ class AddSpaceFragment :
     OnMapReadyCallback {
     private val viewModel: AddSpaceViewModel by activityViewModels()
     private val geoViewModel: GeocoderViewModel by viewModels()
-    private val mainViewModel: MainViewModel by viewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
 
-    private val job = CoroutineScope(Dispatchers.IO)
     private val fireStoreDB = Firebase.firestore
-    private val fireStoreCollectionName = "Space"
-    private val fireStoreLatLngCollectionName = "latlng"
-    private val fireStoreUserCollectionName = "user"
+    private val fireStoreCollectionName = Constants.FIRESTORE_COLLECTION_NAME
+    private val fireStoreLatLngCollectionName = Constants.LATLNG_COLLECTION_NAME
+    private val fireStoreUserCollectionName = Constants.USER_COLLECTION_NAME
     private lateinit var mMap: GoogleMap
     private val spaceImageAdapter = AddSpaceImageAdapter()
+    private var isMapReady = false
+
 
     companion object {
         fun newInstance() = AddSpaceFragment()
@@ -71,15 +69,22 @@ class AddSpaceFragment :
         val mapFragment = childFragmentManager.findFragmentById(R.id.add_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-
         super.onViewCreated(view, savedInstanceState)
-        val fireSpace: FireSpace = FireSpace()
+        val fireSpace = FireSpace()
 
+        lifecycleScope.launch {
+            if (isMapReady) {
+                viewModel.markerPosition.collect { newPosition ->
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newPosition, 16.0f))
+                }
+            }
+
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.pImageData.observe(viewLifecycleOwner) {
-                    if (it != null) {
+                    if (it != null && it != Uri.EMPTY) {
                         binding.ivAddPrimaryImage.setImageURI(it)
                         binding.ivAddPrimaryImage.background = null
                         fireSpace.primaryImage = it.toString()
@@ -101,7 +106,9 @@ class AddSpaceFragment :
                 if (item.itemId == R.id.menu_filter_check) {
                     fireSpace.value = slAddValue.value.toString()
                     fireSpace.title = edAdd.text.toString()
-                    fireSpace.userId = AppGlobalContext.prefs.getString("userId", "").toString()
+                    fireSpace.userId =
+                        AppGlobalContext.prefs.getString(Constants.USER_ID, Constants.BLANK)
+                            .toString()
 
 
                     val latLng = mMap.cameraPosition.target
@@ -128,14 +135,14 @@ class AddSpaceFragment :
                         AddSpaceFragmentDirections.actionAddSpaceFragmentToMainFragment()
 
                     geoViewModel.getReverseGeoEntityResponseLiveData().observe(viewLifecycleOwner) {
-                            fireSpace.location = it.results[0].formattedAddress
-                            insertFireStore(fireSpace)
-                            if (it != null) {
-                                findNavController().navigate(action)
-                            } else {
-                                findNavController().navigate(action)
-                            }
+                        fireSpace.location = it.results[0].formattedAddress
+                        insertFireStore(fireSpace)
+                        if (it != null) {
+                            findNavController().navigate(action)
+                        } else {
+                            findNavController().navigate(action)
                         }
+                    }
 
 
                     return@setOnMenuItemClickListener true
@@ -146,7 +153,7 @@ class AddSpaceFragment :
 
 
             chAdd.clicks().observeOn(Schedulers.io())
-                .throttleFirst(500, TimeUnit.MILLISECONDS)
+                .throttleFirst(Constants.THROTTLE_FIRST_INTERVAL, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
                     val action =
@@ -154,29 +161,23 @@ class AddSpaceFragment :
                     findNavController().navigate(action)
                 }
 
-            val getImageAction = registerForActivityResult(
-                ActivityResultContracts.GetContent(),
-                ActivityResultCallback { uri ->
+            val getImageAction =
+                registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
                     viewModel.pImageData.postValue(uri)
                     fireSpace.primaryImage = uri.toString()
-
                 }
-            )
-
 
 
             rvAddAdditionalImage.adapter = spaceImageAdapter
             rvAddAdditionalImage.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-            val getAddImageAction = registerForActivityResult(
-                ActivityResultContracts.GetMultipleContents(),
-                ActivityResultCallback { uriList ->
+            val getAddImageAction =
+                registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uriList ->
                     spaceImageAdapter.submitList(uriList)
                     viewModel.aImageData.postValue(uriList)
                     fireSpace.additionalImage = uriList.toString()
                 }
-            )
 
 
             ivAddPrimaryImage
@@ -185,7 +186,7 @@ class AddSpaceFragment :
                 .throttleFirst(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    getImageAction.launch("image/*")
+                    getImageAction.launch(Constants.IMAGE_PICKER)
                 }
 
             ivAddAdditionalImage
@@ -194,12 +195,14 @@ class AddSpaceFragment :
                 .throttleFirst(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    getAddImageAction.launch("image/*")
+                    getAddImageAction.launch(Constants.IMAGE_PICKER)
                 }
 
             viewModel.spaceSelectedCondList.observe(viewLifecycleOwner) {
 
-                fireSpace.cond = it.toString().replace("[", "")?.replace("]", "").toString()
+                fireSpace.cond =
+                    it.toString().replace(Constants.SQUARE_BRACKET_LEFT, Constants.BLANK)
+                        ?.replace(Constants.SQUARE_BRACKET_RIGHT, Constants.BLANK).toString()
                 cgAddCond.removeView(chAdd)
                 it.forEach { chipText ->
                     cgAddCond.addView(Chip(context).apply {
@@ -223,12 +226,9 @@ class AddSpaceFragment :
                         fireSpace.type = btnAddFilterSpaceRight.text.toString()
                     }
 
-                    R.id.btn_add_filter_space_etc -> {
-                        fireSpace.type = btnAddFilterSpaceEtc.text.toString()
-                    }
 
                     else -> {
-                        fireSpace.type = ""
+                        fireSpace.type = Constants.BLANK
                     }
                 }
             }
@@ -242,26 +242,25 @@ class AddSpaceFragment :
         documentRef.add(fireSpace.toMap()).addOnSuccessListener {
             val generatedId = it.id
             insertUserIDFireStore(generatedId)
-            toastMessage("값을 추가했습니다", activity as Activity)
         }.addOnFailureListener {
-            toastMessage("실패", activity as Activity)
         }
     }
 
     private fun insertLatLngFireStore(spaceMarker: SpaceMarker) {
         val documentRef = fireStoreDB.collection(fireStoreLatLngCollectionName)
         documentRef.add(spaceMarker.toMap()).addOnSuccessListener {
-            toastMessage("값을 추가했습니다", activity as Activity)
         }.addOnFailureListener {
-            toastMessage("실패", activity as Activity)
         }
     }
 
-    private fun insertUserIDFireStore(spaceId : String) {
-        val documentRef = fireStoreDB.collection(fireStoreUserCollectionName).document(AppGlobalContext.prefs.getString("userId", "").toString())
+    private fun insertUserIDFireStore(spaceId: String) {
+        val documentRef = fireStoreDB.collection(fireStoreUserCollectionName)
+            .document(
+                AppGlobalContext.prefs.getString(Constants.USER_ID, Constants.BLANK).toString()
+            )
         documentRef.get().addOnSuccessListener {
             val user = it.toObject(User::class.java)
-            if (it.exists()){
+            if (it.exists()) {
                 if (user != null) {
                     user.spaceId.add(spaceId)
                     documentRef.update(user.toMap())
@@ -275,30 +274,34 @@ class AddSpaceFragment :
     private fun uploadFireStorage(fromPath: String) {
         val fromUri = Uri.parse(fromPath)
         val storageRef = FirebaseStorage.getInstance().reference
-        val uploadTask = storageRef.child("uploadImages/" + fromUri.lastPathSegment)
+        val uploadTask = storageRef.child(Constants.UPLOAD_IMAGES_URI + fromUri.lastPathSegment)
             .putStream(requireContext().contentResolver.openInputStream(fromUri)!!)
 
         uploadTask.addOnFailureListener {
             // 실패 시 처리
             it.printStackTrace()
+
         }.addOnSuccessListener {
-            toastMessage("업로드 되었습니다", activity as Activity)
+            mainViewModel.isSuccess.value = false
+            mainViewModel.isSuccess.value = true
+
         }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
+        isMapReady = true
         mMap = googleMap
 
-        val seoul = LatLng(37.566168, 126.901609)
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(seoul, 16.0f))
-
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(viewModel.markerPosition.value, 16.0f))
         val marker = mMap.addMarker(
             MarkerOptions().position(mMap.cameraPosition.target).draggable(false)
         )
 
         mMap.setOnCameraMoveListener {
             marker!!.position = mMap.cameraPosition.target
-
+            lifecycleScope.launch {
+                viewModel.markerPosition.emit(mMap.cameraPosition.target)
+            }
         }
 
 

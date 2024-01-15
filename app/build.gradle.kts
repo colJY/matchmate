@@ -8,6 +8,7 @@ plugins {
     id("com.google.gms.google-services")
 
     id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 
@@ -54,6 +55,9 @@ fun getApiKey(propertyKey : String) : String {
 
 dependencies {
 
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
+
     implementation ("androidx.navigation:navigation-fragment-ktx:2.7.4")
     implementation ("androidx.navigation:navigation-ui-ktx:2.7.4")
 
@@ -73,8 +77,8 @@ dependencies {
 
     // TODO: Add the dependencies for Firebase products you want to use
     // When using the BoM, don't specify versions in Firebase dependencies
-    implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-messaging-ktx")
+    //implementation("com.google.firebase:firebase-analytics")
+    //implementation("com.google.firebase:firebase-messaging-ktx")
 
 
 
@@ -97,8 +101,14 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("com.google.firebase:firebase-firestore:24.9.1")
     implementation("com.google.firebase:firebase-messaging:23.3.1")
+
     implementation("com.google.firebase:firebase-storage:20.3.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
+
+kapt {
+    correctErrorTypes = true
+}
+

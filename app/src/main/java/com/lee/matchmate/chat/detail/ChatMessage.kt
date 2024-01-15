@@ -1,6 +1,7 @@
 package com.lee.matchmate.chat.detail
 
 import com.google.firebase.firestore.Exclude
+import com.lee.matchmate.common.Constants
 
 
 data class Chat(
@@ -11,9 +12,9 @@ data class Chat(
     @Exclude
     fun toMap(): Map<String, Any> {
         return mapOf(
-            "id" to id,
-            "selectedCondList" to selectedCondList,
-            "chatMessage" to chatMessage.map { it.toMap() },
+            Constants.FIELD_ID to id,
+            Constants.FIELD_SELECTED_COND_LIST to selectedCondList,
+            Constants.FIELD_CHAT_MESSAGE to chatMessage.map { it.toMap() },
         )
     }
 }
@@ -26,9 +27,9 @@ data class ChatMessage(
     @Exclude
     fun toMap(): Map<String, Any> {
         return mapOf(
-            "sender" to sender,
-            "timestamp" to timestamp,
-            "message" to message,
+            Constants.FIELD_SENDER to sender,
+            Constants.FIELD_TIMESTAMP to timestamp,
+            Constants.FIELD_MESSAGE to message,
         )
     }
 }

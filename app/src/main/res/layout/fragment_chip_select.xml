@@ -8,21 +8,21 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tb_select_chip"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/zero_dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/menu_add"
         app:navigationIcon="@drawable/baseline_arrow_back_24"
-        app:title="조건 선택"
+        app:title="@string/select_cond_list"
         app:titleCentered="true"
         app:titleTextAppearance="@style/title" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_select_chip_start"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/zero_dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,7 +33,7 @@
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_select_chip_end"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/zero_dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +42,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="0dp"
+        android:layout_width="@dimen/zero_dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@id/gl_select_chip_start"
         app:layout_constraintEnd_toStartOf="@id/btn_select_chip_add"
@@ -61,8 +61,7 @@
         android:id="@+id/btn_select_chip_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:iconSize="32dp"
-
+        app:iconSize="@dimen/icon_size"
         style="@style/Widget.Material3.Button.IconButton"
         app:icon="@drawable/baseline_add_circle_outline_24"
         app:layout_constraintEnd_toStartOf="@id/gl_select_chip_end"

@@ -8,19 +8,19 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tb_setting"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/zero_dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/menu_setting"
-        app:title="설정"
+        app:title="@string/setting"
         app:titleTextAppearance="@style/title" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_setting_start"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/zero_dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,7 +31,7 @@
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_setting_end"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/zero_dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/subTitle"
-        android:text="알림"
+        android:text="@string/notification"
         app:layout_constraintTop_toBottomOf="@id/tb_setting"
         app:layout_constraintStart_toStartOf="@id/gl_setting_start"/>
 
@@ -62,7 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/subTitle"
-        android:text="자동로그인"
+        android:text="@string/auto_login"
         app:layout_constraintTop_toBottomOf="@id/tv_setting_alert"
         app:layout_constraintStart_toStartOf="@id/gl_setting_start"/>
 
@@ -81,7 +81,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_setting_auto_login"
         app:layout_constraintStart_toStartOf="@id/gl_setting_start"
-        android:text="오픈소스 라이선스"
+        android:text="@string/open_source"
         style="@style/subTitle"
         android:backgroundTint="@color/whiteSmoke"/>
 

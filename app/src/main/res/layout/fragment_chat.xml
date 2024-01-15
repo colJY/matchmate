@@ -8,20 +8,20 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tb_chat"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/zero_dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/menu_chat"
-        app:title="메시지 목록"
+        app:title="@string/message_list"
         app:titleCentered="true"
         app:titleTextAppearance="@style/title" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_chat_start"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/zero_dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,7 +32,7 @@
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_chat_end"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/zero_dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,8 +45,8 @@
         app:layout_constraintStart_toStartOf="@id/gl_chat_start"
         app:layout_constraintEnd_toEndOf="@id/gl_chat_end"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="@dimen/zero_dp"
+        android:layout_height="@dimen/zero_dp"
         android:id="@+id/rv_chat"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,7 +11,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/crl_main"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/zero_dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,7 +21,7 @@
             android:id="@+id/al_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="0dp">
+            android:elevation="@dimen/zero_dp">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/ctl_main"
@@ -37,7 +37,7 @@
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/gl_main_start"
                         android:layout_width="wrap_content"
-                        android:layout_height="0dp"
+                        android:layout_height="@dimen/zero_dp"
                         android:orientation="vertical"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -48,7 +48,7 @@
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/gl_main_end"
                         android:layout_width="wrap_content"
-                        android:layout_height="0dp"
+                        android:layout_height="@dimen/zero_dp"
                         android:orientation="vertical"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -58,26 +58,27 @@
 
                     <com.google.android.material.appbar.MaterialToolbar
                         android:id="@+id/tb_main"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/zero_dp"
                         android:layout_height="wrap_content"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
+                        app:logo="@drawable/ic_launcher_matchmate_mdpi"
+                        app:title="@string/title_app_name"
                         app:menu="@menu/menu_main"
-                        app:titleTextAppearance="@style/title"
-                        app:titleTextColor="?attr/colorOnSurface" />
+                        app:titleTextAppearance="@style/title" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tl_city_dropdown"
                         style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/zero_dp"
                         android:layout_height="wrap_content"
                         app:boxBackgroundColor="@color/white"
                         app:boxBackgroundMode="outline"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
+                        app:boxCornerRadiusBottomEnd="@dimen/round_size"
+                        app:boxCornerRadiusBottomStart="@dimen/round_size"
+                        app:boxCornerRadiusTopEnd="@dimen/round_size"
+                        app:boxCornerRadiusTopStart="@dimen/round_size"
                         app:boxStrokeColor="@color/accentColor"
                         app:layout_constraintEnd_toStartOf="@+id/tl_district_dropdown"
                         app:layout_constraintStart_toStartOf="@id/gl_main_start"
@@ -88,7 +89,7 @@
                             style="@style/dropdown"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:hint="(시)"
+                            android:hint="@string/dropdown_city"
                             android:inputType="none"
                             app:dropDownBackgroundTint="@color/white" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -96,18 +97,19 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tl_district_dropdown"
                         style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/zero_dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/tiny_margin"
                         android:enabled="false"
                         app:boxBackgroundColor="@color/white"
                         app:boxBackgroundMode="outline"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
+                        app:boxCornerRadiusBottomEnd="@dimen/round_size"
+                        app:boxCornerRadiusBottomStart="@dimen/round_size"
+                        app:boxCornerRadiusTopEnd="@dimen/round_size"
+                        app:boxCornerRadiusTopStart="@dimen/round_size"
                         app:boxStrokeColor="@color/accentColor"
-                        app:layout_constraintEnd_toStartOf="@+id/tl_neighborhood_dropdown"
+
+                        app:layout_constraintEnd_toStartOf="@+id/gl_main_end"
                         app:layout_constraintStart_toEndOf="@+id/tl_city_dropdown"
                         app:layout_constraintTop_toBottomOf="@id/tb_main">
 
@@ -116,47 +118,19 @@
                             style="@style/dropdown"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:dropDownHeight="200dp"
-                            android:hint="(구)"
+                            android:dropDownHeight="@dimen/dropdown_district_height"
+                            android:hint="@string/dropdown_district"
                             android:inputType="none"
                             app:dropDownBackgroundTint="@color/white" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tl_neighborhood_dropdown"
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/tiny_margin"
-                        android:enabled="false"
-                        app:boxBackgroundColor="@color/white"
-                        app:boxBackgroundMode="outline"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxStrokeColor="@color/accentColor"
-                        app:layout_constraintEnd_toEndOf="@id/gl_main_end"
-                        app:layout_constraintStart_toEndOf="@+id/tl_district_dropdown"
-                        app:layout_constraintTop_toBottomOf="@id/tb_main">
-
-
-                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                            android:id="@+id/tv_neighborhood_dropdown"
-                            style="@style/dropdown"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:hint="(동)"
-                            android:inputType="none"
-                            app:dropDownBackgroundTint="@color/white" />
-                    </com.google.android.material.textfield.TextInputLayout>
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/main_card_map"
-                        android:layout_width="0dp"
-                        android:layout_height="200dp"
+                        android:layout_width="@dimen/zero_dp"
+                        android:layout_height="@dimen/card_view"
                         android:layout_marginTop="@dimen/medium_margin"
-                        app:cardCornerRadius="16dp"
+                        app:cardCornerRadius="@dimen/round_size"
                         app:layout_constraintEnd_toStartOf="@id/gl_main_end"
                         app:layout_constraintStart_toStartOf="@id/gl_main_start"
                         app:layout_constraintTop_toBottomOf="@id/tl_district_dropdown">
@@ -185,7 +159,7 @@
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/gl_sub_main_start"
                     android:layout_width="wrap_content"
-                    android:layout_height="0dp"
+                    android:layout_height="@dimen/zero_dp"
                     android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -196,7 +170,7 @@
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/gl_sub_main_end"
                     android:layout_width="wrap_content"
-                    android:layout_height="0dp"
+                    android:layout_height="@dimen/zero_dp"
                     android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -210,7 +184,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/medium_margin"
                     android:backgroundTint="@color/lightPrimaryColor"
-                    android:text="필터"
+                    android:text="@string/main_filter_btn"
                     android:textAppearance="@style/dropdown"
                     android:textColor="@color/primaryTextColor"
                     app:icon="@drawable/baseline_filter_list_24"
@@ -218,23 +192,37 @@
                     app:layout_constraintEnd_toStartOf="@id/gl_sub_main_end"
                     app:layout_constraintTop_toTopOf="parent"
                     app:strokeColor="@color/white"
-                    app:strokeWidth="2dp" />
+                    app:strokeWidth="@dimen/stroke_width" />
 
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/cg_main"
-                    android:layout_width="wrap_content"
+
+                <HorizontalScrollView
+                    android:id="@+id/sv_main"
+                    android:layout_width="@dimen/zero_dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/btn_main_filter"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                    app:layout_constraintStart_toStartOf="@id/gl_sub_main_start"
+                    app:layout_constraintEnd_toStartOf="@id/btn_main_filter"
+                    app:layout_constraintTop_toTopOf="@id/btn_main_filter"
+                    app:layout_constraintBottom_toBottomOf="@id/btn_main_filter">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/cg_main"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:chipSpacing="@dimen/chip_space">
+
+                    </com.google.android.material.chip.ChipGroup>
+
+                </HorizontalScrollView>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_main_space"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/zero_dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/gl_sub_main_end"
                     app:layout_constraintStart_toStartOf="@id/gl_sub_main_start"
-                    app:layout_constraintTop_toBottomOf="@id/cg_main" />
+                    app:layout_constraintTop_toBottomOf="@id/btn_main_filter" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
