@@ -97,7 +97,7 @@
   - URL: [https://developers.kakao.com/](https://developers.kakao.com/)
   - License: Apache License 2.0
 
-- **AndroidX Core, AppCompat, ConstraintLayout, Legacy Support, Lifecycle**
+- **AndroidX Core, AppCompat, ConstraintLayout, Lifecycle**
   - URL: [https://developer.android.com/jetpack/androidx](https://developer.android.com/jetpack/androidx)
   - License: Apache License 2.0
 
