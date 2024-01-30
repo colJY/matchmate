@@ -9,6 +9,10 @@ import com.lee.matchmate.common.Constants
 import com.lee.matchmate.common.ViewBindingBaseFragment
 import com.lee.matchmate.databinding.FragmentFavoriteBinding
 
+/**
+ * Favorite fragment
+ * 관심 목록 리스트 확인을 위한 Fragment
+ */
 class FavoriteFragment :
     ViewBindingBaseFragment<FragmentFavoriteBinding>(FragmentFavoriteBinding::inflate) {
 

@@ -35,37 +35,49 @@ class DetailFragment :
         with(binding) {
             tbDetail.setOnMenuItemClickListener {
                 val currentUserId =
-                    MatchmateAppContext.prefs.getString(Constants.USER_ID, Constants.BLANK).toString()
+                    MatchmateAppContext.prefs.getString(Constants.USER_ID, Constants.BLANK)
+                        .toString()
                 val otherUserId = viewModel.detailSpaceData.value?.userId
 
                 if (otherUserId != null) {
                     val chatRoomId = listOf(currentUserId, otherUserId).sorted()
                         .joinToString(separator = Constants.UNDERSCORE)
 
-                    chatDetailViewModel.getChatData(chatRoomId)  // 채팅방 데이터를 가져옵니다.
+                    with(chatDetailViewModel) {
+                        getChatData(chatRoomId) // 채팅방 데이터를 가져옵니다.
+                        roomData.observe(viewLifecycleOwner) { roomData ->
 
-                    chatDetailViewModel.roomData.observe(viewLifecycleOwner) { roomData ->
+                            if (roomData == null) {
+                                // 채팅방이 존재하지 않으면 새 채팅방을 만듭니다.
+                                chatDetailViewModel.insertChatToFireStore(
+                                    Chat(
+                                        chatRoomId,
+                                        selectedCondList.toList(),
+                                        listOf()
+                                    ), chatRoomId
+                                )
+                            } else {
+                                // 채팅방이 이미 존재하면 기존 메시지를 유지합니다.
+                                val updatedChatMessageList = roomData.chatMessage
+                                chatDetailViewModel.insertChatToFireStore(
+                                    Chat(
+                                        chatRoomId,
+                                        selectedCondList.toList(),
+                                        updatedChatMessageList
+                                    ), chatRoomId
+                                )
+                            }
+                            with(viewModel) {
+                                addChatIdToUser(chatRoomId, currentUserId)
+                                addChatIdToUser(chatRoomId, otherUserId)
+                            }
 
-                        if (roomData == null) {
-                            // 채팅방이 존재하지 않으면 새 채팅방을 만듭니다.
-                            val chat = Chat(chatRoomId, selectedCondList.toList(), listOf())
-                            chatDetailViewModel.insertChatToFireStore(chat, chatRoomId)
-                        } else {
-                            // 채팅방이 이미 존재하면 기존 메시지를 유지합니다.
-                            val updatedChatMessageList = roomData.chatMessage
-                            val chat =
-                                Chat(chatRoomId, selectedCondList.toList(), updatedChatMessageList)
-                            chatDetailViewModel.insertChatToFireStore(chat, chatRoomId)
+                            val action =
+                                DetailFragmentDirections.actionDetailFragmentToChatDetailFragment(
+                                    chatRoomId
+                                )
+                            findNavController().navigate(action)
                         }
-
-                        viewModel.addChatIdToUser(chatRoomId, currentUserId)
-                        viewModel.addChatIdToUser(chatRoomId, otherUserId)
-
-                        val action =
-                            DetailFragmentDirections.actionDetailFragmentToChatDetailFragment(
-                                chatRoomId
-                            )
-                        findNavController().navigate(action)
                     }
                 } else {
                     toastMessage(Constants.UNKNOWN_ERROR, activity as Activity)
@@ -78,42 +90,44 @@ class DetailFragment :
                 findNavController().popBackStack()
             }
         }
-        viewModel.setDetail(args.documentID)
+        with(viewModel) {
+            setDetail(args.documentID)
+            detailSpaceData.observe(viewLifecycleOwner) {
+                with(binding) {
+                    val adapter = DetailViewPagerAdapter()
+                    vpDetail.adapter = adapter
+                    val imageNames =
+                        it?.additionalImage?.replace(Constants.SQUARE_BRACKET_LEFT, Constants.BLANK)
+                            ?.replace(Constants.SQUARE_BRACKET_RIGHT, Constants.BLANK)
+                            ?.split(Constants.COMMAS)
+                            ?.map { it.trim().toUri().lastPathSegment ?: Constants.BLANK }
+                    adapter.submitList(imageNames)
+                    with(vpDetail) {
+                        orientation = ViewPager2.ORIENTATION_HORIZONTAL
+                        setPageTransformer(ZoomOutPageTransformer())
+                        offscreenPageLimit = 1
+                    }
 
-        viewModel.detailSpaceData.observe(viewLifecycleOwner) {
-            with(binding) {
-                val adapter = DetailViewPagerAdapter()
-                vpDetail.adapter = adapter
-                val imageNames =
-                    it?.additionalImage?.replace(Constants.SQUARE_BRACKET_LEFT, Constants.BLANK)
-                        ?.replace(Constants.SQUARE_BRACKET_RIGHT, Constants.BLANK)
-                        ?.split(Constants.COMMAS)
-                        ?.map { it.trim().toUri().lastPathSegment ?: Constants.BLANK }
-                adapter.submitList(imageNames)
-                vpDetail.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-                vpDetail.setPageTransformer(ZoomOutPageTransformer())
-                vpDetail.offscreenPageLimit = 1
-
-
-                if (it != null) {
-                    tbDetail.title = it.title
-                    tvDetailLocationUser.text = it.location
-                    tvDetailValueUser.text = it.value
-                    cgDetailCond.removeAllViews()
-                    it.cond.split(Constants.SPLIT).forEach { condText ->
-                        val chip = Chip(context).apply {
-                            text = condText
-                            isCheckable = true
-                        }
-
-                        chip.setOnCheckedChangeListener { buttonView, isChecked ->
-                            if (isChecked) {
-                                selectedCondList.add(condText)
-                            } else {
-                                selectedCondList.remove(condText)
+                    if (it != null) {
+                        tbDetail.title = it.title
+                        tvDetailLocationUser.text = it.location
+                        tvDetailValueUser.text = it.value
+                        cgDetailCond.removeAllViews()
+                        it.cond.split(Constants.SPLIT).forEach { condText ->
+                            val chip = Chip(context).apply {
+                                text = condText
+                                isCheckable = true
                             }
+
+                            chip.setOnCheckedChangeListener { buttonView, isChecked ->
+                                if (isChecked) {
+                                    selectedCondList.add(condText)
+                                } else {
+                                    selectedCondList.remove(condText)
+                                }
+                            }
+                            cgDetailCond.addView(chip)
                         }
-                        cgDetailCond.addView(chip)
                     }
                 }
             }

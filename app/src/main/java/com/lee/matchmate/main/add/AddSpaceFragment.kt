@@ -39,7 +39,10 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
-
+/**
+ * AddSpaceFragment
+ * 방 추가를 위한 Fragment,
+ */
 class AddSpaceFragment :
     ViewBindingBaseFragment<FragmentAddSpaceBinding>(FragmentAddSpaceBinding::inflate),
     OnMapReadyCallback {
@@ -63,11 +66,11 @@ class AddSpaceFragment :
 
     @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.add_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        super.onViewCreated(view, savedInstanceState)
         val fireSpace = FireSpace()
 
         lifecycleScope.launch {
@@ -81,18 +84,23 @@ class AddSpaceFragment :
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                viewModel.pImageData.observe(viewLifecycleOwner) {
-                    if (it != null && it != Uri.EMPTY) {
-                        binding.ivAddPrimaryImage.setImageURI(it)
-                        binding.ivAddPrimaryImage.background = null
-                        fireSpace.primaryImage = it.toString()
+                with(viewModel) {
+
+                    pImageData.observe(viewLifecycleOwner) {
+                        if (it != null && it != Uri.EMPTY) {
+                            with(binding) {
+                                ivAddPrimaryImage.setImageURI(it)
+                                ivAddPrimaryImage.background = null
+                            }
+                        }
                     }
-                }
-                viewModel.aImageData.observe(viewLifecycleOwner) {
-                    if (!it.isNullOrEmpty()) {
-                        spaceImageAdapter.submitList(it)
-                        binding.ivAddAdditionalImage.background = null
-                        fireSpace.additionalImage = it.toString()
+
+                    aImageData.observe(viewLifecycleOwner) {
+                        if (!it.isNullOrEmpty()) {
+                            spaceImageAdapter.submitList(it)
+                            binding.ivAddAdditionalImage.background = null
+                            fireSpace.additionalImage = it.toString()
+                        }
                     }
                 }
             }
@@ -102,21 +110,19 @@ class AddSpaceFragment :
         with(binding) {
             tbAdd.setOnMenuItemClickListener { item ->
                 if (item.itemId == R.id.menu_filter_check) {
-                    fireSpace.value = slAddValue.value.toString()
-                    fireSpace.title = edAdd.text.toString()
-                    fireSpace.userId =
-                        MatchmateAppContext.prefs.getString(Constants.USER_ID, Constants.BLANK)
-                            .toString()
-
+                    with(fireSpace) {
+                        value = slAddValue.value.toString()
+                        title = edAdd.text.toString()
+                        userId =
+                            MatchmateAppContext.prefs.getString(Constants.USER_ID, Constants.BLANK)
+                                .toString()
+                    }
 
                     val latLng = mMap.cameraPosition.target
                     val spaceMarker =
                         SpaceMarker(latLng.latitude.toString(), latLng.longitude.toString())
-
                     insertLatLngFireStore(spaceMarker)
-
                     val address = "${latLng.latitude},${latLng.longitude}"
-
                     geoViewModel.getReverseGeoCode(
                         latlng = address,
                         apiKey = BuildConfig.MAPS_API_KEY
@@ -135,11 +141,7 @@ class AddSpaceFragment :
                     geoViewModel.getReverseGeoEntityResponseLiveData().observe(viewLifecycleOwner) {
                         fireSpace.location = it.results[0].formattedAddress
                         insertFireStore(fireSpace)
-                        if (it != null) {
-                            findNavController().navigate(action)
-                        } else {
-                            findNavController().navigate(action)
-                        }
+                        findNavController().navigate(action)
                     }
 
 
@@ -165,10 +167,11 @@ class AddSpaceFragment :
                     fireSpace.primaryImage = uri.toString()
                 }
 
-
-            rvAddAdditionalImage.adapter = spaceImageAdapter
-            rvAddAdditionalImage.layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            rvAddAdditionalImage.apply {
+                adapter = spaceImageAdapter
+                layoutManager =
+                    LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            }
 
             val getAddImageAction =
                 registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uriList ->
@@ -200,7 +203,7 @@ class AddSpaceFragment :
 
                 fireSpace.cond =
                     it.toString().replace(Constants.SQUARE_BRACKET_LEFT, Constants.BLANK)
-                        ?.replace(Constants.SQUARE_BRACKET_RIGHT, Constants.BLANK).toString()
+                        .replace(Constants.SQUARE_BRACKET_RIGHT, Constants.BLANK).toString()
                 cgAddCond.removeView(chAdd)
                 it.forEach { chipText ->
                     cgAddCond.addView(Chip(context).apply {

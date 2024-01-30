@@ -37,7 +37,7 @@ class FavoriteRepository {
             .addOnSuccessListener {
                 onSuccess(true)
             }
-            .addOnFailureListener { e ->
+            .addOnFailureListener { _ ->
                 onSuccess(false)
             }
     }

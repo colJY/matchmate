@@ -14,6 +14,10 @@ import com.lee.matchmate.databinding.FragmentFilterBinding
 import com.lee.matchmate.main.MainViewModel
 import com.lee.matchmate.main.selectchip.ChipSelectViewModel
 
+/**
+ * Filter fragment
+ * 필터 적용을 위해 조건 선택 가능한 Fragment
+ */
 class FilterFragment :
     ViewBindingBaseFragment<FragmentFilterBinding>(FragmentFilterBinding::inflate) {
 
@@ -50,73 +54,69 @@ class FilterFragment :
             selectedCondList.value = mutableListOf()
         }
 
-        binding.tbFilter.setNavigationOnClickListener {
-            findNavController().popBackStack()
-        }
-
-
-        binding.tbFilter.setOnMenuItemClickListener {
-            val action = FilterFragmentDirections.actionFilterFragmentToMainFragment()
-            with(viewModel) {
-                selectedMaxValue.postValue(maxValue)
-                selectedMinValue.postValue(minValue)
-                selectedCondList.postValue(condList)
-                selectedDistrict.postValue(selectedDistrictValue)
-                selectedType.postValue(roomType)
-                filterData()
+        with(binding){
+            tbFilter.setNavigationOnClickListener {
+                findNavController().popBackStack()
             }
 
-
-            findNavController().navigate(action)
-            return@setOnMenuItemClickListener true
-        }
-
-        binding.tgFilter.addOnButtonCheckedListener { _, checkedId, _ ->
-            roomType = when (checkedId) {
-                R.id.btn_filter_space_left -> {
-                    Constants.roomApart
+            tbFilter.setOnMenuItemClickListener {
+                val action = FilterFragmentDirections.actionFilterFragmentToMainFragment()
+                with(viewModel) {
+                    selectedMaxValue.postValue(maxValue)
+                    selectedMinValue.postValue(minValue)
+                    selectedCondList.postValue(condList)
+                    selectedDistrict.postValue(selectedDistrictValue)
+                    selectedType.postValue(roomType)
+                    filterData()
                 }
+                findNavController().navigate(action)
+                return@setOnMenuItemClickListener true
+            }
 
-                R.id.btn_filter_space_mid -> {
-                    Constants.roomOffice
+            tgFilter.addOnButtonCheckedListener { _, checkedId, _ ->
+                roomType = when (checkedId) {
+                    R.id.btn_filter_space_left -> {
+                        Constants.roomApart
+                    }
+
+                    R.id.btn_filter_space_mid -> {
+                        Constants.roomOffice
+                    }
+
+                    R.id.btn_filter_space_right -> {
+                        Constants.roomVilla
+                    }
+
+                    else -> null
                 }
+            }
 
-                R.id.btn_filter_space_right -> {
-                    Constants.roomVilla
+            slFilterSpaceMaxValue.addOnChangeListener { _, value, _ ->
+                maxValue = value.toString()
+            }
+
+            slFilterSpaceMinValue.addOnChangeListener { _, value, _ ->
+                minValue = value.toString()
+            }
+
+            tvCityDropdown.setAdapter(cityArrayAdapter)
+            tvFilterDistrictDropdown.setAdapter(districtArrayAdapter)
+            tvCityDropdown.setOnItemClickListener { parent, view, position, id ->
+                val selectedCity = parent.getItemAtPosition(position).toString()
+
+                when (position) {
+                    0 -> {
+                        binding.tvFilterDistrictDropdown.isEnabled = true
+
+                    }
+
+                    else -> binding.tvFilterDistrictDropdown.isEnabled = false
                 }
-
-                else -> null
+            }
+            tvFilterDistrictDropdown.setOnItemClickListener { parent, view, position, id ->
+                selectedDistrictValue = parent.getItemAtPosition(position).toString()
             }
         }
-
-
-        binding.slFilterSpaceMaxValue.addOnChangeListener { _, value, _ ->
-            maxValue = value.toString()
-        }
-
-        binding.slFilterSpaceMinValue.addOnChangeListener { _, value, _ ->
-            minValue = value.toString()
-        }
-
-        binding.tvCityDropdown.setAdapter(cityArrayAdapter)
-        binding.tvFilterDistrictDropdown.setAdapter(districtArrayAdapter)
-        binding.tvCityDropdown.setOnItemClickListener { parent, view, position, id ->
-            val selectedCity = parent.getItemAtPosition(position).toString()
-
-            when (position) {
-                0 -> {
-                    binding.tvFilterDistrictDropdown.isEnabled = true
-
-                }
-
-                else -> binding.tvFilterDistrictDropdown.isEnabled = false
-            }
-        }
-
-        binding.tvFilterDistrictDropdown.setOnItemClickListener { parent, view, position, id ->
-            selectedDistrictValue = parent.getItemAtPosition(position).toString()
-        }
-
 
         chipViewModel.chipData.observe(viewLifecycleOwner) {
             it.split(Constants.SPLIT).forEach { condText ->

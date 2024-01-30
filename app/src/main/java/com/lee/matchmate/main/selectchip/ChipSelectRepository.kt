@@ -10,8 +10,6 @@ import kotlinx.coroutines.launch
 
 
 class ChipSelectRepository() {
-
-
     private val fireStoreDB = Firebase.firestore
     private val fireStoreCollectionName = Constants.COND_COLLECTION_NAME
     private val fireStoreDocumentName = Constants.COND_DOCUMENT_NAME

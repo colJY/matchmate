@@ -16,6 +16,11 @@ import com.lee.matchmate.common.Constants
 import com.lee.matchmate.databinding.ItemMainSpaceBinding
 import com.lee.matchmate.main.NewSpace
 
+/**
+ * FavoriteAdapter
+ * 관심 목록을 리스트를 보여주기 위한 Adapter
+ * @property viewModel
+ */
 class FavoriteAdapter(
     private val viewModel: FavoriteViewModel
 ) :
@@ -34,9 +39,7 @@ class FavoriteAdapter(
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding =
-            ItemMainSpaceBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
+        return ViewHolder( ItemMainSpaceBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -49,44 +52,48 @@ class FavoriteAdapter(
         val currentId =
             MatchmateAppContext.prefs.getString(Constants.USER_ID, Constants.BLANK).toString()
 
-        holder.binding.tvItemName.text = newSpace.space.title
-        holder.binding.tvItemValue.text = newSpace.space.value
-        holder.binding.tvItemLocation.text = newSpace.space.location
+        with(holder.binding){
+            tvItemName.text = newSpace.space.title
+            tvItemValue.text = newSpace.space.value
+            tvItemLocation.text = newSpace.space.location
 
-        holder.binding.btnItemFavorite.setIconResource(
-            if (newSpace.space.fav.contains(currentId)) R.drawable.baseline_favorite_24
-            else R.drawable.baseline_favorite_border_24
-        )
+            btnItemFavorite.setIconResource(
+                if (newSpace.space.fav.contains(currentId)) R.drawable.baseline_favorite_24
+                else R.drawable.baseline_favorite_border_24
+            )
 
-        if (newSpace.space.cond.isNotEmpty()) {
-            holder.binding.cgItemCond.removeAllViews()
-            newSpace.space.cond.trim().split(Constants.SPLIT).forEach {
-                holder.binding.cgItemCond.addView(Chip(holder.itemView.context).apply {
-                    text = it
-                })
-            }
-        }
-
-        holder.binding.btnItemFavorite.setOnClickListener {
-            viewModel.toggleFavState(currentId, newSpace) { isSuccess ->
-                if (isSuccess) {
-                    holder.binding.btnItemFavorite.setIconResource(
-                        if (newSpace.space.fav.contains(currentId)) R.drawable.baseline_favorite_24
-                        else R.drawable.baseline_favorite_border_24
-                    )
+            btnItemFavorite.setOnClickListener {
+                viewModel.toggleFavState(currentId, newSpace) { isSuccess ->
+                    if (isSuccess) {
+                        holder.binding.btnItemFavorite.setIconResource(
+                            if (newSpace.space.fav.contains(currentId)) R.drawable.baseline_favorite_24
+                            else R.drawable.baseline_favorite_border_24
+                        )
+                    }
                 }
             }
+
+            if (newSpace.space.cond.isNotEmpty()) {
+                cgItemCond.removeAllViews()
+                newSpace.space.cond.trim().split(Constants.SPLIT).forEach {
+                    cgItemCond.addView(Chip(holder.itemView.context).apply {
+                        text = it
+                    })
+                }
+            }
+
+            root.setOnClickListener {
+                val action =
+                    FavoriteFragmentDirections.actionFavoriteFragmentToDetailFragment(newSpace.id)
+                it.findNavController().navigate(action)
+            }
         }
+
 
         glideImage?.downloadUrl?.addOnSuccessListener {
             Glide.with(holder.itemView.context).load(it).into(holder.binding.ivItemSpace)
         }
 
-        holder.binding.root.setOnClickListener {
-            val action =
-                FavoriteFragmentDirections.actionFavoriteFragmentToDetailFragment(newSpace.id)
-            it.findNavController().navigate(action)
-        }
 
     }
 }

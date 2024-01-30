@@ -13,14 +13,11 @@ class AddSpaceViewModel : ViewModel() {
     var aImageData: MutableLiveData<List<Uri>?> = MutableLiveData()
     var spaceSelectedCondList: MutableLiveData<MutableSet<String>> = MutableLiveData()
 
-
-
     var markerPosition = MutableStateFlow(
         LatLng(
             Constants.LAT,
             Constants.LNG
         )
     )
-
 }
 

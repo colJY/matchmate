@@ -21,7 +21,7 @@ import com.lee.matchmate.databinding.ItemMainSpaceBinding
 import kotlinx.coroutines.launch
 
 class MainAdapter(
-    private val viewModel: MainViewModel,
+    private val currentViewModel: MainViewModel,
     private val lifecycleScope: LifecycleCoroutineScope
 ) :
     ListAdapter<NewSpace, MainAdapter.ViewHolder>(DiffCallback) {
@@ -39,9 +39,8 @@ class MainAdapter(
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding =
-            ItemMainSpaceBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
+
+        return ViewHolder(ItemMainSpaceBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
 
@@ -65,7 +64,7 @@ class MainAdapter(
         }
 
         lifecycleScope.launch {
-            viewModel.isSuccess.collect {
+            currentViewModel.isSuccess.collect {
                 glideImage?.downloadUrl?.addOnSuccessListener {
                     Glide.with(holder.itemView.context)
                         .load(it)
@@ -98,7 +97,7 @@ class MainAdapter(
             }
 
             btnItemFavorite.setOnClickListener {
-                viewModel.toggleFavState(currentId, newSpace) { isSuccess ->
+                currentViewModel.toggleFavState(currentId, newSpace) { isSuccess ->
                     if (isSuccess) {
                         btnItemFavorite.setIconResource(
                             if (newSpace.space.fav.contains(currentId)) R.drawable.baseline_favorite_24

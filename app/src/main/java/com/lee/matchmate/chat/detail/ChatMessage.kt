@@ -5,7 +5,7 @@ import com.lee.matchmate.common.Constants
 
 
 data class Chat(
-    val id: String = "",
+    val id: String = Constants.BLANK,
     val selectedCondList: List<String> = listOf(),
     val chatMessage: List<ChatMessage> = listOf(),
 ) {
@@ -20,8 +20,8 @@ data class Chat(
 }
 
 data class ChatMessage(
-    val sender: String = "",
-    val message: String = "",
+    val sender: String = Constants.BLANK,
+    val message: String = Constants.BLANK,
     val timestamp: Long = 0L,
 ) {
     @Exclude

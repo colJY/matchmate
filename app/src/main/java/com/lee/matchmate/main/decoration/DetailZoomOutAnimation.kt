@@ -5,10 +5,14 @@ import androidx.viewpager2.widget.ViewPager2
 import com.lee.matchmate.R
 import com.lee.matchmate.common.Constants
 import kotlin.math.abs
+import kotlin.math.max
 
+/**
+ * Zoom out page transformer
+ * ViewPager2의 Image 스와이프 중 Zoom 되는 애니메이션
+ */
 class ZoomOutPageTransformer : ViewPager2.PageTransformer {
     override fun transformPage(view: View, position: Float) {
-
         view.apply {
             val pageMarginPx = resources.getDimensionPixelOffset(R.dimen.viewpager_margin)
             val pagerWidth = resources.getDimensionPixelOffset(R.dimen.viewpager_margin)
@@ -21,9 +25,8 @@ class ZoomOutPageTransformer : ViewPager2.PageTransformer {
                 position < -1 -> {
                     alpha = 0f
                 }
-
                 position <= 1 -> {
-                    val scaleFactor = Math.max(Constants.MIN_SCALE, 1 - abs(position))
+                    val scaleFactor = max(Constants.MIN_SCALE, 1 - abs(position))
                     val vertMargin = pageHeight * (1 - scaleFactor) / 2
                     val horzMargin = pageWidth * (1 - scaleFactor) / 2
                     val translationXValue = if (position < 0) {

@@ -1,12 +1,13 @@
 package com.lee.matchmate.chat.detail
 
+import com.lee.matchmate.common.RepositoryFactory
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.lee.matchmate.main.User
 
 class ChatDetailViewModel : ViewModel() {
-    private val repository = ChatDetailRepository()
+    private val repository = RepositoryFactory.chatDetailRepository
 
     val chatMessages : MutableLiveData<List<ChatMessage?>?> = repository.chatData
     val roomData : MutableLiveData<Chat?> = repository.roomData

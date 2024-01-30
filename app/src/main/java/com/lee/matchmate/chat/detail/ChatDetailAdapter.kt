@@ -16,6 +16,11 @@ import com.lee.matchmate.databinding.ItemChatDetailBinding
 import java.text.SimpleDateFormat
 import java.util.Date
 
+/**
+ * ChatDetailAdapter - 채팅 메시지 표시를 위한 어댑터
+ * 2명의 사용자를 구분하기 위해 두 종류의 ViewHolder를 사용
+ * @property viewModel
+ */
 class ChatDetailAdapter(private val viewModel: ChatDetailViewModel) :
     ListAdapter<ChatMessage, RecyclerView.ViewHolder>(differ) {
 
@@ -26,7 +31,7 @@ class ChatDetailAdapter(private val viewModel: ChatDetailViewModel) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun getItemViewType(position: Int): Int {
-        val currentId = MatchmateAppContext.prefs.getString("userId", "").toString()
+        val currentId = MatchmateAppContext.prefs.getString(Constants.USER_ID, Constants.BLANK).toString()
         return if (getItem(position).sender == currentId) {
             VIEW_TYPE_MY_MESSAGE
         } else {
@@ -59,19 +64,24 @@ class ChatDetailAdapter(private val viewModel: ChatDetailViewModel) :
             val timestampLong = chatMessage.timestamp
             val formattedTimestamp = run {
                 val date = Date(timestampLong)
-                val format = SimpleDateFormat(Constants.DATE_FORMAT)
-                format.format(date)
+                val dateFormat = SimpleDateFormat(Constants.DATE_FORMAT)
+                dateFormat.format(date)
             }
 
             when (holder) {
                 is MyMessageViewHolder -> {
-                    holder.binding.tvItemChatDetailMessage.text = chatMessage.message
-                    holder.binding.tvItemChatDetailTimestamp.text = formattedTimestamp
+
+                    with(holder.binding){
+                        tvItemChatDetailMessage.text = chatMessage.message
+                        tvItemChatDetailTimestamp.text = formattedTimestamp
+                    }
                 }
 
                 is OtherMessageViewHolder -> {
-                    holder.binding.tvItemChatAnotherDetailMessage.text = chatMessage.message
-                    holder.binding.tvItemChatAnotherDetailTimestamp.text = formattedTimestamp
+                    with(holder.binding){
+                        tvItemChatAnotherDetailMessage.text = chatMessage.message
+                        tvItemChatAnotherDetailTimestamp.text = formattedTimestamp
+                    }
 
                     if (user != null) {
                         holder.binding.tvItemChatAnotherDetailNickname.text = user.userName

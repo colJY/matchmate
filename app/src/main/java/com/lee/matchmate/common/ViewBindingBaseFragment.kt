@@ -24,7 +24,6 @@ abstract class ViewBindingBaseFragment<VB : ViewBinding>(
         return binding.root
     }
 
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null // null처리 하지 않으면 viewBinding 객체가 계속 살아있게 됨
