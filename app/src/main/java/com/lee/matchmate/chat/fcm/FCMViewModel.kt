@@ -1,14 +1,12 @@
 package com.lee.matchmate.chat.fcm
 
-import android.app.Application
-import android.app.Notification
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.CoroutineScope
+import com.lee.matchmate.common.RepositoryFactory
 import kotlinx.coroutines.launch
 
-class FCMViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository : FCMRepository = FCMRepository()
+class FCMViewModel: ViewModel() {
+    private val repository = RepositoryFactory.fcmRepository
 
     fun sendPushNotification(notificationBody: NotificationBody){
         viewModelScope.launch {

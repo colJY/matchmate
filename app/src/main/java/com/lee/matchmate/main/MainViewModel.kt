@@ -3,11 +3,12 @@ package com.lee.matchmate.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.lee.matchmate.common.RepositoryFactory
 import com.lee.matchmate.main.geocoder.SpaceMarker
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class MainViewModel : ViewModel() {
-    private val repository: MainRepository = MainRepository()
+    private val repository = RepositoryFactory.mainRepository
 
     val spaceData: LiveData<List<NewSpace>> = repository.spaceData
     val spaceMarker: LiveData<List<SpaceMarker>> = repository.spaceMarker
@@ -24,6 +25,10 @@ class MainViewModel : ViewModel() {
 
     var isSuccess: MutableStateFlow<Boolean> = MutableStateFlow(true)
 
+    /**
+     * Filter data
+     * 값들을 변수로써 받고, 코틀린 filter 함수를 활용하여 filteredList라는 리스트를 기준으로 RecyclerView를 생성
+     */
     fun filterData() {
         val minValue = selectedMinValue.value?.toFloatOrNull() ?: 0f
         val maxValue = selectedMaxValue.value?.let {
@@ -58,8 +63,10 @@ class MainViewModel : ViewModel() {
 
 
     init {
-        repository.getSpaceData()
-        repository.getMarkerData()
+        with(repository){
+            getSpaceData()
+            getMarkerData()
+        }
     }
 }
 

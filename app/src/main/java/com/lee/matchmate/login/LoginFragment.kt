@@ -24,6 +24,12 @@ import com.lee.matchmate.common.toastMessage
 import com.lee.matchmate.databinding.FragmentLoginBinding
 import com.lee.matchmate.main.User
 
+/**
+ * Login fragment
+ * 카카오 로그인 및 Token 발급 Fragment
+ * 로그인 성공 시 발급된 Token을 기반으로 자동 로그인 가능
+ */
+
 class LoginFragment : ViewBindingBaseFragment<FragmentLoginBinding>(FragmentLoginBinding::inflate) {
     private val fireStoreDB = Firebase.firestore
     private val fireStoreCollectionName = Constants.USER_COLLECTION_NAME
@@ -84,19 +90,21 @@ class LoginFragment : ViewBindingBaseFragment<FragmentLoginBinding>(FragmentLogi
                 UserApiClient.instance.me { userInfo, error ->
                     if (error == null) {
                         if (userInfo != null) {
-                            user.userName = userInfo.kakaoAccount?.profile?.nickname.toString()
-                            user.profileImage =
-                                userInfo.kakaoAccount?.profile?.profileImageUrl.toString()
+                            with(user){
+                                userName = userInfo.kakaoAccount?.profile?.nickname.toString()
+                                profileImage = userInfo.kakaoAccount?.profile?.profileImageUrl.toString()
 
+                            }
                             Firebase.messaging.token.addOnSuccessListener {
                                 user.fcmToken = it
                             }
-
                             insertFireStore(user, userInfo.id.toString())
-                            MatchmateAppContext.prefs.edit()
-                                .putString(Constants.USER_ID, userInfo.id.toString()).apply()
-                            MatchmateAppContext.prefs.edit()
-                                .putBoolean(Constants.IS_LOGGED_IN, true).apply()
+
+                            with(MatchmateAppContext.prefs.edit()){
+                                putString(Constants.USER_ID, userInfo.id.toString()).apply()
+                                putBoolean(Constants.IS_LOGGED_IN, true).apply()
+
+                            }
                             toastMessage(
                                 "${Constants.WELCOME_MESSAGE_PREFIX}${userInfo.kakaoAccount?.profile?.nickname}${Constants.WELCOME_MESSAGE_SUFFIX}",
                                 activity as Activity

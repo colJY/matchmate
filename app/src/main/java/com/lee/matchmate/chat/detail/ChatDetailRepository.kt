@@ -10,6 +10,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+/**
+ * ChatDetailRepository - 채팅방 내용 송수신을 위한 Repository
+ */
 class ChatDetailRepository {
 
     private val fireStoreDB = Firebase.firestore

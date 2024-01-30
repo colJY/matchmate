@@ -17,6 +17,10 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
+/**
+ * Chip select fragment
+ * 조건 Chip 선택을 위한 Fragment
+ */
 class ChipSelectFragment :
     ViewBindingBaseFragment<FragmentChipSelectBinding>(FragmentChipSelectBinding::inflate) {
 
@@ -33,24 +37,27 @@ class ChipSelectFragment :
         super.onViewCreated(view, savedInstanceState)
         initChip()
 
-        binding.btnSelectChipAdd
-            .clicks()
-            .observeOn(Schedulers.io())
-            .throttleFirst(500, TimeUnit.MILLISECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                addConditionChip(binding.edSelectChipAddCond.text.toString())
-            }
+        with(binding){
+            btnSelectChipAdd
+                .clicks()
+                .observeOn(Schedulers.io())
+                .throttleFirst(500, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    addConditionChip(binding.edSelectChipAddCond.text.toString())
+                }
 
-        binding.tbSelectChip.setOnMenuItemClickListener { item ->
-            if (item.itemId == R.id.menu_filter_check) {
-                addSpaceViewModel.spaceSelectedCondList.postValue(selectedCondList)
-                findNavController().popBackStack()
-                return@setOnMenuItemClickListener true
+            tbSelectChip.setOnMenuItemClickListener { item ->
+                if (item.itemId == R.id.menu_filter_check) {
+                    addSpaceViewModel.spaceSelectedCondList.postValue(selectedCondList)
+                    findNavController().popBackStack()
+                    return@setOnMenuItemClickListener true
+                }
+                false
             }
-            false
         }
-        addSpaceViewModel.spaceSelectedCondList.observe(viewLifecycleOwner) { selectedCondList ->
+
+        addSpaceViewModel.spaceSelectedCondList.observe(viewLifecycleOwner) { _ ->
 
         }
 

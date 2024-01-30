@@ -31,8 +31,10 @@ class AddSpaceImageAdapter : ListAdapter<Uri, AddSpaceImageAdapter.ViewHolder>(D
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val uri = getItem(position)
-        holder.binding.ivAddAdditionalImage.setImageURI(uri)
-        holder.binding.ivAddAdditionalImage.background = null
+        with(holder.binding){
+            ivAddAdditionalImage.setImageURI(uri)
+            ivAddAdditionalImage.background = null
+        }
     }
 }
 

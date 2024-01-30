@@ -29,9 +29,7 @@ class DetailViewPagerAdapter() :
         parent: ViewGroup,
         viewType: Int
     ): DetailViewPagerAdapter.ViewHolder {
-        val binding =
-            ItemDetailImageBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
+        return ViewHolder(ItemDetailImageBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: DetailViewPagerAdapter.ViewHolder, position: Int) {
@@ -43,8 +41,6 @@ class DetailViewPagerAdapter() :
             Glide.with(holder.itemView.context)
                 .load(uri)
                 .into(holder.binding.ivItemDetailImage)
-        }.addOnFailureListener {
-
         }
     }
 }

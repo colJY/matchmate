@@ -22,6 +22,10 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
+/**
+ * ChatDetailFragment - 사용자간의 채팅 Fragment
+ *
+ */
 class ChatDetailFragment :
     ViewBindingBaseFragment<FragmentChatDetailBinding>(FragmentChatDetailBinding::inflate) {
     private val args: ChatDetailFragmentArgs by navArgs()
@@ -37,7 +41,7 @@ class ChatDetailFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val currentId =
-            MatchmateAppContext.prefs.getString("userId", Constants.DEFAULT_USER_ID).toString()
+            MatchmateAppContext.prefs.getString(Constants.USER_ID, Constants.DEFAULT_USER_ID).toString()
         val roomId = args.documentID
         val otherUserId = roomId.replace(currentId, Constants.DEFAULT_USER_ID)
             .replace(Constants.REPLACE_USER_ID, Constants.DEFAULT_USER_ID)

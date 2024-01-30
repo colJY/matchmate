@@ -105,28 +105,31 @@ class MainFragment : ViewBindingBaseFragment<FragmentMainBinding>(FragmentMainBi
         with(binding) {
             tvCityDropdown.setAdapter(cityArrayAdapter)
             val adapter = MainAdapter(viewModel,lifecycleScope)
+
             rvMainSpace.adapter = adapter
             rvMainSpace.layoutManager = LinearLayoutManager(context)
             rvMainSpace.addItemDecoration(MainDecoration(0, R.color.lightGrey, 20))
 
-
             viewModel.filteredData.observe(viewLifecycleOwner) { filteredList ->
                 adapter.submitList(filteredList)
                 binding.cgMain.removeAllViews()
-                viewModel.selectedCondList.value?.forEach { condText ->
-                    val chip = Chip(context).apply {
-                        text = condText
-                        isCloseIconVisible = true
+                with(viewModel){
+                    selectedCondList.value?.forEach { condText ->
+                        val chip = Chip(context).apply {
+                            text = condText
+                            isCloseIconVisible = true
+                        }
+                        chip.setOnCloseIconClickListener {
+                            val chipText = chip.text.toString()
+                            val newList = selectedCondList.value?.toMutableList()
+                            newList?.remove(chipText)
+                            selectedCondList.postValue(newList)
+                            filterData()
+                        }
+                        binding.cgMain.addView(chip)
                     }
-                    chip.setOnCloseIconClickListener {
-                        val chipText = chip.text.toString()
-                        val newList = viewModel.selectedCondList.value?.toMutableList()
-                        newList?.remove(chipText)
-                        viewModel.selectedCondList.postValue(newList)
-                        viewModel.filterData()
-                    }
-                    binding.cgMain.addView(chip)
                 }
+
 
             }
 

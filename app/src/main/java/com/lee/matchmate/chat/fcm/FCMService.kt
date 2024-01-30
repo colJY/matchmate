@@ -19,17 +19,13 @@ import com.lee.matchmate.common.Constants
 
 class FCMService : FirebaseMessagingService() {
 
-    override fun onNewToken(token: String) {
-        super.onNewToken(token)
-//        Log.e("FCM Token",token)
-    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onMessageReceived(pushMessage: RemoteMessage) {
         super.onMessageReceived(pushMessage)
 
         val roomId = pushMessage.data[Constants.ROOM_ID] ?: Constants.BLANK
-        val intent = Intent(this@FCMService, MainActivity::class.java).apply {
+        val target = Intent(this@FCMService, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             putExtra(Constants.ROOM_ID, roomId)
         }
@@ -37,7 +33,7 @@ class FCMService : FirebaseMessagingService() {
         val pendingIntent: PendingIntent = PendingIntent.getActivity(
             this,
             0,
-            intent,
+            target,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
