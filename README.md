@@ -47,7 +47,7 @@
 [![Video Label](http://img.youtube.com/vi/RKIn_7T37b0/0.jpg)](https://www.youtube.com/watch?v=RKIn_7T37b0&ab_channel=%EC%9D%B4%EC%A2%85%EC%9C%A4)
 
 
-### Fragment 이미지
+### 기능별 이미지
 <p align="center">
   <img src="https://github.com/colJY/matchmate/assets/94308690/99d82860-3304-46e9-b91a-bf4e3b305ccf" width="130">
   
