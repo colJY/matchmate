@@ -24,7 +24,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.jakewharton.rxbinding4.view.clicks
 import com.lee.matchmate.BuildConfig
 import com.lee.matchmate.R
-import com.lee.matchmate.common.AppGlobalContext
+import com.lee.matchmate.common.MatchmateAppContext
 import com.lee.matchmate.common.Constants
 import com.lee.matchmate.common.ViewBindingBaseFragment
 import com.lee.matchmate.databinding.FragmentAddSpaceBinding
@@ -36,8 +36,6 @@ import com.lee.matchmate.main.geocoder.ReverseGeoEntity
 import com.lee.matchmate.main.geocoder.SpaceMarker
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
@@ -107,7 +105,7 @@ class AddSpaceFragment :
                     fireSpace.value = slAddValue.value.toString()
                     fireSpace.title = edAdd.text.toString()
                     fireSpace.userId =
-                        AppGlobalContext.prefs.getString(Constants.USER_ID, Constants.BLANK)
+                        MatchmateAppContext.prefs.getString(Constants.USER_ID, Constants.BLANK)
                             .toString()
 
 
@@ -256,7 +254,7 @@ class AddSpaceFragment :
     private fun insertUserIDFireStore(spaceId: String) {
         val documentRef = fireStoreDB.collection(fireStoreUserCollectionName)
             .document(
-                AppGlobalContext.prefs.getString(Constants.USER_ID, Constants.BLANK).toString()
+                MatchmateAppContext.prefs.getString(Constants.USER_ID, Constants.BLANK).toString()
             )
         documentRef.get().addOnSuccessListener {
             val user = it.toObject(User::class.java)

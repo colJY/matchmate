@@ -5,9 +5,10 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.kakao.sdk.common.KakaoSdk
 import com.lee.matchmate.BuildConfig
+import dagger.hilt.android.HiltAndroidApp
 
-//@HiltAndroidApp
-class AppGlobalContext : Application() {
+@HiltAndroidApp
+class MatchmateAppContext : Application() {
 
     override fun onCreate() {
 
@@ -18,12 +19,8 @@ class AppGlobalContext : Application() {
     }
 
     companion object {
-        private var appContext: AppGlobalContext? = null
+        private lateinit var appContext: MatchmateAppContext
         lateinit var prefs: SharedPreferences
-
-
-        fun getAppContext(): AppGlobalContext {
-            return appContext ?: run { return AppGlobalContext() }
-        }
+        fun getAppContext() = appContext
     }
 }

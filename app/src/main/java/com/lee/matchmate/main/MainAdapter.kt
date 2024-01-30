@@ -15,7 +15,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.chip.Chip
 import com.google.firebase.storage.FirebaseStorage
 import com.lee.matchmate.R
-import com.lee.matchmate.common.AppGlobalContext
+import com.lee.matchmate.common.MatchmateAppContext
 import com.lee.matchmate.common.Constants
 import com.lee.matchmate.databinding.ItemMainSpaceBinding
 import kotlinx.coroutines.launch
@@ -47,7 +47,7 @@ class MainAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentId =
-            AppGlobalContext.prefs.getString(Constants.USER_ID, Constants.BLANK).toString()
+            MatchmateAppContext.prefs.getString(Constants.USER_ID, Constants.BLANK).toString()
         val newSpace: NewSpace = getItem(position)
         val storageRef = FirebaseStorage.getInstance().reference
         val glideImage = newSpace.space.primaryImage.toUri().lastPathSegment?.let {
