@@ -9,7 +9,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.lee.matchmate.chat.detail.ChatDetailFragmentDirections
-import com.lee.matchmate.common.AppGlobalContext
+import com.lee.matchmate.common.MatchmateAppContext
 import com.lee.matchmate.common.Constants
 import com.lee.matchmate.databinding.ActivityMainBinding
 
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.findNavController()
 
         binding.bottomNavigationView.setupWithNavController(navController)
-        val isLoggedIn = AppGlobalContext.prefs.getBoolean(Constants.IS_LOGGED_IN, false)
+        val isLoggedIn = MatchmateAppContext.prefs.getBoolean(Constants.IS_LOGGED_IN, false)
 
         setupJetpackNavigation(isLoggedIn)
         navigateToChatFragmentIfNeeded(intent)

@@ -17,7 +17,7 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.lee.matchmate.R
-import com.lee.matchmate.common.AppGlobalContext
+import com.lee.matchmate.common.MatchmateAppContext
 import com.lee.matchmate.common.Constants
 import com.lee.matchmate.common.ViewBindingBaseFragment
 import com.lee.matchmate.common.toastMessage
@@ -93,9 +93,9 @@ class LoginFragment : ViewBindingBaseFragment<FragmentLoginBinding>(FragmentLogi
                             }
 
                             insertFireStore(user, userInfo.id.toString())
-                            AppGlobalContext.prefs.edit()
+                            MatchmateAppContext.prefs.edit()
                                 .putString(Constants.USER_ID, userInfo.id.toString()).apply()
-                            AppGlobalContext.prefs.edit()
+                            MatchmateAppContext.prefs.edit()
                                 .putBoolean(Constants.IS_LOGGED_IN, true).apply()
                             toastMessage(
                                 "${Constants.WELCOME_MESSAGE_PREFIX}${userInfo.kakaoAccount?.profile?.nickname}${Constants.WELCOME_MESSAGE_SUFFIX}",

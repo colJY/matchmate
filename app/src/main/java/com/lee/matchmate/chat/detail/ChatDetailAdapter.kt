@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
-import com.lee.matchmate.common.AppGlobalContext
+import com.lee.matchmate.common.MatchmateAppContext
 import com.lee.matchmate.common.Constants
 import com.lee.matchmate.databinding.ItemChatAnotherBinding
 import com.lee.matchmate.databinding.ItemChatDetailBinding
@@ -26,7 +26,7 @@ class ChatDetailAdapter(private val viewModel: ChatDetailViewModel) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun getItemViewType(position: Int): Int {
-        val currentId = AppGlobalContext.prefs.getString("userId", "").toString()
+        val currentId = MatchmateAppContext.prefs.getString("userId", "").toString()
         return if (getItem(position).sender == currentId) {
             VIEW_TYPE_MY_MESSAGE
         } else {

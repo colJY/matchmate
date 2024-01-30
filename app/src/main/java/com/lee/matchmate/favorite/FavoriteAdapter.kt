@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.google.firebase.storage.FirebaseStorage
 import com.lee.matchmate.R
-import com.lee.matchmate.common.AppGlobalContext
+import com.lee.matchmate.common.MatchmateAppContext
 import com.lee.matchmate.common.Constants
 import com.lee.matchmate.databinding.ItemMainSpaceBinding
 import com.lee.matchmate.main.NewSpace
@@ -47,7 +47,7 @@ class FavoriteAdapter(
         }
 
         val currentId =
-            AppGlobalContext.prefs.getString(Constants.USER_ID, Constants.BLANK).toString()
+            MatchmateAppContext.prefs.getString(Constants.USER_ID, Constants.BLANK).toString()
 
         holder.binding.tvItemName.text = newSpace.space.title
         holder.binding.tvItemValue.text = newSpace.space.value

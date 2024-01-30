@@ -12,7 +12,7 @@ import com.lee.matchmate.R
 import com.lee.matchmate.chat.fcm.FCMViewModel
 import com.lee.matchmate.chat.fcm.NotificationBody
 import com.lee.matchmate.chat.fcm.NotificationData
-import com.lee.matchmate.common.AppGlobalContext
+import com.lee.matchmate.common.MatchmateAppContext
 import com.lee.matchmate.common.Constants
 import com.lee.matchmate.common.ViewBindingBaseFragment
 import com.lee.matchmate.databinding.FragmentChatDetailBinding
@@ -37,7 +37,7 @@ class ChatDetailFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val currentId =
-            AppGlobalContext.prefs.getString("userId", Constants.DEFAULT_USER_ID).toString()
+            MatchmateAppContext.prefs.getString("userId", Constants.DEFAULT_USER_ID).toString()
         val roomId = args.documentID
         val otherUserId = roomId.replace(currentId, Constants.DEFAULT_USER_ID)
             .replace(Constants.REPLACE_USER_ID, Constants.DEFAULT_USER_ID)

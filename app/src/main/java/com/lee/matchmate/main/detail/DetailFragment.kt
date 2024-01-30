@@ -11,7 +11,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.chip.Chip
 import com.lee.matchmate.chat.detail.Chat
 import com.lee.matchmate.chat.detail.ChatDetailViewModel
-import com.lee.matchmate.common.AppGlobalContext
+import com.lee.matchmate.common.MatchmateAppContext
 import com.lee.matchmate.common.Constants
 import com.lee.matchmate.common.ViewBindingBaseFragment
 import com.lee.matchmate.common.toastMessage
@@ -35,7 +35,7 @@ class DetailFragment :
         with(binding) {
             tbDetail.setOnMenuItemClickListener {
                 val currentUserId =
-                    AppGlobalContext.prefs.getString(Constants.USER_ID, Constants.BLANK).toString()
+                    MatchmateAppContext.prefs.getString(Constants.USER_ID, Constants.BLANK).toString()
                 val otherUserId = viewModel.detailSpaceData.value?.userId
 
                 if (otherUserId != null) {

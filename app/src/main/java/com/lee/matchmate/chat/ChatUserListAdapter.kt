@@ -10,10 +10,15 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.lee.matchmate.chat.detail.ChatDetailViewModel
-import com.lee.matchmate.common.AppGlobalContext
+import com.lee.matchmate.common.MatchmateAppContext
 import com.lee.matchmate.common.Constants
 import com.lee.matchmate.databinding.ItemChatUserListBinding
 
+/**
+ * Chat user list adapter
+ * 채팅방 목록을 리스트를 보여주기 위한 Adapter
+ * @property viewModel
+ */
 class ChatUserListAdapter(
     private val viewModel: ChatDetailViewModel
 ) : ListAdapter<String, ChatUserListAdapter.ViewHolder>(DiffCallback) {
@@ -41,7 +46,7 @@ class ChatUserListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val chatId = getItem(position)
         val currentId =
-            AppGlobalContext.prefs.getString(Constants.USER_ID, Constants.BLANK).toString()
+            MatchmateAppContext.prefs.getString(Constants.USER_ID, Constants.BLANK).toString()
         val targetId = if (currentId == chatId.split(Constants.UNDERSCORE)[0]) {
             chatId.split(Constants.UNDERSCORE)[1]
         } else {
@@ -58,8 +63,7 @@ class ChatUserListAdapter(
         }
 
         holder.binding.root.setOnClickListener {
-            val action = ChatFragmentDirections.actionChatFragmentToChatDetailFragment(chatId)
-            it.findNavController().navigate(action)
+            it.findNavController().navigate(ChatFragmentDirections.actionChatFragmentToChatDetailFragment(chatId))
         }
     }
 }

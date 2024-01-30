@@ -7,7 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lee.matchmate.R
 import com.lee.matchmate.chat.detail.ChatDetailViewModel
-import com.lee.matchmate.common.AppGlobalContext
+import com.lee.matchmate.common.MatchmateAppContext
 import com.lee.matchmate.common.Constants
 import com.lee.matchmate.common.ViewBindingBaseFragment
 import com.lee.matchmate.databinding.FragmentChatBinding
@@ -15,7 +15,10 @@ import com.lee.matchmate.main.decoration.MainDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-//@AndroidEntryPoint
+/**
+ * ChatFragment - 채팅방 목록 확인을 위한 Fragment
+ */
+@AndroidEntryPoint
 class ChatFragment : ViewBindingBaseFragment<FragmentChatBinding>(FragmentChatBinding::inflate) {
 
     companion object {
@@ -28,7 +31,7 @@ class ChatFragment : ViewBindingBaseFragment<FragmentChatBinding>(FragmentChatBi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val currentId =
-            AppGlobalContext.prefs.getString(Constants.USER_ID, Constants.BLANK).toString()
+            MatchmateAppContext.prefs.getString(Constants.USER_ID, Constants.BLANK).toString()
         val chatUserListAdapter = ChatUserListAdapter(viewModel)
 
         binding.rvChat.apply {
@@ -44,12 +47,16 @@ class ChatFragment : ViewBindingBaseFragment<FragmentChatBinding>(FragmentChatBi
         }
 
         lifecycleScope.launch {
-            chatViewModel.chatUserInfo(userId = currentId)
-            chatViewModel.chatInfo.collect() { user ->
-                user?.let {
-                    chatUserListAdapter.submitList(it.chatId)
+
+            chatViewModel.apply {
+                chatUserInfo(userId = currentId)
+                chatInfo.collect() { user ->
+                    user?.let {
+                        chatUserListAdapter.submitList(it.chatId)
+                    }
                 }
             }
+
         }
     }
 

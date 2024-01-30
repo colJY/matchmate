@@ -10,8 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
-class ChatRepository {
+class ChatRepository @Inject constructor() {
 
     val _chatInfo = MutableStateFlow<User?>(null)
 
@@ -27,8 +26,7 @@ class ChatRepository {
                             }
 
                             if (snapshot != null && snapshot.exists()) {
-                                val user = snapshot.toObject(User::class.java)
-                                _chatInfo.value = user
+                                _chatInfo.value = snapshot.toObject(User::class.java)
                             }
                         }
                 } catch (e: Exception) {
